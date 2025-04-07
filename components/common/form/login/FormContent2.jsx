@@ -61,7 +61,7 @@ const FormContent2 = () => {
 
   return (
     <div className="form-inner">
-      <h3>Login to E²-Score</h3>
+      <h3>Login to Quikchek</h3>
       <MessageComponent error={error} success={success} />
       {/* <!--Login Form--> */}
       <form onSubmit={handleSubmit}>
@@ -121,9 +121,9 @@ const FormContent2 = () => {
       {/* End form */}
 
       <div className="bottom-box">
-        <div className="text">
+        {/* <div className="text">
           Don&apos;t have an account? <Link href="/register">Signup</Link>
-        </div>
+        </div> */}
 
         <div className="divider">
           <span>or</span>

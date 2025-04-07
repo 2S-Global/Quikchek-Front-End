@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import { Trash2 } from "lucide-react";
 const DocumentUpload = ({
   label,
   name,
@@ -86,6 +86,18 @@ const DocumentUpload = ({
               `Browse ${label}`
             )}
           </label>
+
+          <Trash2
+            className="text-danger "
+            size={20}
+            onClick={() =>
+              setDocumentData({
+                ...documentData,
+                file: null,
+                filePreview: null,
+              })
+            }
+          />
         </div>
       </div>
     </div>

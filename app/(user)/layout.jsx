@@ -1,6 +1,6 @@
 export const metadata = {
-  title: "E²-Score Employeers Dashboard",
-  description: "E²-Score Job portal",
+  title: "Quikchek Dashboard",
+  description: "Quikchek Dashboard",
 };
 
 export default function Layout({ children }) {

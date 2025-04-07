@@ -18,10 +18,10 @@ const Index = () => {
 
   return (
     <>
-      <Header />
+      {/*  <Header /> */}
       {/* <!--End Main Header -->  */}
 
-      <MobileMenu />
+      {/* <MobileMenu /> */}
       {/* End MobileMenu */}
 
       <div className="login-section">

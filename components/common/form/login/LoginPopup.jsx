@@ -46,9 +46,9 @@ const LoginPopup = () => {
               {/* <!-- Login modal --> */}
               <div id="login-modal">
                 {/* <!-- Login Form --> */}
-                <div className="login-form default-form">
+                {/*  <div className="login-form default-form">
                   <Register />
-                </div>
+                </div> */}
                 {/* <!--End Login Form --> */}
               </div>
               {/* <!-- End Login Module --> */}

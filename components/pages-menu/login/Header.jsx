@@ -51,18 +51,6 @@ const Header = () => {
             </div>
           </div>
           {/* End nav-outer */}
-
-          <div className="outer-box">
-            {/* Login/Register */}
-            <div className="btn-box">
-              <Link
-                href="/employers-dashboard/post-jobs"
-                className="theme-btn btn-style-one"
-              >
-                <span className="btn-title">Job Post</span>
-              </Link>
-            </div>
-          </div>
           {/* End outer-box */}
         </div>
       </div>

@@ -52,7 +52,7 @@ const FormContent = () => {
       }
     } catch (err) {
       setError(
-        err.response?.data?.message || "Registration failed. Try again.",
+        err.response?.data?.message || "Registration failed. Try again."
       );
     } finally {
       setLoading(false);
@@ -61,7 +61,7 @@ const FormContent = () => {
 
   return (
     <div className="form-inner">
-      <h3>Login to E²-Score</h3>
+      <h3>Login to Quikchek</h3>
       {/* display error */}
       <MessageComponent error={error} success={success} />
 
@@ -135,7 +135,7 @@ const FormContent = () => {
       </form>
 
       <div className="bottom-box">
-        <div className="text">
+        {/*  <div className="text">
           Don&apos;t have an account?{" "}
           <Link
             href="#"
@@ -145,7 +145,7 @@ const FormContent = () => {
           >
             Signup
           </Link>
-        </div>
+        </div> */}
 
         <div className="divider">
           <span>or</span>

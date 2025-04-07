@@ -3,8 +3,8 @@ import Wrapper from "@/layout/Wrapper";
 import LogIn from "@/components/pages-menu/login";
 
 export const metadata = {
-  title: "E²-Score",
-  description: "E²-Score Job portal",
+  title: "Quikchek",
+  description: "Quikchek Verification",
 };
 
 export default function page() {

@@ -5,9 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "format": "prettier --write .",
-    "lint": "eslint ."
+    "start": "next start"
   },
   "dependencies": {
     "@faker-js/faker": "^9.6.0",

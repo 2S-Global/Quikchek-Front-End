@@ -2,6 +2,3 @@ node_modules
 .next
 .vercel
 .env
-.prettierrc
-.eslintrc.js
-.eslint.config.mjs

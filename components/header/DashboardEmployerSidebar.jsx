@@ -9,30 +9,31 @@ import { menuToggle } from "../../features/toggle/toggleSlice";
 import { usePathname } from "next/navigation";
 
 const DashboardEmployerSidebar = () => {
-  const { menu } = useSelector((state) => state.toggle);
+  const { menu } = useSelector((state) => state.toggle || {}); // Safe destructuring
 
   const dispatch = useDispatch();
-  // menu togggle handler
+  const pathname = usePathname();
+
+  // menu toggle handler
   const menuToggleHandler = () => {
     dispatch(menuToggle());
   };
 
   return (
     <div className={`user-sidebar ${menu ? "sidebar_open" : ""}`}>
-      {/* Start sidebar close icon */}
+      {/* Sidebar close icon for mobile */}
       <div className="pro-header text-end pb-0 mb-0 show-1023">
         <div className="fix-icon" onClick={menuToggleHandler}>
           <span className="flaticon-close"></span>
         </div>
       </div>
-      {/* End sidebar close icon */}
 
       <div className="sidebar-inner">
         <ul className="navigation">
           {employerMenuData.map((item) => (
             <li
               className={`${
-                isActiveLink(item.routePath, usePathname()) ? "active" : ""
+                isActiveLink(item.routePath, pathname) ? "active" : ""
               } mb-1`}
               key={item.id}
               onClick={menuToggleHandler}

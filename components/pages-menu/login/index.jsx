@@ -1,8 +1,8 @@
 "use client";
 
 import FormContent2 from "../../common/form/login/FormContent2";
-import MobileMenu from "../../header/MobileMenu";
-import Header from "./Header";
+//import MobileMenu from "../../header/MobileMenu";
+//import Header from "./Header";
 import { useEffect } from "react";
 
 const Index = () => {

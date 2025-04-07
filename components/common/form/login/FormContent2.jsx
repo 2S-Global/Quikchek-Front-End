@@ -1,9 +1,9 @@
 "use client";
-import Link from "next/link";
+//import Link from "next/link";
 import LoginWithSocial from "./LoginWithSocial";
-import Image from "next/image";
+
 import { useRouter } from "next/navigation";
-import axios from "axios";
+//import axios from "axios";
 import React, { useState } from "react";
 
 //new component
@@ -17,7 +17,7 @@ const FormContent2 = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
-  const apiurl = process.env.NEXT_PUBLIC_API_URL;
+  //const apiurl = process.env.NEXT_PUBLIC_API_URL;
 
   // Handle input changes
   const handleChange = (e) => {
@@ -66,7 +66,7 @@ const FormContent2 = () => {
       {/* <!--Login Form--> */}
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label>Email Address</label>
+          <label htmlFor="email">Email Address</label>
           <input
             type="email"
             name="email"
@@ -79,7 +79,7 @@ const FormContent2 = () => {
         {/* name */}
 
         <div className="form-group">
-          <label>Password</label>
+          <label htmlFor="password">Password</label>
           <input
             id="password-field"
             type="password"
@@ -100,6 +100,7 @@ const FormContent2 = () => {
                 <span className="custom-checkbox"></span> Remember me
               </label>
             </div>
+            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
             <a href="#" className="pwd">
               Forgot password?
             </a>

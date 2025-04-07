@@ -67,6 +67,7 @@ const DashboardHeader = () => {
 
             {/* <!-- Dashboard Option --> */}
             <div className="dropdown dashboard-option">
+              {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
               <a
                 className="dropdown-toggle"
                 role="button"

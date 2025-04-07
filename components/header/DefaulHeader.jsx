@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import HeaderNavContent from "./HeaderNavContent";
 import Image from "next/image";
 
 const DefaulHeader = () => {
@@ -44,8 +43,8 @@ const DefaulHeader = () => {
             </div>
           </div>
           {/* End .logo-box */}
-
-          <HeaderNavContent />
+          {/* 
+          <HeaderNavContent /> */}
           {/* <!-- Main Menu End--> */}
         </div>
         {/* End .nav-outer */}
@@ -53,6 +52,7 @@ const DefaulHeader = () => {
         <div className="outer-box">
           {/* <!-- Login/Register --> */}
           <div className="btn-box">
+            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
             <a
               href="#"
               className="theme-btn btn-style-three call-modal"

@@ -57,6 +57,7 @@ const DefaulHeader2 = () => {
           </Link>
           {/* <!-- Login/Register --> */}
           <div className="btn-box">
+            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
             <a
               href="#"
               className="theme-btn btn-style-three call-modal"

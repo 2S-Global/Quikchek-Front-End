@@ -1,8 +1,6 @@
 "use client";
 
 import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
-
-//import mobileMenuData from "../../../data/mobileMenuData";
 import mobileMenuData from "../../../data/mobileMenuDatatry";
 import SidebarFooter from "./SidebarFooter";
 import SidebarHeader from "./SidebarHeader";
@@ -14,6 +12,7 @@ import { usePathname, useRouter } from "next/navigation";
 
 const Index = () => {
   const router = useRouter();
+  const pathname = usePathname(); // ✅ move hook here
 
   return (
     <div
@@ -23,14 +22,14 @@ const Index = () => {
       data-bs-scroll="true"
     >
       <SidebarHeader />
-      {/* End pro-header */}
+
       <Sidebar>
         <Menu>
           {mobileMenuData.map((item) =>
-            item.items && item.items.length > 0 ? ( // Check if there are submenu items
+            item.items && item.items.length > 0 ? (
               <SubMenu
                 className={
-                  isActiveParentChaild(item.items, usePathname())
+                  isActiveParentChaild(item.items, pathname)
                     ? "menu-active"
                     : ""
                 }
@@ -41,7 +40,7 @@ const Index = () => {
                   <MenuItem
                     onClick={() => router.push(menuItem.routePath)}
                     className={
-                      isActiveLink(menuItem.routePath, usePathname())
+                      isActiveLink(menuItem.routePath, pathname)
                         ? "menu-active-link"
                         : ""
                     }
@@ -55,7 +54,7 @@ const Index = () => {
               <MenuItem
                 onClick={() => router.push(item.routePath)}
                 className={
-                  isActiveLink(item.routePath, usePathname())
+                  isActiveLink(item.routePath, pathname)
                     ? "menu-active-link"
                     : ""
                 }

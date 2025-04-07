@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
-import CardPaymentForm from "./modal/cardform";
 import { useRouter } from "next/navigation";
 import MessageComponent from "@/components/common/ResponseMsg";
 
@@ -27,35 +26,22 @@ const PaymentDetails = () => {
   const router = useRouter();
   useEffect(() => {
     const storedToken = localStorage.getItem("Admin_token");
-    console.log("Fetched token:", storedToken); // Debugging
+
     setToken(storedToken);
   }, []);
-
-  const openModalRH = () => {
-    console.log("Opening Modal..."); // Debugging
-    setIsModalOpen(true);
-    document.body.style.overflow = "hidden";
-  };
-
-  const closeModalRH = () => {
-    console.log("Closing Modal..."); // Debugging
-    setIsModalOpen(false);
-    document.body.style.overflow = "auto";
-  };
 
   useEffect(() => {
     if (!token) return;
 
     const fetchPayments = async () => {
       try {
-        console.log("Fetching payments..."); // Debugging
         const response = await axios.get(
           `${apiurl}/api/usercart/list_user_cart`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
             },
-          },
+          }
         );
 
         if (response.data.success) {
@@ -89,7 +75,7 @@ const PaymentDetails = () => {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        },
+        }
       );
 
       console.log("Delete response:", Dlt_response.data);
@@ -98,13 +84,13 @@ const PaymentDetails = () => {
         setPayments(Dlt_response.data.updatedCart.data);
         setSubTotal(
           parseFloat(Dlt_response.data.updatedCart.overall_billing.subtotal) ||
-            0,
+            0
         );
         setGst(
-          parseFloat(Dlt_response.data.updatedCart.overall_billing.gst) || 0,
+          parseFloat(Dlt_response.data.updatedCart.overall_billing.gst) || 0
         );
         setTotal(
-          parseFloat(Dlt_response.data.updatedCart.overall_billing.total) || 0,
+          parseFloat(Dlt_response.data.updatedCart.overall_billing.total) || 0
         );
 
         console.log("Updated totals:", {
@@ -122,17 +108,6 @@ const PaymentDetails = () => {
   };
 
   const handlePaymentSuccess = async (response, pay, pids) => {
-    console.log("Payment successful!", response, "payment ", pay);
-    console.log("Payment IDs:", pids);
-    alert("Payment successful! Payment ID: " + response.razorpay_payment_id);
-
-    // API call success
-    const paymentData = {
-      razorpay_response: response,
-      amount: pay,
-      paymentIds: pids,
-    };
-
     try {
       const paymentResponse = await axios.post(
         `${apiurl}/api/verify/paynow`,
@@ -145,16 +120,15 @@ const PaymentDetails = () => {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        },
+        }
       );
-      console.log("Payment response:", paymentResponse.data);
+
       /* if code 200 */
       if (paymentResponse.status === 200) {
         setSuccess(paymentResponse.data.message);
         router.push("/employers-dashboard/download-center");
       }
     } catch (err) {
-      console.error("Error processing payment:", err);
       setError("Error processing payment. Please try again.");
     }
   };
@@ -224,14 +198,6 @@ const PaymentDetails = () => {
           />
         </div>
       </div>
-
-      {isModalOpen && (
-        <CardPaymentForm
-          show={isModalOpen}
-          onClose={closeModalRH}
-          mainamount={total}
-        />
-      )}
     </>
   );
 };

@@ -31,6 +31,7 @@ const MobileMenu = () => {
 
           <div className="outer-box">
             <div className="login-box">
+              {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
               <a
                 href="#"
                 className="call-modal"

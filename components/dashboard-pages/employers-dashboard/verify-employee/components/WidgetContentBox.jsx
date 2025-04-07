@@ -5,7 +5,7 @@ import axios from "axios";
 import DocumentUpload from "./document";
 import { useRouter } from "next/navigation";
 import { format } from "date-fns"; // Import from date-fns
-
+import { Trash2 } from "lucide-react";
 import MessageComponent from "@/components/common/ResponseMsg";
 
 const WidgetContentBox = () => {
@@ -32,9 +32,7 @@ const WidgetContentBox = () => {
     licensenumdoc: null,
     passportdoc: null,
     // uanname:null,
-    uannumber:null,
-
-
+    uannumber: null,
   });
 
   const apiurl = process.env.NEXT_PUBLIC_API_URL;
@@ -122,8 +120,8 @@ const WidgetContentBox = () => {
         filePreview: fileURL,
       });
 
-      if (onFileChange) {
-        onFileChange(name, file);
+      if (handleFileChange) {
+        handleFileChange(name, file);
       }
     }
   };
@@ -302,6 +300,19 @@ const WidgetContentBox = () => {
                     `Browse Passport File`
                   )}
                 </label>
+                {documentData.file ? (
+                  <Trash2
+                    className="text-danger "
+                    size={20}
+                    onClick={() =>
+                      setDocumentData({
+                        ...documentData,
+                        file: null,
+                        filePreview: null,
+                      })
+                    }
+                  />
+                ) : null}
               </div>
             </div>
           </div>
@@ -336,7 +347,6 @@ const WidgetContentBox = () => {
           />
 
           <div className="row">
- 
             <div className="form-group col-lg-4 col-md-4 d-flex flex-column">
               <label>UAN</label>
               <input
@@ -348,8 +358,7 @@ const WidgetContentBox = () => {
                 onChange={handleChange}
               />
             </div>
-            
-            </div>
+          </div>
           {/* Submit Button */}
           <div className="form-group">
             <button

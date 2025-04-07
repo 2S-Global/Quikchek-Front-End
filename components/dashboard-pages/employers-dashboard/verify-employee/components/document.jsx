@@ -86,18 +86,19 @@ const DocumentUpload = ({
               `Browse ${label}`
             )}
           </label>
-
-          <Trash2
-            className="text-danger "
-            size={20}
-            onClick={() =>
-              setDocumentData({
-                ...documentData,
-                file: null,
-                filePreview: null,
-              })
-            }
-          />
+          {documentData.file ? (
+            <Trash2
+              className="text-danger "
+              size={20}
+              onClick={() =>
+                setDocumentData({
+                  ...documentData,
+                  file: null,
+                  filePreview: null,
+                })
+              }
+            />
+          ) : null}
         </div>
       </div>
     </div>

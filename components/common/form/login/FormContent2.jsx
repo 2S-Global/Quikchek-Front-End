@@ -1,9 +1,9 @@
 "use client";
-//import Link from "next/link";
+import Link from "next/link";
 import LoginWithSocial from "./LoginWithSocial";
 
 import { useRouter } from "next/navigation";
-//import axios from "axios";
+import axios from "axios";
 import React, { useState } from "react";
 
 //new component
@@ -17,7 +17,7 @@ const FormContent2 = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
-  //const apiurl = process.env.NEXT_PUBLIC_API_URL;
+  const apiurl = process.env.NEXT_PUBLIC_API_URL;
 
   // Handle input changes
   const handleChange = (e) => {
@@ -29,9 +29,8 @@ const FormContent2 = () => {
     setLoading(true);
     setError(null);
     setSuccess(null);
-    router.push("/dashboard");
 
-    /*     try {
+    try {
       const response = await axios.post(`${apiurl}/api/auth/login`, formData);
 
       //check if response is successful
@@ -49,6 +48,9 @@ const FormContent2 = () => {
       } else if (role == "2") {
         localStorage.setItem("Admin_token", token);
         router.push("admin/dashboard");
+      } else if (role == "0") {
+        localStorage.setItem("Super_token", token);
+        router.push("/admin/dashboard");
       }
     } catch (err) {
       setError(
@@ -56,7 +58,7 @@ const FormContent2 = () => {
       );
     } finally {
       setLoading(false);
-    } */
+    }
   };
 
   return (

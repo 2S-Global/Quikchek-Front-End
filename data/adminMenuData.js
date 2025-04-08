@@ -6,7 +6,13 @@ module.exports = [
     routePath: "/admin/dashboard",
     active: "active",
   },
-
+  {
+    id: 2,
+    name: "List Company",
+    icon: "la-building",
+    routePath: "/admin/listcompany",
+    active: "",
+  },
   {
     id: 15,
     name: "Logout",

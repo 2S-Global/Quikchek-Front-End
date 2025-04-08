@@ -30,7 +30,7 @@ const FormContentcom = () => {
     try {
       const response = await axios.post(
         `${apiurl}/api/auth/company-register`,
-        formData,
+        formData
       );
       console.log("Response:", response);
       //check if response is successful
@@ -43,7 +43,7 @@ const FormContentcom = () => {
       router.push("/employers-dashboard/dashboard");
     } catch (err) {
       setError(
-        err.response?.data?.message || "Registration failed. Try again.",
+        err.response?.data?.message || "Registration failed. Try again."
       );
     } finally {
       setLoading(false);
@@ -79,38 +79,6 @@ const FormContentcom = () => {
           onChange={handleChange}
         />
       </div>
-      {/* Email */}
-
-      {/*      <div className="form-group">
-  <label>Number of Employees</label>
-  <select name="employees" required>
-    <option value="">Select</option>
-    <option value="less_than_50">Less than 50</option>
-    <option value="50_100">50 - 100</option>
-    <option value="101_500">101 - 500</option>
-    <option value="501_1000">501 - 1000</option>
-    <option value="more_than_1000">More than 1000</option>
-  </select>
-</div> */}
-      {/* Number of Employees */}
-
-      {/*  <div className="form-group">
-          <label>Phone Number</label>
-          <input type="text" name="phone" placeholder="Phone Number" required />
-        </div> */}
-      {/* Phone */}
-
-      {/*     <div className="form-group">
-          <label>Pincode</label>
-          <input type="text" name="pincode" placeholder="Pincode" required />
-        </div> */}
-      {/* Pincode */}
-
-      {/*      <div className="form-group">
-  <label>Address</label>
-  <textarea name="address" placeholder="Enter your address" required></textarea>
-</div> */}
-      {/* Address */}
       <div className="form-group">
         <label>Password</label>
         <input
@@ -123,8 +91,6 @@ const FormContentcom = () => {
           onChange={handleChange}
         />
       </div>
-      {/* password */}
-
       <div className="form-group">
         <button
           className="theme-btn btn-style-one"

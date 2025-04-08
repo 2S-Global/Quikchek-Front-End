@@ -6,7 +6,7 @@ import CopyrightFooter from "../../CopyrightFooter";
 
 import Companytable from "./components/table";
 
-import AddCompanyModal from "./components/modals/addcompany";
+import AddfieldModal from "./components/modals/addfield";
 
 import { useState } from "react";
 const Index = () => {
@@ -41,7 +41,7 @@ const Index = () => {
               <div className="col-lg-12">
                 <div className="applicants-widget ls-widget">
                   <div className="widget-title">
-                    <h4>Company List</h4>
+                    <h4>Field List</h4>
 
                     <span
                       onClick={openModalRH}
@@ -53,7 +53,7 @@ const Index = () => {
                         fontSize: "16px",
                       }}
                     >
-                      Add Company
+                      Add Field
                     </span>
                   </div>
                   <Companytable />
@@ -70,7 +70,7 @@ const Index = () => {
       </div>
       {/* Render Modal if isModalOpen is true */}
       {isModalOpen && (
-        <AddCompanyModal show={isModalOpen} onClose={closeModalRH} />
+        <AddfieldModal show={isModalOpen} onClose={closeModalRH} />
       )}
     </>
   );

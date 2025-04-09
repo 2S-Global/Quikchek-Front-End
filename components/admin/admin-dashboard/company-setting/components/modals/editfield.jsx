@@ -2,18 +2,14 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import MessageComponent from "@/components/common/ResponseMsg";
-import { useSearchParams } from "next/navigation";
-const AddfieldModal = ({ show, onClose }) => {
-  const searchParams = useSearchParams();
-  const id = searchParams.get("id");
 
+const EditfieldModal = ({ show, onClose, field }) => {
   const [formData, setFormData] = useState({
-    company_id: id,
-    name: "",
-    field_type: "",
-    field_values: "",
+    name: field?.name || "",
+    field_type: field?.field_type || "",
+    field_values: field?.field_values || "",
+    id: field?._id || "",
   });
-
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
@@ -38,7 +34,7 @@ const AddfieldModal = ({ show, onClose }) => {
 
     try {
       const response = await axios.post(
-        `${apiurl}/api/fields/add_fields`,
+        `${apiurl}/api/fields/edit_fields`,
         formData,
         {
           headers: {
@@ -46,16 +42,19 @@ const AddfieldModal = ({ show, onClose }) => {
           },
         }
       );
+      console.log(response);
+      setSuccess(response.data.message);
 
-      if (!response.data.success) {
-        throw new Error(response.data.message || "An error occurred");
+      if (response.status == 200) {
+        window.location.reload();
+        console.log("200 st");
+        onClose;
       }
 
-      setSuccess(response.data.message);
-      router.push(`/admin/company-setting?id=${id}`);
+      //router.push(`/admin/company-setting?id=${field.company_id}`);
     } catch (err) {
       setError(
-        err.response?.data?.message || "Registration failed. Try again."
+        err.response?.data?.message || "Something went wrong. Try again."
       );
     } finally {
       setLoading(false);
@@ -77,7 +76,7 @@ const AddfieldModal = ({ show, onClose }) => {
           <div className="modal-content">
             {/* Modal Header */}
             <div className="modal-header">
-              <h5 className="modal-title">Add New Field</h5>
+              <h5 className="modal-title">Edit Field</h5>
               <button
                 type="button"
                 className="btn-close"
@@ -145,7 +144,7 @@ const AddfieldModal = ({ show, onClose }) => {
                   className="btn btn-primary w-100"
                   disabled={loading}
                 >
-                  {loading ? "Adding..." : "ADD FIELD"}
+                  {loading ? "Updating..." : "Update FIELD"}
                 </button>
               </form>
             </div>
@@ -167,4 +166,4 @@ const AddfieldModal = ({ show, onClose }) => {
   );
 };
 
-export default AddfieldModal;
+export default EditfieldModal;

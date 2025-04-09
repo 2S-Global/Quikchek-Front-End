@@ -41,11 +41,8 @@ const FormContent2 = () => {
 
       //save token to local storage
       if (role == "1") {
-        localStorage.setItem("token", token);
-        router.push("/dashboard");
-      } else if (role == "2") {
         localStorage.setItem("Admin_token", token);
-        router.push("admin/dashboard");
+        router.push("/dashboard");
       } else if (role == "0") {
         localStorage.setItem("Super_token", token);
         router.push("/admin/dashboard");

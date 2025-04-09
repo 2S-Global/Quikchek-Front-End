@@ -25,9 +25,6 @@ const Index = () => {
       {/* <!-- Dashboard --> */}
       <section className="user-dashboard">
         <div className="dashboard-outer">
-          <MenuToggler />
-          {/* Collapsible sidebar button */}
-
           <div className="row">
             <TopCardBlock />
           </div>

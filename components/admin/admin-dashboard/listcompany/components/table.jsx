@@ -4,8 +4,8 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import MessageComponent from "@/components/common/ResponseMsg";
 
-import { Trash2, Settings } from "lucide-react";
-
+import { Trash2, Settings, Pencil } from "lucide-react";
+import EditfieldModal from "./modals/editfield";
 const Companytable = () => {
   const apiurl = process.env.NEXT_PUBLIC_API_URL;
   const router = useRouter();
@@ -14,6 +14,21 @@ const Companytable = () => {
   const [companies, setCompanies] = useState([]);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+
+  const [editcompany, setEditcompany] = useState(null);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModalRH = (companydetails) => {
+    setEditcompany(companydetails);
+    setIsModalOpen(true);
+    document.body.style.overflow = "hidden"; // Disable background scrolling
+  };
+
+  const closeModalRH = () => {
+    setIsModalOpen(false);
+    document.body.style.overflow = "auto"; // Re-enable background scrolling
+  };
 
   useEffect(() => {
     const token = localStorage.getItem("Super_token");
@@ -171,20 +186,31 @@ const Companytable = () => {
                         </div>
                       </td>
 
-                      <td style={{ textAlign: "center" }}>
-                        <Trash2
-                          className="text-danger"
-                          onClick={() => handleDelete(company._id)}
-                        />
-
-                        <Settings
-                          className="text-primary"
-                          onClick={() =>
-                            router.push(
-                              `/admin/company-setting?id=${company._id}`
-                            )
-                          }
-                        />
+                      <td className="text-center">
+                        <div className="d-flex justify-content-center gap-3">
+                          <Pencil
+                            className="text-primary"
+                            style={{ cursor: "pointer" }}
+                            onClick={() => openModalRH(company)}
+                            size={20}
+                          />
+                          <Settings
+                            className="text-secondary"
+                            style={{ cursor: "pointer" }}
+                            size={20}
+                            onClick={() =>
+                              router.push(
+                                `/admin/company-setting?id=${company._id}`
+                              )
+                            }
+                          />
+                          <Trash2
+                            size={20}
+                            className="text-danger"
+                            style={{ cursor: "pointer" }}
+                            onClick={() => handleDelete(company._id)}
+                          />
+                        </div>
                       </td>
                     </tr>
                   ))}
@@ -193,6 +219,14 @@ const Companytable = () => {
             </div>
           </div>
         </div>
+      )}
+
+      {isModalOpen && (
+        <EditfieldModal
+          show={isModalOpen}
+          onClose={closeModalRH}
+          field={editcompany}
+        />
       )}
     </>
   );

@@ -10,6 +10,7 @@ const AddCompanyModal = ({ show, onClose }) => {
     password: "",
     transaction_fee: 0,
     transaction_gst: 0,
+    allowed_verifications: "",
   });
 
   const [loading, setLoading] = useState(false);
@@ -20,6 +21,24 @@ const AddCompanyModal = ({ show, onClose }) => {
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleCheckboxChange = (e) => {
+    const { value, checked } = e.target;
+    let current = formData.allowed_verifications
+      ? formData.allowed_verifications.split(",")
+      : [];
+
+    if (checked) {
+      current.push(value);
+    } else {
+      current = current.filter((item) => item !== value);
+    }
+
+    setFormData({
+      ...formData,
+      allowed_verifications: current.join(","),
+    });
   };
 
   const handleSubmit = async (e) => {
@@ -50,6 +69,7 @@ const AddCompanyModal = ({ show, onClose }) => {
       }
 
       setSuccess(response.data.message);
+      window.location.reload();
       router.push("/admin/listcompany");
     } catch (err) {
       setError(
@@ -161,6 +181,31 @@ const AddCompanyModal = ({ show, onClose }) => {
                     value={formData.transaction_gst}
                     onChange={handleChange}
                   />
+                </div>
+
+                <div className="mb-3 text-center">
+                  <strong className="d-block mb-2">Allowed Verification</strong>
+                  <div className="d-flex justify-content-center flex-wrap gap-3">
+                    {["PAN", "Aadhaar", "EPIC", "DL", "Passport"].map(
+                      (item, index) => (
+                        <div className="form-check" key={index}>
+                          <input
+                            className="form-check-input"
+                            type="checkbox"
+                            id={`check-${index}`}
+                            value={item}
+                            onChange={handleCheckboxChange}
+                          />
+                          <label
+                            className="form-check-label"
+                            htmlFor={`check-${index}`}
+                          >
+                            {item}
+                          </label>
+                        </div>
+                      )
+                    )}
+                  </div>
                 </div>
 
                 <button

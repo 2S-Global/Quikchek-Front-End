@@ -90,7 +90,7 @@ const WidgetContentBox = () => {
 
       if (response.status === 201) {
         setSuccess(response.data.message);
-        router.push("/employers-dashboard/paynow");
+        router.push("/paynow");
       } else {
         setError(response.data.error);
       }
@@ -346,7 +346,7 @@ const WidgetContentBox = () => {
             onfieldChange={handleChange}
           />
 
-          <div className="row">
+          {/* <div className="row">
             <div className="form-group col-lg-4 col-md-4 d-flex flex-column">
               <label>UAN</label>
               <input
@@ -358,7 +358,7 @@ const WidgetContentBox = () => {
                 onChange={handleChange}
               />
             </div>
-          </div>
+          </div> */}
           {/* Submit Button */}
           <div className="form-group">
             <button

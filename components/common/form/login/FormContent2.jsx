@@ -1,6 +1,4 @@
 "use client";
-import Link from "next/link";
-import LoginWithSocial from "./LoginWithSocial";
 
 import { useRouter } from "next/navigation";
 import axios from "axios";
@@ -123,17 +121,6 @@ const FormContent2 = () => {
       </form>
       {/* End form */}
 
-      <div className="bottom-box">
-        {/* <div className="text">
-          Don&apos;t have an account? <Link href="/register">Signup</Link>
-        </div> */}
-
-        <div className="divider">
-          <span>or</span>
-        </div>
-
-        <LoginWithSocial />
-      </div>
       {/* End bottom-box LoginWithSocial */}
     </div>
   );

@@ -166,7 +166,7 @@ const Companytable = () => {
                       <td style={{ textAlign: "center" }}>{company.name}</td>
                       <td style={{ textAlign: "center" }}>{company.email}</td>
                       <td style={{ textAlign: "center" }}>
-                        <div className="form-check form-switch d-flex justify-content-center">
+                        <div className="form-check form-switch d-flex justify-content-center align-items-center">
                           <input
                             className="form-check-input"
                             type="checkbox"
@@ -178,7 +178,9 @@ const Companytable = () => {
                             }
                           />
                           <label
-                            className="form-check-label ms-2"
+                            className={`form-check-label ms-2 fw-semibold ${
+                              company.is_active ? "text-success" : "text-danger"
+                            }`}
                             htmlFor={`switch-${company._id}`}
                           >
                             {company.is_active ? "Active" : "Inactive"}

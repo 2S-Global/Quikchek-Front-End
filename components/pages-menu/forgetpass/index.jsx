@@ -1,5 +1,5 @@
 "use client";
-
+import axios from "axios";
 import { useState, useEffect } from "react";
 import MessageComponent from "@/components/common/ResponseMsg";
 
@@ -8,6 +8,7 @@ const Index = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const apiurl = process.env.NEXT_PUBLIC_API_URL;
 
   useEffect(() => {
     // Disable scrolling
@@ -29,13 +30,11 @@ const Index = () => {
 
     try {
       // Simulate API call
-      await new Promise((res) => setTimeout(res, 1500));
-
-      if (!formData.email.includes("@")) {
-        throw new Error("Invalid email address");
-      }
-
-      setSuccess("Reset link has been sent to your email.");
+      const response = await axios.post(
+        `${apiurl}/api/auth/forgotpass`,
+        formData
+      );
+      setSuccess(response.data.message);
     } catch (err) {
       setError(err.message || "Something went wrong");
     } finally {

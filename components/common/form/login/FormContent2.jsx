@@ -2,24 +2,41 @@
 
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import React, { useState } from "react";
-
-//new component
+import React, { useEffect, useState } from "react";
 import MessageComponent from "../../ResponseMsg";
+
 const FormContent2 = () => {
   const router = useRouter();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
+    rememberMe: false,
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const apiurl = process.env.NEXT_PUBLIC_API_URL;
 
-  // Handle input changes
+  // Load saved credentials on mount
+  useEffect(() => {
+    const savedEmail = localStorage.getItem("remember_email");
+    const savedPassword = localStorage.getItem("remember_password");
+
+    if (savedEmail && savedPassword) {
+      setFormData({
+        email: savedEmail,
+        password: savedPassword,
+        rememberMe: true,
+      });
+    }
+  }, []);
+
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value, type, checked } = e.target;
+    setFormData({
+      ...formData,
+      [name]: type === "checkbox" ? checked : value,
+    });
   };
 
   const handleSubmit = async (e) => {
@@ -29,17 +46,28 @@ const FormContent2 = () => {
     setSuccess(null);
 
     try {
-      const response = await axios.post(`${apiurl}/api/auth/login`, formData);
+      const response = await axios.post(`${apiurl}/api/auth/login`, {
+        email: formData.email,
+        password: formData.password,
+      });
 
-      //check if response is successful
       if (!response.data.success) {
         throw new Error(response.data.message || "An error occurred");
       }
+
+      // Save credentials if Remember Me is checked
+      if (formData.rememberMe) {
+        localStorage.setItem("remember_email", formData.email);
+        localStorage.setItem("remember_password", formData.password);
+      } else {
+        localStorage.removeItem("remember_email");
+        localStorage.removeItem("remember_password");
+      }
+
       setSuccess("Log In successful!");
       const token = response.data.token;
       const role = response.data.role;
 
-      //save token to local storage
       if (role == "1") {
         localStorage.setItem("Admin_token", token);
         router.push("/dashboard");
@@ -48,9 +76,7 @@ const FormContent2 = () => {
         router.push("/admin/dashboard");
       }
     } catch (err) {
-      setError(
-        err.response?.data?.message || "Registration failed. Try again."
-      );
+      setError(err.response?.data?.message || "Login failed. Try again.");
     } finally {
       setLoading(false);
     }
@@ -60,7 +86,7 @@ const FormContent2 = () => {
     <div className="form-inner">
       <h3>Login to Quikchek</h3>
       <MessageComponent error={error} success={success} />
-      {/* <!--Login Form--> */}
+
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="email">Email Address</label>
@@ -73,7 +99,6 @@ const FormContent2 = () => {
             onChange={handleChange}
           />
         </div>
-        {/* name */}
 
         <div className="form-group">
           <label htmlFor="password">Password</label>
@@ -87,23 +112,26 @@ const FormContent2 = () => {
             onChange={handleChange}
           />
         </div>
-        {/* password */}
 
         <div className="form-group">
           <div className="field-outer">
             <div className="input-group checkboxes square">
-              <input type="checkbox" name="remember-me" id="remember" />
+              <input
+                type="checkbox"
+                name="rememberMe"
+                id="remember"
+                checked={formData.rememberMe}
+                onChange={handleChange}
+              />
               <label htmlFor="remember" className="remember">
                 <span className="custom-checkbox"></span> Remember me
               </label>
             </div>
-            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-            <a href="#" className="pwd">
+            <a href="/forgot-password" className="pwd">
               Forgot password?
             </a>
           </div>
         </div>
-        {/* forgot password */}
 
         <div className="form-group">
           <button
@@ -114,11 +142,7 @@ const FormContent2 = () => {
             {loading ? "Logging..." : "Log in"}
           </button>
         </div>
-        {/* login */}
       </form>
-      {/* End form */}
-
-      {/* End bottom-box LoginWithSocial */}
     </div>
   );
 };

@@ -32,12 +32,6 @@ const Index = () => {
       {/* <!-- Dashboard --> */}
       <section className="user-dashboard">
         <div className="dashboard-outer">
-          <BreadCrumb title="Dashboard Home!" />
-          {/* breadCrumb */}
-
-          <MenuToggler />
-          {/* Collapsible sidebar button */}
-
           <div className="row">
             <TopCardBlock />
           </div>

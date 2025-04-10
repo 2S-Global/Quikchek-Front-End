@@ -2,7 +2,7 @@ const TopCardBlock = () => {
 
   
   const cardContent = [
-    { 
+    { id: 1, 
       icon: "flaticon-briefcase",
       countNumber: "22",
       metaName: "Total Company",

@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { format } from "date-fns"; // Import from date-fns
 import { Trash2 } from "lucide-react";
 import MessageComponent from "@/components/common/ResponseMsg";
-
+import Additionfield from "./additionfield";
 const WidgetContentBox = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -31,6 +31,7 @@ const WidgetContentBox = () => {
     voterdoc: null,
     licensenumdoc: null,
     passportdoc: null,
+    additionalfields: null,
     // uanname:null,
     uannumber: null,
   });
@@ -77,6 +78,10 @@ const WidgetContentBox = () => {
     });
 
     try {
+      for (let pair of formDataToSend.entries()) {
+        console.log(`${pair[0]}: ${pair[1]}`);
+      }
+      console.log(formDataToSend.additionalfields);
       const response = await axios.post(
         `${apiurl}/api/usercart/add_user_cart`,
         formDataToSend,
@@ -90,7 +95,7 @@ const WidgetContentBox = () => {
 
       if (response.status === 201) {
         setSuccess(response.data.message);
-        router.push("/paynow");
+        //  router.push("/paynow");
       } else {
         setError(response.data.error);
       }
@@ -230,6 +235,9 @@ const WidgetContentBox = () => {
                 <option value="other">Other</option>
               </select>
             </div>
+
+            {/* from anaother */}
+            {/* <Additionfield formData={formData} setFormData={setFormData} /> */}
           </div>
 
           {/* Document Uploads */}
@@ -346,7 +354,7 @@ const WidgetContentBox = () => {
             onfieldChange={handleChange}
           />
 
-          {/* <div className="row">
+          <div className="row">
             <div className="form-group col-lg-4 col-md-4 d-flex flex-column">
               <label>UAN</label>
               <input
@@ -358,7 +366,7 @@ const WidgetContentBox = () => {
                 onChange={handleChange}
               />
             </div>
-          </div> */}
+          </div>
           {/* Submit Button */}
           <div className="form-group">
             <button

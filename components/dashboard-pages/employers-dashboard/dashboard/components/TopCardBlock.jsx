@@ -4,8 +4,8 @@ const TopCardBlock = () => {
   const cardContent = [
     { id: 1, 
       icon: "flaticon-briefcase",
-      countNumber: "22",
-      metaName: "Total Company",
+      countNumber: "5000 ",
+      metaName: "Total Payments",
       uiClass: "ui-blue",
     },
     {
@@ -26,7 +26,7 @@ const TopCardBlock = () => {
       id: 4,
       icon: "la-bookmark-o",
       countNumber: "200",
-      metaName: "Wallet",
+      metaName: "Wallet Balance",
       uiClass: "ui-green",
     },
   ];
@@ -47,7 +47,11 @@ const TopCardBlock = () => {
 
             </div>
             <div className="right">
-              <h4>{item.countNumber}</h4>
+            <h4>
+                {(item.metaName === "Total Payments" ||
+                  item.metaName === "Wallet Balance") && <span>&#8377;&nbsp;</span>}
+                {item.countNumber}
+              </h4>
               <p>{item.metaName}</p>
             </div>
           </div>

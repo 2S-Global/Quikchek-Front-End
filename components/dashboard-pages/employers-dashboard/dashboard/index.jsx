@@ -6,6 +6,7 @@ import BreadCrumb from "../../BreadCrumb";
 import TopCardBlock from "./components/TopCardBlock";
 import ProfileChart from "./components/ProfileChart";
 import Notification from "./components/Notification";
+import TransactionTable from "./components/TransactionTable";
 
 import CopyrightFooter from "../../CopyrightFooter";
 import MenuToggler from "../../MenuToggler";
@@ -43,7 +44,7 @@ const Index = () => {
           {/* End .row top card block */}
 
           <div className="row">
-            <div className="col-xl-7 col-lg-12">
+            <div className="col-xl-12 col-lg-12">
               {/* <!-- Graph widget --> */}
               <div className="graph-widget ls-widget">
                 <ProfileChart />
@@ -52,14 +53,14 @@ const Index = () => {
             </div>
             {/* End .col */}
 
-            <div className="col-xl-5 col-lg-12">
+            <div className="col-xl-12 col-lg-12">
               {/* <!-- Notification Widget --> */}
               <div className="notification-widget ls-widget">
                 <div className="widget-title">
-                  <h4>Notifications</h4>
+                  <h4>Transaction History</h4>
                 </div>
                 <div className="widget-content">
-                  <Notification />
+                  <TransactionTable />
                 </div>
               </div>
             </div>

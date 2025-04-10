@@ -31,7 +31,7 @@ const WidgetContentBox = () => {
     voterdoc: null,
     licensenumdoc: null,
     passportdoc: null,
-    additionalfields: null,
+    additionalfields: {},
     // uanname:null,
     uannumber: null,
   });
@@ -72,6 +72,11 @@ const WidgetContentBox = () => {
         formDataToSend.append(key, formData[key]);
       } else if (formData[key] instanceof Date) {
         formDataToSend.append(key, format(formData[key], "yyyy-MM-dd")); // Convert Date to string
+      } else if (key === "additionalfields" && formData[key]) {
+        const additionalString = Object.entries(formData[key])
+          .map(([k, v]) => `${k}: ${v}`)
+          .join(", ");
+        formDataToSend.append(key, additionalString);
       } else if (formData[key]) {
         formDataToSend.append(key, formData[key]);
       }

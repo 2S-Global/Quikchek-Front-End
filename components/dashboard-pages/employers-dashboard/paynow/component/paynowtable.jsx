@@ -61,7 +61,7 @@ const PaymentDetails = () => {
     };
 
     fetchPayments();
-  }, [token]); // Runs when `token` changes
+  }, [token]);
 
   const handleDelete = async (id) => {
     if (!token) return;

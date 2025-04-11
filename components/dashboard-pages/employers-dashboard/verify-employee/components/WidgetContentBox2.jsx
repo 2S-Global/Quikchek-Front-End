@@ -59,7 +59,7 @@ const WidgetContentBox = () => {
       [`${docType}doc`]: file || null, // Ensure null when file is removed
     }));
   };
-
+//this from git hub
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);

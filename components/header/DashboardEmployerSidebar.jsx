@@ -5,7 +5,7 @@ import employerMenuData from "../../data/employerMenuData";
 import { isActiveLink } from "../../utils/linkActiveChecker";
 
 import { useDispatch, useSelector } from "react-redux";
-import { menuToggle } from "../../features/toggle/toggleSlice";
+import { menuToggle } from "../../features/toggle/toggleSlice.js";
 import { usePathname } from "next/navigation";
 
 const DashboardEmployerSidebar = () => {

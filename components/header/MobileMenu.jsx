@@ -1,5 +1,5 @@
 import Link from "next/link";
-//import MobileSidebar from "./mobile-sidebar";
+import MobileSidebar from "./mobile-sidebar";
 import Image from "next/image";
 
 const MobileMenu = () => {
@@ -24,33 +24,20 @@ const MobileMenu = () => {
             </div>
             {/* End .logo-box */}
 
-            {/* <MobileSidebar /> */}
+            <MobileSidebar />
             {/* <!-- Main Menu End--> */}
           </div>
           {/* End .nav-outer */}
 
           <div className="outer-box">
-            <div className="login-box">
-              {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-              <a
-                href="#"
-                className="call-modal"
-                data-bs-toggle="modal"
-                data-bs-target="#loginPopupModal"
-              >
-                <span className="icon icon-user"></span>
-              </a>
-            </div>
-            {/* login popup end */}
-
-            {/*    <a
+            <a
               href="#"
               className="mobile-nav-toggler"
               data-bs-toggle="offcanvas"
               data-bs-target="#offcanvasMenu"
             >
               <span className="flaticon-menu-1"></span>
-            </a> */}
+            </a>
             {/* right humberger menu */}
           </div>
         </div>

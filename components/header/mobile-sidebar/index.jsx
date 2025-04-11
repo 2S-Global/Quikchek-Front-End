@@ -2,7 +2,7 @@
 
 import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import mobileMenuData from "../../../data/mobileMenuDatatry";
-import SidebarFooter from "./SidebarFooter";
+/* import SidebarFooter from "./SidebarFooter"; */
 import SidebarHeader from "./SidebarHeader";
 import {
   isActiveLink,
@@ -12,7 +12,7 @@ import { usePathname, useRouter } from "next/navigation";
 
 const Index = () => {
   const router = useRouter();
-  const pathname = usePathname(); // ✅ move hook here
+  const pathname = usePathname();
 
   return (
     <div
@@ -67,7 +67,7 @@ const Index = () => {
         </Menu>
       </Sidebar>
 
-      <SidebarFooter />
+      {/*  <SidebarFooter /> */}
     </div>
   );
 };

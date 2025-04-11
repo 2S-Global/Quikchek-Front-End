@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const MessageComponent = ({ error, success }) => {
-  const [showError, setShowError] = useState(error);
-  const [showSuccess, setShowSuccess] = useState(success);
+  const [showError, setShowError] = useState(null);
+  const [showSuccess, setShowSuccess] = useState(null);
 
   useEffect(() => {
     if (error) {
-      setShowError(error);
+      setShowError(`${error}-${Date.now()}`); // Force re-trigger
       const timer = setTimeout(() => setShowError(null), 5000);
       return () => clearTimeout(timer);
     }
@@ -15,7 +15,7 @@ const MessageComponent = ({ error, success }) => {
 
   useEffect(() => {
     if (success) {
-      setShowSuccess(success);
+      setShowSuccess(`${success}-${Date.now()}`); // Force re-trigger
       const timer = setTimeout(() => setShowSuccess(null), 5000);
       return () => clearTimeout(timer);
     }
@@ -50,7 +50,7 @@ const MessageComponent = ({ error, success }) => {
             className="alert alert-danger shadow rounded"
             role="alert"
           >
-            {showError}
+            {showError.split("-")[0]}
             <button
               type="button"
               className="btn-close"
@@ -69,7 +69,7 @@ const MessageComponent = ({ error, success }) => {
             className="alert alert-success shadow rounded"
             role="alert"
           >
-            {showSuccess}
+            {showSuccess.split("-")[0]}
             <button
               type="button"
               className="btn-close"

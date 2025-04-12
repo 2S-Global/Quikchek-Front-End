@@ -109,65 +109,6 @@ const PaymentDetails = () => {
       );
 
       console.log("Delete response:", Dlt_response.data);
-      /* if (Dlt_response.data.updatedCart?.success) {
-        console.log("Payment deleted successfully.");
-        setPayments(Dlt_response.data.updatedCart.data);
-        setSubTotal(
-          parseFloat(Dlt_response.data.updatedCart.overall_billing.subtotal) ||
-            0
-        );
-        setGst(
-          parseFloat(Dlt_response.data.updatedCart.overall_billing.gst) || 0
-        );
-        setTotal(
-          parseFloat(Dlt_response.data.updatedCart.overall_billing.total) || 0
-        );
-
-        //added
-        setDiscount(
-          parseFloat(Dlt_response.data.updatedCart.overall_billing.discount) ||
-            0
-        );
-        setDiscountPercentage(
-          parseFloat(
-            Dlt_response.data.updatedCart.overall_billing.discount_percent
-          ) || 0
-        );
-        setSgst(
-          parseFloat(Dlt_response.updatedCart.data.overall_billing.sgst) || 0
-        );
-        setSgstPercentage(
-          parseFloat(
-            Dlt_response.data.updatedCart.overall_billing.sgst_percent
-          ) || 0
-        );
-        setCgst(
-          parseFloat(Dlt_response.data.updatedCart.overall_billing.cgst) || 0
-        );
-        setCgstPercentage(
-          parseFloat(
-            Dlt_response.data.updatedCart.overall_billing.cgst_percent
-          ) || 0
-        );
-
-        setWalletBalance(
-          parseFloat(
-            Dlt_response.data.updatedCart.overall_billing.wallet_amount
-          ) || 0
-        );
-        setFundStatus(
-          Dlt_response.data.updatedCart.overall_billing.fund_status
-        );
-
-        console.log("Updated totals:", {
-          subTotal: Dlt_response.data.updatedCart.overall_billing.subtotal,
-          gst: Dlt_response.data.updatedCart.overall_billing.gst,
-          total: Dlt_response.data.updatedCart.overall_billing.total,
-        });
-
-        setSuccess(Dlt_response.data.message);
-      } */
-
       if (Dlt_response.data.success) {
         setPayments(Dlt_response.data.data);
         setSubTotal(

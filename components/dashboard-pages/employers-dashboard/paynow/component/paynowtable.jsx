@@ -249,7 +249,7 @@ const PaymentDetails = () => {
       /* if code 200 */
       if (paymentResponse.status === 200) {
         setSuccess(paymentResponse.data.message);
-        router.push("/employers-dashboard/download-center");
+        router.push("/download-center");
       }
     } catch (err) {
       setError("Error processing payment. Please try again.");

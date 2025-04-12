@@ -15,6 +15,30 @@ export default function WalletBalance() {
   const apiurl = process.env.NEXT_PUBLIC_API_URL;
   const razorpayKey = process.env.NEXT_PUBLIC_RAZORPAY_KEY;
   const router = useRouter();
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem("Admin_token");
+    if (storedToken) {
+      setToken(storedToken);
+    }
+
+    const fetchWalletBalance = async () => {
+      try {
+        const response = await axios.get(`${apiurl}/api/wallet/walletBalance`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setBalance(response.data.wallet_amount);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching wallet balance:", error);
+        setLoading(false);
+      }
+    };
+    fetchWalletBalance();
+  }, []);
+
   const handlePaymentSubmit = (e) => {
     e.preventDefault();
     const amount = parseFloat(paymentAmount);
@@ -29,7 +53,7 @@ export default function WalletBalance() {
     <div className="mt-4">
       {/* Wallet Heading */}
       <section className="mb-4">
-        <div className="d-flex justify-content-between align-items-center flex-wrap gap-2">
+        <div className="d-flex justify-content-between align-items-center">
           <div>
             <p className="text-muted mb-1 small">Current Balance</p>
             <h2 className="mb-0">₹{balance.toFixed(2)}</h2>
@@ -47,9 +71,9 @@ export default function WalletBalance() {
       {/* Payment Form */}
       {showPaymentForm && (
         <section>
-          <h5 className="mb-3">Add Balance</h5>
-          <form onSubmit={handlePaymentSubmit} className="row g-3">
-            <div className="col-12 col-md-9">
+          <h5 className="mb-3">Make a Payment</h5>
+          <form onSubmit={handlePaymentSubmit}>
+            <div className="mb-3">
               <label htmlFor="paymentAmount" className="form-label">
                 Payment Amount
               </label>
@@ -68,11 +92,10 @@ export default function WalletBalance() {
                 />
               </div>
             </div>
-            <div className="col-12 col-md-3 d-flex align-items-end">
-              <button type="submit" className="btn btn-primary w-100">
-                Confirm
-              </button>
-            </div>
+
+            <button type="submit" className="btn btn-primary w-100">
+              Confirm Payment
+            </button>
           </form>
         </section>
       )}

@@ -194,6 +194,7 @@ const PaymentDetails = () => {
           parseFloat(Dlt_response.data.overall_billing.wallet_amount) || 0
         );
         setFundStatus(Dlt_response.data.overall_billing.fund_status);
+        setSuccess(Dlt_response.data.message);
       }
     } catch (err) {
       console.error("Error deleting payment:", err);

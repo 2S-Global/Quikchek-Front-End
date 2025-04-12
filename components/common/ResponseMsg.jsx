@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const MessageComponent = ({ error, success }) => {
+const MessageComponent = ({ error, success, errorId }) => {
   const [showError, setShowError] = useState(null);
   const [showSuccess, setShowSuccess] = useState(null);
 
@@ -11,7 +11,7 @@ const MessageComponent = ({ error, success }) => {
       const timer = setTimeout(() => setShowError(null), 5000);
       return () => clearTimeout(timer);
     }
-  }, [error]);
+  }, [error, errorId]);
 
   useEffect(() => {
     if (success) {

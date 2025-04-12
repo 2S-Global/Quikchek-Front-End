@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { format } from "date-fns"; // Import from date-fns
 import { Trash2 } from "lucide-react";
 import MessageComponent from "@/components/common/ResponseMsg";
+import { validateDocuments } from "@/components/dashboard-pages/employers-dashboard/verify-employee/components/validateDocuments"; // adjust path as needed
 import Additionfield from "./additionfield";
 const WidgetContentBox = () => {
   const [formData, setFormData] = useState({
@@ -31,20 +32,100 @@ const WidgetContentBox = () => {
     voterdoc: null,
     licensenumdoc: null,
     passportdoc: null,
-    additionalfields: null,
+    additionalfields: {},
     // uanname:null,
     uannumber: null,
   });
 
+  const [validationErrors, setValidationErrors] = useState({});
   const apiurl = process.env.NEXT_PUBLIC_API_URL;
   const token = localStorage.getItem("Admin_token");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [valiError, setvaliError] = useState(null);
   const [success, setSuccess] = useState(null);
   const router = useRouter();
+  const [errorId, setErrorId] = useState(0);
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+
+    if (name === "pannumber") {
+      const panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
+      setValidationErrors((prev) => ({
+        ...prev,
+        pannumber:
+          value === "" ? "" : panRegex.test(value) ? "" : "Invalid PAN format",
+      }));
+    }
+
+    if (name === "aadhaarnumber") {
+      const aadhaarRegex = /^\d{12}$/;
+      setValidationErrors((prev) => ({
+        ...prev,
+        aadhaarnumber:
+          value === ""
+            ? ""
+            : aadhaarRegex.test(value)
+              ? ""
+              : "Aadhaar must be 12 digits",
+      }));
+    }
+
+    if (name === "licensenumber") {
+      const licenseRegex = /^[A-Z]{2}[0-9]{2}\s?[0-9]{4}\s?[0-9]{7}$/;
+      setValidationErrors((prev) => ({
+        ...prev,
+        licensenumber:
+          value === ""
+            ? ""
+            : licenseRegex.test(value)
+              ? ""
+              : "Invalid License format",
+      }));
+    }
+
+    if (name === "voternumber") {
+      const voterRegex = /^[A-Z]{3}[0-9]{7}$/i;
+
+      setValidationErrors((prev) => ({
+        ...prev,
+        voternumber:
+          value === "" ? "" : voterRegex.test(value) ? "" : "Invalid Voter ID",
+      }));
+    }
+
+    if (name === "phone") {
+      const phonePattern = /^[0-9]{10}$/;
+      setValidationErrors((prev) => ({
+        ...prev,
+        phone:
+          value === ""
+            ? ""
+            : phonePattern.test(value)
+              ? ""
+              : "Invalid phone number",
+      }));
+    }
+
+    if (name === "uannumber") {
+      const uanRegex = /^[0-9]{12}$/;
+
+      setValidationErrors((prev) => ({
+        ...prev,
+        uannumber:
+          value === ""
+            ? ""
+            : uanRegex.test(value)
+              ? ""
+              : "UAN must be a 12-digit number",
+      }));
+    }
   };
 
   const handleDateChange = (date) => {
@@ -60,11 +141,28 @@ const WidgetContentBox = () => {
     }));
   };
 
+  const isFormValid =
+    !validationErrors.pannumber &&
+    !validationErrors.aadhaarnumber &&
+    !validationErrors.licensenumber &&
+    !validationErrors.voternumber &&
+    !validationErrors.uannumber;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
+
     setError(null);
     setSuccess(null);
+    setvaliError(null);
+
+    const errorMsg = validateDocuments(formData);
+    if (errorMsg) {
+      setError(errorMsg);
+      setErrorId(Date.now());
+      return;
+    }
+
+    setLoading(true);
 
     const formDataToSend = new FormData();
     Object.keys(formData).forEach((key) => {
@@ -72,6 +170,11 @@ const WidgetContentBox = () => {
         formDataToSend.append(key, formData[key]);
       } else if (formData[key] instanceof Date) {
         formDataToSend.append(key, format(formData[key], "yyyy-MM-dd")); // Convert Date to string
+      } else if (key === "additionalfields" && formData[key]) {
+        const additionalString = Object.entries(formData[key])
+          .map(([k, v]) => `${k}: ${v}`)
+          .join(", ");
+        formDataToSend.append(key, additionalString);
       } else if (formData[key]) {
         formDataToSend.append(key, formData[key]);
       }
@@ -141,7 +244,7 @@ const WidgetContentBox = () => {
 
       <div className="row">
         <form className="default-form" onSubmit={handleSubmit}>
-          <MessageComponent error={error} success={success} />
+          <MessageComponent error={error} success={success} errorId={errorId} />
           <div className="row">
             <div className="col-lg-12 col-md-12">
               <h5
@@ -191,6 +294,9 @@ const WidgetContentBox = () => {
                 value={formData.phone}
                 onChange={handleChange}
               />
+              {validationErrors.phone && (
+                <small className="text-danger">{validationErrors.phone}</small>
+              )}
             </div>
 
             {/* Email */}
@@ -247,6 +353,7 @@ const WidgetContentBox = () => {
             fileId="upload-pan"
             valuename={formData.panname}
             numbername={formData.pannumber}
+            numberError={validationErrors.pannumber}
             onFileChange={handleFileChange}
             onfieldChange={handleChange}
           />
@@ -333,6 +440,7 @@ const WidgetContentBox = () => {
             numbername={formData.aadhaarnumber}
             onFileChange={handleFileChange}
             onfieldChange={handleChange}
+            numberError={validationErrors.aadhaarnumber}
           />
           <DocumentUpload
             label="Driving License"
@@ -342,6 +450,7 @@ const WidgetContentBox = () => {
             numbername={formData.licensenumber}
             onFileChange={handleFileChange}
             onfieldChange={handleChange}
+            numberError={validationErrors.licensenumber}
           />
 
           <DocumentUpload
@@ -352,6 +461,7 @@ const WidgetContentBox = () => {
             numbername={formData.voternumber}
             onFileChange={handleFileChange}
             onfieldChange={handleChange}
+            numberError={validationErrors.voternumber}
           />
 
           <div className="row">
@@ -365,6 +475,11 @@ const WidgetContentBox = () => {
                 value={formData.uannumber || ""}
                 onChange={handleChange}
               />
+              {validationErrors.uannumber && (
+                <small className="text-danger">
+                  {validationErrors.uannumber}
+                </small>
+              )}
             </div>
           </div>
           {/* Submit Button */}
@@ -372,7 +487,7 @@ const WidgetContentBox = () => {
             <button
               className="theme-btn btn-style-one"
               type="submit"
-              disabled={loading}
+              disabled={loading || !isFormValid}
             >
               {loading ? "Submitting..." : "Submit"}
             </button>

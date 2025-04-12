@@ -8,7 +8,6 @@ const DocumentUpload = ({
   valuename,
   numbername,
   onfieldChange,
-  numberError, 
 }) => {
   const [documentData, setDocumentData] = useState({
     docName: "",
@@ -44,9 +43,7 @@ const DocumentUpload = ({
           className="form-control"
           value={valuename}
           onChange={onfieldChange}
-          
         />
-        
       </div>
 
       {/* Document Number Input */}
@@ -60,12 +57,6 @@ const DocumentUpload = ({
           value={numbername}
           onChange={onfieldChange}
         />
-
-{numberError && (
-    <small className="text-danger" style={{ marginTop: "4px" }}>
-      {numberError}
-    </small>
-  )}
       </div>
 
       {/* File Upload */}

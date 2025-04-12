@@ -159,9 +159,9 @@ const Applicants = () => {
   ];
 
   // ✅ Filter candidates based on search
-  const filteredCandidates = candidates.filter((candidate) =>
-    candidate.candidate_name.toLowerCase().includes(searchText.toLowerCase())
-  );
+  // const filteredCandidates = candidates.filter((candidate) =>
+  //   candidate.candidate_name.toLowerCase().includes(searchText.toLowerCase())
+  // );
 
   // ✅ Loader UI when fetching data
   if (loading)
@@ -183,7 +183,7 @@ const Applicants = () => {
       <DataTable
         title="Applicants"
         columns={columns}
-        data={filteredCandidates}
+{/*         data={filteredCandidates} */}
         progressPending={loading}
         pagination
         highlightOnHover

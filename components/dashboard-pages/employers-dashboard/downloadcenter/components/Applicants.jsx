@@ -39,7 +39,8 @@ const Applicants = () => {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
-        setCandidates(response.data);
+       setCandidates(response.data.data); // ✅ This sets only the actual array
+
       } catch (error) {
         console.error(
           "Error fetching candidates:",

@@ -39,8 +39,7 @@ const Applicants = () => {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
-       setCandidates(response.data.data); // ✅ This sets only the actual array
-
+        setCandidates(response.data.data); // ✅ This sets only the actual array
       } catch (error) {
         console.error(
           "Error fetching candidates:",
@@ -174,10 +173,7 @@ const Applicants = () => {
       name: "Action",
       cell: (row) => (
         <div className="d-flex gap-2">
-          <Link
-            href={`/employers-dashboard/list-verified-employee/details?id=${row._id}`}
-            passHref
-          >
+          <Link href={`/list-verified-employee/details?id=${row._id}`} passHref>
             <button className="btn btn-sm" title="View Details">
               <Eye size={16} className="me-1 text-primary" />
             </button>

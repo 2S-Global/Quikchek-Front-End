@@ -198,7 +198,7 @@ const WidgetContentBox = () => {
 
       if (response.status === 201) {
         setSuccess(response.data.message);
-        //  router.push("/paynow");
+        router.push("/paynow");
       } else {
         setError(response.data.error);
       }
@@ -464,7 +464,7 @@ const WidgetContentBox = () => {
             numberError={validationErrors.voternumber}
           />
 
-          <div className="row">
+          {/*  <div className="row">
             <div className="form-group col-lg-4 col-md-4 d-flex flex-column">
               <label>UAN</label>
               <input
@@ -481,7 +481,7 @@ const WidgetContentBox = () => {
                 </small>
               )}
             </div>
-          </div>
+          </div> */}
           {/* Submit Button */}
           <div className="form-group">
             <button

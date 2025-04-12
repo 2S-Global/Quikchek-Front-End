@@ -138,10 +138,7 @@ const Applicants = () => {
       cell: (row) => (
         <div className="d-flex gap-2">
           {/* View Button */}
-          <Link
-            href={`/employers-dashboard/list-verified-employee/details?id=${row._id}`}
-            passHref
-          >
+          <Link href={`/list-verified-employee/details?id=${row._id}`} passHref>
             <button className="btn btn-sm" title="View Details">
               <Eye size={16} className="me-1 text-primary" />
             </button>
@@ -183,7 +180,6 @@ const Applicants = () => {
       <DataTable
         title="Applicants"
         columns={columns}
-
         progressPending={loading}
         pagination
         highlightOnHover

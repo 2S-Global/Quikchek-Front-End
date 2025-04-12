@@ -121,7 +121,7 @@ const AddfieldModal = ({ show, onClose }) => {
                     <option value="text">Text</option>
                     <option value="radio">Radio</option>
                     <option value="checkbox">Checkbox</option>
-                    <option value="select">Select</option>
+                    <option value="select">Drop Down</option>
                     <option value="textarea">Textarea</option>
                   </select>
                 </div>

@@ -22,7 +22,6 @@ export default function WalletBalance() {
   useEffect(() => {
     const fetchWalletBalance = async () => {
       try {
-<<<<<<< HEAD
         const response = await axios.post(
           `${apiurl}/api/wallet/walletBalance`,
           {
@@ -31,13 +30,6 @@ export default function WalletBalance() {
             },
           }
         );
-=======
-        const response = await axios.get(`${apiurl}/api/wallet/walletBalance`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
->>>>>>> a5071955a0c171651a81d782538906b94878e09c
         setBalance(response.data.data.wallet_amount);
         setLoading(false);
       } catch (error) {

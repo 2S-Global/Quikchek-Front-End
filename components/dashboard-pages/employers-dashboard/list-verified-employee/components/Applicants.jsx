@@ -183,7 +183,7 @@ const Applicants = () => {
       <DataTable
         title="Applicants"
         columns={columns}
-{/*         data={filteredCandidates} */}
+{/* data={filteredCandidates} */}
         progressPending={loading}
         pagination
         highlightOnHover

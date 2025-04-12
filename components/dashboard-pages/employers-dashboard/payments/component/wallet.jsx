@@ -29,7 +29,7 @@ export default function WalletBalance() {
             Authorization: `Bearer ${token}`,
           },
         });
-        setBalance(response.data.wallet_amount);
+        setBalance(response.data.data.wallet_amount);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching wallet balance:", error);

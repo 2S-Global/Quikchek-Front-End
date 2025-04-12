@@ -336,7 +336,7 @@ const PaymentDetails = () => {
             >
               <option value="">Select Payment Method</option>
               <option value="online">Online</option>
-              <option value="wallet">
+              <option value="Wallet">
                 Wallet (Balance: ₹{walletBalance.toFixed(2)})
               </option>
             </select>

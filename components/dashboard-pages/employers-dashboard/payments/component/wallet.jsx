@@ -11,25 +11,26 @@ export default function WalletBalance() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(null);
-  const [token, setToken] = useState(null);
+  const [paymentIdsString, setPaymentIdsString] = useState("");
+
   const apiurl = process.env.NEXT_PUBLIC_API_URL;
   const razorpayKey = process.env.NEXT_PUBLIC_RAZORPAY_KEY;
   const router = useRouter();
+  const token = localStorage.getItem("Admin_token");
+  console.log("token:", token);
 
   useEffect(() => {
-    const storedToken = localStorage.getItem("Admin_token");
-    if (storedToken) {
-      setToken(storedToken);
-    }
-
     const fetchWalletBalance = async () => {
       try {
-        const response = await axios.get(`${apiurl}/api/wallet/walletBalance`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setBalance(response.data.wallet_amount);
+        const response = await axios.post(
+          `${apiurl}/api/wallet/walletBalance`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setBalance(response.data.data.wallet_amount);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching wallet balance:", error);
@@ -93,9 +94,12 @@ export default function WalletBalance() {
               </div>
             </div>
 
-            <button type="submit" className="btn btn-primary w-100">
-              Confirm Payment
-            </button>
+            <RazorpayPayment
+              amount={paymentAmount}
+              razorpayKey={razorpayKey}
+              onSuccess={handlePaymentSubmit}
+              paymentIds={paymentIdsString}
+            />
           </form>
         </section>
       )}

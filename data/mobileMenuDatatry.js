@@ -11,31 +11,37 @@ module.exports = [
   },
   {
     id: 3,
-    label: "Paynow",
+    label: "Payments",
+    routePath: "/payments",
+  },
+
+  {
+    id: 4,
+    label: "Cart",
     routePath: "/paynow",
   },
   {
-    id: 4,
+    id: 5,
     label: "Search Employee",
     routePath: "/search-employee",
   },
   {
-    id: 5,
+    id: 6,
     label: "List Verified Employee",
     routePath: "/list-verified-employee",
   },
   {
-    id: 6,
+    id: 7,
     label: "Download Center",
     routePath: "/download-center",
   },
   {
-    id: 7,
+    id: 8,
     label: "Change Password",
     routePath: "/change-password",
   },
   {
-    id: 8,
+    id: 9,
     label: "Logout",
     routePath: "/logout",
   },

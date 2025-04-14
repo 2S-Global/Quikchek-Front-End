@@ -46,9 +46,9 @@ const Index = () => {
                 <div className="widget-title">
                   <h4>Notifications</h4>
                 </div>
-                <div className="widget-content">
+{/*                 <div className="widget-content">
                   <Notification />
-                </div>
+                </div> */}
               </div>
             </div>
             {/* End .col */}

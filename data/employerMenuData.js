@@ -36,7 +36,7 @@ module.exports = [
   },
   {
     id: 10,
-    name: "List Verified Employee",
+    name: "Verified Employee",
     icon: "la-user-check",
     routePath: "/list-verified-employee",
     active: "",

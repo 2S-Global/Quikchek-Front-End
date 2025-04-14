@@ -50,14 +50,20 @@ const WidgetContentBox = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-
-    if (name === "name" || name === "passportname" || name === "panname"|| name === "aadhaarname"||name === "votername" || name === "licensename") {
+    if (
+      name === "name" ||
+      name === "passportname" ||
+      name === "panname" ||
+      name === "aadhaarname" ||
+      name === "votername" ||
+      name === "licensename"
+    ) {
       const onlyLetters = /^[A-Za-z\s]*$/; // Allow letters and spaces only
-  
+
       if (!onlyLetters.test(value)) {
         return; // Don't update state if invalid character
       }
-    }  
+    }
 
     if (name === "phone") {
       const onlyNumbers = /^[0-9]*$/; // Only numbers allowed
@@ -73,19 +79,14 @@ const WidgetContentBox = () => {
       }
     }
 
-
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
-
-
-
-   
   };
-  
-  const handleValidation=(e)=>{
-    const { name, value } = e.target; 
+
+  const handleValidation = (e) => {
+    const { name, value } = e.target;
     if (name === "pannumber") {
       const panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/i;
       setValidationErrors((prev) => ({
@@ -151,19 +152,19 @@ const WidgetContentBox = () => {
     }
 
     if (name === "email") {
-       const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-  
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
       setValidationErrors((prev) => ({
         ...prev,
         email:
           value === ""
             ? "" // or you can show "Email is required" if it's mandatory
             : emailRegex.test(value)
-            ? ""
-            : "Invalid email format",
+              ? ""
+              : "Invalid email format",
       }));
     }
-    
+
     if (name === "uannumber") {
       const uanRegex = /^[0-9]{12}$/i;
 
@@ -177,7 +178,7 @@ const WidgetContentBox = () => {
               : "UAN must be a 12-digit number",
       }));
     }
-  }
+  };
   const handleDateChange = (date) => {
     if (date) {
       setFormData({ ...formData, dob: date }); // Store raw Date object
@@ -195,8 +196,10 @@ const WidgetContentBox = () => {
     !validationErrors.pannumber &&
     !validationErrors.aadhaarnumber &&
     !validationErrors.licensenumber &&
-    !validationErrors.voternumber &&  !validationErrors.phone && !validationErrors.email
-    !validationErrors.uannumber ;
+    !validationErrors.voternumber &&
+    !validationErrors.phone &&
+    !validationErrors.email;
+  !validationErrors.uannumber;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -377,8 +380,8 @@ const WidgetContentBox = () => {
                 required
               />
               {validationErrors.email && (
-  <small className="text-danger">{validationErrors.email}</small>
-)}
+                <small className="text-danger">{validationErrors.email}</small>
+              )}
             </div>
 
             {/* Address */}
@@ -428,19 +431,6 @@ const WidgetContentBox = () => {
 
           <div className="row">
             {/* Heading */}
-            {/* Name Input */}
-            <div className="form-group col-lg-4 col-md-4 d-flex flex-column">
-              <label>Passport Name</label>
-              <input
-                type="text"
-                name="passportname"
-                placeholder="Enter Name on Passport"
-                className="form-control"
-                value={formData.passportname}
-                onChange={handleChange}
-              />
-            </div>
-
             {/* Document Number Input passportnumber */}
             <div className="form-group col-lg-4 col-md-4 d-flex flex-column">
               <label>Passport File Number</label>
@@ -450,6 +440,18 @@ const WidgetContentBox = () => {
                 placeholder="Enter Name on Passport"
                 className="form-control"
                 value={formData.passportnumber}
+                onChange={handleChange}
+              />
+            </div>
+            {/* Name Input */}
+            <div className="form-group col-lg-4 col-md-4 d-flex flex-column">
+              <label>Passport Name</label>
+              <input
+                type="text"
+                name="passportname"
+                placeholder="Enter Name on Passport"
+                className="form-control"
+                value={formData.passportname}
                 onChange={handleChange}
               />
             </div>

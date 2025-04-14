@@ -8,8 +8,8 @@ const DocumentUpload = ({
   valuename,
   numbername,
   onfieldChange,
-  numberError, 
-  onfieldValidation
+  numberError,
+  onfieldValidation,
 }) => {
   const [documentData, setDocumentData] = useState({
     docName: "",
@@ -35,21 +35,6 @@ const DocumentUpload = ({
   return (
     <div className="row">
       {/* Heading */}
-      {/* Name Input */}
-      <div className="form-group col-lg-4 col-md-4 d-flex flex-column">
-        <label>{label} Name</label>
-        <input
-          type="text"
-          name={`${name}name`}
-          placeholder={`Enter Name on ${label}`}
-          className="form-control"
-          value={valuename}
-          onChange={onfieldChange}
-          
-        />
-        
-      </div>
-
       {/* Document Number Input */}
       <div className="form-group col-lg-4 col-md-4 d-flex flex-column">
         <label>{label} Number</label>
@@ -63,11 +48,23 @@ const DocumentUpload = ({
           onBlur={onfieldValidation}
         />
 
-{numberError && (
-    <small className="text-danger" style={{ marginTop: "4px" }}>
-      {numberError}
-    </small>
-  )}
+        {numberError && (
+          <small className="text-danger" style={{ marginTop: "4px" }}>
+            {numberError}
+          </small>
+        )}
+      </div>
+      {/* Name Input */}
+      <div className="form-group col-lg-4 col-md-4 d-flex flex-column">
+        <label>{label} Name</label>
+        <input
+          type="text"
+          name={`${name}name`}
+          placeholder={`Enter Name as per ${label}`}
+          className="form-control"
+          value={valuename}
+          onChange={onfieldChange}
+        />
       </div>
 
       {/* File Upload */}

@@ -195,8 +195,8 @@ const WidgetContentBox = () => {
     !validationErrors.pannumber &&
     !validationErrors.aadhaarnumber &&
     !validationErrors.licensenumber &&
-    !validationErrors.voternumber &&  !validationErrors.phone
-    !validationErrors.uannumber && !validationErrors.email && !validationErrors.email;
+    !validationErrors.voternumber &&  !validationErrors.phone && !validationErrors.email
+    !validationErrors.uannumber ;
 
   const handleSubmit = async (e) => {
     e.preventDefault();

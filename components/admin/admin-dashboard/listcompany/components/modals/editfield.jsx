@@ -188,10 +188,8 @@ const EditfieldModal = ({ show, onClose, field }) => {
       );
 
       setSuccess(response.data.message);
-
-      if (response.status === 200) {
-        router.refresh?.(); // refresh page if using App Router
-      }
+      window.location.reload();
+      router.push("/admin/listcompany");
     } catch (err) {
       setError(
         err.response?.data?.message || "Something went wrong. Try again."

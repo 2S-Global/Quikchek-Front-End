@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import MessageComponent from "@/components/common/ResponseMsg";
+import { Eye, EyeOff } from "lucide-react"; // Or any icon library you prefer
 
 const AddCompanyModal = ({ show, onClose }) => {
   const [formData, setFormData] = useState({
@@ -23,9 +24,115 @@ const AddCompanyModal = ({ show, onClose }) => {
   const [success, setSuccess] = useState(null);
   const router = useRouter();
   const apiurl = process.env.NEXT_PUBLIC_API_URL;
+  const [formErrors, setFormErrors] = useState({
+    name: "",
+    email: "",
+    password: "",
+    transaction_fee: 0,
+    transaction_gst: 18,
+    allowed_verifications: "",
+    phone_number: "",
+    address: "",
+    gst_no: "",
+    package_id: "",
+    discount_percent: "",
+  });
+
+  const [touched, setTouched] = useState({
+    name: false,
+    email: false,
+    password: false,
+    transaction_fee: false,
+    transaction_gst: false,
+    allowed_verifications: false,
+    phone_number: false,
+    address: false,
+    gst_no: false,
+    package_id: false,
+    discount_percent: false,
+  });
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [gstError, setGstError] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
+  const isValidGST = (gst) => {
+    const regex = /^\d{2}[A-Z]{5}\d{4}[A-Z]{1}[A-Z\d]{1}Z[A-Z\d]{1}$/;
+
+    if (!regex.test(gst)) return false;
+
+    let chars = gst.split("");
+    let factor = [1, 2];
+    let sum = 0;
+    const modulus = 36;
+    const codePointBase = "0".charCodeAt(0);
+    const lettersBase = "A".charCodeAt(0);
+
+    for (let i = 0; i < 14; i++) {
+      let char = chars[i];
+      let code = char.match(/[0-9]/)
+        ? char.charCodeAt(0) - codePointBase
+        : char.charCodeAt(0) - lettersBase + 10;
+
+      let product = code * factor[i % 2];
+      sum += Math.floor(product / modulus) + (product % modulus);
+    }
+
+    const checksumChar = (36 - (sum % 36)) % 36;
+    const expected =
+      checksumChar < 10
+        ? String(checksumChar)
+        : String.fromCharCode(lettersBase + checksumChar - 10);
+
+    return chars[14] === expected;
+  };
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+
+    let updatedValue = value;
+    let errorMsg = "";
+
+    switch (name) {
+      case "name":
+        updatedValue = value.replace(/[^a-zA-Z\s]/g, "");
+        if (value !== updatedValue) {
+          errorMsg = "Only letters (A-Z, a-z) are allowed.";
+        }
+        break;
+
+      case "email":
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!emailRegex.test(value)) {
+          errorMsg = "Please enter a valid email address.";
+        }
+        break;
+
+      case "phone_number":
+        updatedValue = value.replace(/\D/g, ""); // Remove non-digits
+        if (updatedValue.length > 10) {
+          updatedValue = updatedValue.slice(0, 10); // Limit to 10 digits
+        }
+        if (updatedValue && updatedValue.length !== 10) {
+          errorMsg = "Phone number must be exactly 10 digits.";
+        }
+        break;
+
+      default:
+        break;
+    }
+
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: updatedValue,
+    }));
+
+    setFormErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: errorMsg,
+    }));
   };
 
   const handleCheckboxChange = (e) => {
@@ -127,6 +234,9 @@ const AddCompanyModal = ({ show, onClose }) => {
                       value={formData.name}
                       onChange={handleChange}
                     />
+                    {formErrors.name && (
+                      <div className="invalid-feedback">{formErrors.name}</div>
+                    )}
                   </div>
 
                   <div className="mb-3 col-md-6">
@@ -136,12 +246,18 @@ const AddCompanyModal = ({ show, onClose }) => {
                     <input
                       type="email"
                       name="email"
-                      className="form-control"
+                      className={`form-control ${touched.email && formErrors.email ? "is-invalid" : ""}`}
                       placeholder="Enter your Official Email address"
                       required
                       value={formData.email}
                       onChange={handleChange}
+                      onBlur={() =>
+                        setTouched((prev) => ({ ...prev, email: true }))
+                      }
                     />
+                    {touched.email && formErrors.email && (
+                      <div className="invalid-feedback">{formErrors.email}</div>
+                    )}
                   </div>
 
                   <div className="mb-3 col-md-6">
@@ -149,44 +265,72 @@ const AddCompanyModal = ({ show, onClose }) => {
                       Phone Number
                     </label>
                     <input
-                      type="text"
                       name="phone_number"
-                      className="form-control"
-                      placeholder="Phone Number"
-                      required
+                      className={`form-control ${formErrors.phone_number ? "is-invalid" : ""}`}
                       value={formData.phone_number}
                       onChange={handleChange}
+                      maxLength={10}
+                      onBlur={() =>
+                        setTouched((prev) => ({
+                          ...prev,
+                          phone_number: true,
+                        }))
+                      }
                     />
+                    {touched.phone_number && formErrors.phone_number && (
+                      <div className="invalid-feedback">
+                        {formErrors.phone_number}
+                      </div>
+                    )}
                   </div>
 
                   <div className="mb-3 col-md-6">
                     <label htmlFor="address" className="form-label">
                       Address
                     </label>
-                    <input
-                      type="text"
+                    <textarea
                       name="address"
                       className="form-control"
                       placeholder="Address"
                       required
                       value={formData.address}
                       onChange={handleChange}
+                      rows={3}
                     />
                   </div>
 
-                  <div className="mb-4 col-md-6">
+                  <div className="mb-4 col-md-6 position-relative">
                     <label htmlFor="password" className="form-label">
                       Password
                     </label>
-                    <input
-                      type="password"
-                      name="password"
-                      className="form-control"
-                      placeholder="Password"
-                      required
-                      value={formData.password}
-                      onChange={handleChange}
-                    />
+                    <div className="position-relative">
+                      <input
+                        type={showPassword ? "text" : "password"}
+                        name="password"
+                        className="form-control pe-5"
+                        placeholder="Password"
+                        required
+                        value={formData.password}
+                        onChange={handleChange}
+                      />
+                      <span
+                        onClick={togglePasswordVisibility}
+                        style={{
+                          position: "absolute",
+                          top: "50%",
+                          right: "15px",
+                          transform: "translateY(-50%)",
+                          cursor: "pointer",
+                          color: "#6c757d",
+                        }}
+                      >
+                        {showPassword ? (
+                          <EyeOff size={20} />
+                        ) : (
+                          <Eye size={20} />
+                        )}
+                      </span>
+                    </div>
                   </div>
 
                   <div className="mb-3 col-md-6">
@@ -196,12 +340,29 @@ const AddCompanyModal = ({ show, onClose }) => {
                     <input
                       type="text"
                       name="gst_no"
-                      className="form-control"
+                      className={`form-control ${gstError ? "is-invalid" : ""}`}
                       placeholder="GST Number"
                       required
                       value={formData.gst_no}
                       onChange={handleChange}
+                      onBlur={(e) => {
+                        const { name, value } = e.target;
+                        const trimmed = value.trim().toUpperCase(); // Convert to uppercase for validation
+
+                        setFormData({
+                          ...formData,
+                          [name]: trimmed,
+                        });
+
+                        // Set error if invalid GST
+                        setGstError(!isValidGST(trimmed));
+                      }}
                     />
+                    {gstError && (
+                      <div className="invalid-feedback d-block">
+                        Invalid GST Number. Please enter a valid one.
+                      </div>
+                    )}
                   </div>
 
                   <div className="mb-3 col-md-6">
@@ -216,25 +377,46 @@ const AddCompanyModal = ({ show, onClose }) => {
                       onChange={handleChange}
                     >
                       <option value="">Select Package</option>
-                      <option value="1">All</option>
+                      <option value="1">
+                        All( PAN, Aadhaar, EPIC, Driving License, Passport )
+                      </option>
                       <option value="2">Indivitual</option>
                     </select>
                   </div>
-
                   <div className="mb-3 col-md-6">
-                    <label htmlFor="discount_percent" className="form-label">
-                      Discount Percentage
+                    <label htmlFor="transaction_fee" className="form-label">
+                      Transaction Fee
                     </label>
                     <input
                       type="number"
-                      name="discount_percent"
+                      name="transaction_fee"
                       className="form-control"
-                      placeholder="Discount Percentage"
+                      placeholder="Transaction Fee"
                       required
-                      value={formData.discount_percent}
+                      value={formData.transaction_fee}
                       onChange={handleChange}
+                      onBlur={(e) => {
+                        const { name, value } = e.target;
+
+                        let trimmedValue = value.trim();
+
+                        // If it's a decimal like 0.1234, keep the leading 0
+                        if (/^0\.\d+$/.test(trimmedValue)) {
+                          // do nothing, keep as is
+                        } else {
+                          // Remove leading zeros, but preserve decimal portion
+                          trimmedValue =
+                            trimmedValue.replace(/^0+(?=\d)/, "") || "0";
+                        }
+
+                        setFormData({
+                          ...formData,
+                          [name]: trimmedValue,
+                        });
+                      }}
                     />
                   </div>
+
                   {formData.package_id === "" ? null : formData.package_id ==
                     2 ? (
                     <div className="mb-3 text-center col-md-12">
@@ -272,19 +454,39 @@ const AddCompanyModal = ({ show, onClose }) => {
                   )}
 
                   <div className="mb-3 col-md-6">
-                    <label htmlFor="transaction_fee" className="form-label">
-                      Transaction Fee
+                    <label htmlFor="discount_percent" className="form-label">
+                      Discount Percentage
                     </label>
                     <input
                       type="number"
-                      name="transaction_fee"
+                      name="discount_percent"
                       className="form-control"
-                      placeholder="Transaction Fee"
+                      placeholder="Discount Percentage"
                       required
-                      value={formData.transaction_fee}
+                      value={formData.discount_percent}
                       onChange={handleChange}
+                      onBlur={(e) => {
+                        const { name, value } = e.target;
+
+                        let trimmedValue = value.trim();
+
+                        // If it's a decimal like 0.1234, keep the leading 0
+                        if (/^0\.\d+$/.test(trimmedValue)) {
+                          // do nothing, keep as is
+                        } else {
+                          // Remove leading zeros, but preserve decimal portion
+                          trimmedValue =
+                            trimmedValue.replace(/^0+(?=\d)/, "") || "0";
+                        }
+
+                        setFormData({
+                          ...formData,
+                          [name]: trimmedValue,
+                        });
+                      }}
                     />
                   </div>
+
                   <div className="mb-3 col-md-6">
                     <label htmlFor="transaction_gst" className="form-label">
                       Transaction GST (%)
@@ -297,6 +499,25 @@ const AddCompanyModal = ({ show, onClose }) => {
                       required
                       value={formData.transaction_gst}
                       onChange={handleChange}
+                      onBlur={(e) => {
+                        const { name, value } = e.target;
+
+                        let trimmedValue = value.trim();
+
+                        // If it's a decimal like 0.1234, keep the leading 0
+                        if (/^0\.\d+$/.test(trimmedValue)) {
+                          // do nothing, keep as is
+                        } else {
+                          // Remove leading zeros, but preserve decimal portion
+                          trimmedValue =
+                            trimmedValue.replace(/^0+(?=\d)/, "") || "0";
+                        }
+
+                        setFormData({
+                          ...formData,
+                          [name]: trimmedValue,
+                        });
+                      }}
                     />
                   </div>
                 </div>

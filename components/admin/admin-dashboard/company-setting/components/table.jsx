@@ -124,31 +124,39 @@ const Companytable = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {companies.map((company, index) => (
-                    <tr key={company._id}>
-                      <td style={{ textAlign: "center" }}>{index + 1}</td>
-                      <td style={{ textAlign: "center" }}>{company.name}</td>
-                      <td style={{ textAlign: "center" }}>
-                        {company.field_type}
-                      </td>
-                      <td style={{ textAlign: "center" }}>
-                        {company.field_values}
-                      </td>
-
-                      <td className="text-center">
-                        <Pencil
-                          className="text-primary me-2 cursor-pointer"
-                          onClick={() => openModalRH(company)}
-                          size={20}
-                        />
-                        <Trash2
-                          className="text-danger  me-2 cursor-pointer"
-                          size={20}
-                          onClick={() => handleDelete(company._id)}
-                        />
+                  {companies.length === 0 ? (
+                    <tr>
+                      <td colSpan="5" style={{ textAlign: "center" }}>
+                        No records found
                       </td>
                     </tr>
-                  ))}
+                  ) : (
+                    companies.map((company, index) => (
+                      <tr key={company._id}>
+                        <td style={{ textAlign: "center" }}>{index + 1}</td>
+                        <td style={{ textAlign: "center" }}>{company.name}</td>
+                        <td style={{ textAlign: "center" }}>
+                          {company.field_type}
+                        </td>
+                        <td style={{ textAlign: "center" }}>
+                          {company.field_values}
+                        </td>
+
+                        <td className="text-center">
+                          <Pencil
+                            className="text-primary me-2 cursor-pointer"
+                            onClick={() => openModalRH(company)}
+                            size={20}
+                          />
+                          <Trash2
+                            className="text-danger  me-2 cursor-pointer"
+                            size={20}
+                            onClick={() => handleDelete(company._id)}
+                          />
+                        </td>
+                      </tr>
+                    ))
+                  )}
                 </tbody>
               </table>
             </div>

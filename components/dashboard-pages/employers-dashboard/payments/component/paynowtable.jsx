@@ -85,7 +85,7 @@ const PaymentDetails = () => {
                 </td>
 
                 <td style={{ textAlign: "center" }}>
-                  {payment.order_id || "N/A"}
+                  {payment.transactionId || "N/A"}
                 </td>
 
                 <td style={{ textAlign: "center" }}>{payment.amount} INR</td>

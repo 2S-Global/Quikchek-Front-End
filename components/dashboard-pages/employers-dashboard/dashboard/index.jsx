@@ -47,8 +47,8 @@ const Index = () => {
             </div>
             {/* End .col */}
 
-            <div className="col-xl-12 col-lg-12">
-              {/* <!-- Notification Widget --> */}
+            {/*     <div className="col-xl-12 col-lg-12">
+           
               <div className="notification-widget ls-widget">
                 <div className="widget-title">
                   <h4>Transaction History</h4>
@@ -57,7 +57,7 @@ const Index = () => {
                   <TransactionTable />
                 </div>
               </div>
-            </div>
+            </div> */}
             {/* End .col */}
 
             {/* End .col */}

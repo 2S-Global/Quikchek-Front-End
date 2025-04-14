@@ -180,6 +180,7 @@ const Applicants = () => {
       <DataTable
         title="Applicants"
         columns={columns}
+        data={candidates}
         progressPending={loading}
         pagination
         highlightOnHover

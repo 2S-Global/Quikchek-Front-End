@@ -15,7 +15,7 @@ module.exports = [
   },
   {
     id: 7,
-    name: "Payments",
+    name: "Wallet",
     icon: "la-wallet",
     routePath: "/payments",
     active: "",
@@ -62,7 +62,7 @@ module.exports = [
     routePath: "/employers-dashboard/resume-alerts",
     active: "",
   }, */
-  {
+  /*  {
     id: 14,
     name: "Change Password",
     icon: "la-lock",
@@ -75,7 +75,7 @@ module.exports = [
     icon: "la-sign-out",
     routePath: "/",
     active: "",
-  },
+  }, */
   /*   {
     id: 16,
     name: "Delete Profile",

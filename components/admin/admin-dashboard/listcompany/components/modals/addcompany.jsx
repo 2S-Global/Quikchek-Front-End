@@ -448,14 +448,15 @@ const AddCompanyModal = ({ show, onClose }) => {
                   ) : (
                     <div className="mb-4 text-center col-md-12">
                       <span className="fw-semibold fs-5 text-success">
-                        All verifications are selected by default
+                        All verifications are selected by default ( PAN,
+                        Aadhaar, EPIC, Driving License, Passport )
                       </span>
                     </div>
                   )}
 
                   <div className="mb-3 col-md-6">
                     <label htmlFor="discount_percent" className="form-label">
-                      Discount Percentage
+                      Discount Percentage (%)
                     </label>
                     <input
                       type="number"

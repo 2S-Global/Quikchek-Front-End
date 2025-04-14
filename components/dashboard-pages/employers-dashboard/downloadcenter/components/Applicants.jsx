@@ -101,6 +101,11 @@ const Applicants = () => {
 
   // DataTable columns configuration
   const columns = [
+        {
+      name: "Id",
+      selector: (row) => row.order_id,
+      sortable: true,
+    },
     {
       name: "Candidate Name",
       selector: (row) => row.candidate_name,

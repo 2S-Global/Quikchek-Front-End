@@ -160,62 +160,72 @@ const Companytable = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {companies.map((company, index) => (
-                    <tr key={company._id}>
-                      <td style={{ textAlign: "center" }}>{index + 1}</td>
-                      <td style={{ textAlign: "center" }}>{company.name}</td>
-                      <td style={{ textAlign: "center" }}>{company.email}</td>
-                      <td style={{ textAlign: "center" }}>
-                        <div className="form-check form-switch d-flex justify-content-center align-items-center">
-                          <input
-                            className="form-check-input"
-                            type="checkbox"
-                            role="switch"
-                            id={`switch-${company._id}`}
-                            checked={company.is_active}
-                            onChange={() =>
-                              toggleStatus(company._id, company.is_active)
-                            }
-                          />
-                          <label
-                            className={`form-check-label ms-2 fw-semibold ${
-                              company.is_active ? "text-success" : "text-danger"
-                            }`}
-                            htmlFor={`switch-${company._id}`}
-                          >
-                            {company.is_active ? "Active" : "Inactive"}
-                          </label>
-                        </div>
-                      </td>
-
-                      <td className="text-center">
-                        <div className="d-flex justify-content-center gap-3">
-                          <Pencil
-                            className="text-primary"
-                            style={{ cursor: "pointer" }}
-                            onClick={() => openModalRH(company)}
-                            size={20}
-                          />
-                          <Settings
-                            className="text-secondary"
-                            style={{ cursor: "pointer" }}
-                            size={20}
-                            onClick={() =>
-                              router.push(
-                                `/admin/company-setting?id=${company._id}`
-                              )
-                            }
-                          />
-                          <Trash2
-                            size={20}
-                            className="text-danger"
-                            style={{ cursor: "pointer" }}
-                            onClick={() => handleDelete(company._id)}
-                          />
-                        </div>
+                  {companies.length === 0 ? (
+                    <tr>
+                      <td colSpan="5" style={{ textAlign: "center" }}>
+                        No records found
                       </td>
                     </tr>
-                  ))}
+                  ) : (
+                    companies.map((company, index) => (
+                      <tr key={company._id}>
+                        <td style={{ textAlign: "center" }}>{index + 1}</td>
+                        <td style={{ textAlign: "center" }}>{company.name}</td>
+                        <td style={{ textAlign: "center" }}>{company.email}</td>
+                        <td style={{ textAlign: "center" }}>
+                          <div className="form-check form-switch d-flex justify-content-center align-items-center">
+                            <input
+                              className="form-check-input"
+                              type="checkbox"
+                              role="switch"
+                              id={`switch-${company._id}`}
+                              checked={company.is_active}
+                              onChange={() =>
+                                toggleStatus(company._id, company.is_active)
+                              }
+                            />
+                            <label
+                              className={`form-check-label ms-2 fw-semibold ${
+                                company.is_active
+                                  ? "text-success"
+                                  : "text-danger"
+                              }`}
+                              htmlFor={`switch-${company._id}`}
+                            >
+                              {company.is_active ? "Active" : "Inactive"}
+                            </label>
+                          </div>
+                        </td>
+
+                        <td className="text-center">
+                          <div className="d-flex justify-content-center gap-3">
+                            <Pencil
+                              className="text-primary"
+                              style={{ cursor: "pointer" }}
+                              onClick={() => openModalRH(company)}
+                              size={20}
+                            />
+                            <Settings
+                              className="text-secondary"
+                              style={{ cursor: "pointer" }}
+                              size={20}
+                              onClick={() =>
+                                router.push(
+                                  `/admin/company-setting?id=${company._id}`
+                                )
+                              }
+                            />
+                            <Trash2
+                              size={20}
+                              className="text-danger"
+                              style={{ cursor: "pointer" }}
+                              onClick={() => handleDelete(company._id)}
+                            />
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  )}
                 </tbody>
               </table>
             </div>

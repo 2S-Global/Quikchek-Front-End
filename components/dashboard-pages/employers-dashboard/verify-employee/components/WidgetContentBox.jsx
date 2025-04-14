@@ -234,6 +234,13 @@ const WidgetContentBox = () => {
     }
   };
 
+  const today = new Date();
+  const eighteenYearsAgo = new Date(
+    today.getFullYear() - 18,
+    today.getMonth(),
+    today.getDate()
+  );
+
   return (
     <div className="widget-content">
       <div className="col-lg-12 col-md-12 py-2">
@@ -271,6 +278,7 @@ const WidgetContentBox = () => {
             </div>
 
             {/* Date of Birth */}
+
             <div className="form-group col-lg-4 col-md-4 d-flex flex-column">
               <label>
                 Date of Birth <span style={{ color: "red" }}>*</span>
@@ -280,6 +288,10 @@ const WidgetContentBox = () => {
                 onChange={handleDateChange}
                 dateFormat="dd/MM/yyyy"
                 className="form-control"
+                maxDate={eighteenYearsAgo}
+                showYearDropdown
+                scrollableYearDropdown
+                yearDropdownItemNumber={100}
                 required
               />
             </div>

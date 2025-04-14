@@ -229,7 +229,7 @@ const AddCompanyModal = ({ show, onClose }) => {
                       type="text"
                       name="name"
                       className="form-control"
-                      placeholder="Name as per PAN"
+                      placeholder="Company Name"
                       required
                       value={formData.name}
                       onChange={handleChange}

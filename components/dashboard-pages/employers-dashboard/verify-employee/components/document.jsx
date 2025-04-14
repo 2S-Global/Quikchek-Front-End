@@ -56,7 +56,7 @@ const DocumentUpload = ({
       </div>
       {/* Name Input */}
       <div className="form-group col-lg-4 col-md-4 d-flex flex-column">
-        <label>{label} Name</label>
+        <label>Name as per {label} </label>
         <input
           type="text"
           name={`${name}name`}

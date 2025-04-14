@@ -437,7 +437,7 @@ const WidgetContentBox = () => {
               <input
                 type="text"
                 name="passportnumber"
-                placeholder="Enter Name on Passport"
+                placeholder="Enter Name as per Passport"
                 className="form-control"
                 value={formData.passportnumber}
                 onChange={handleChange}
@@ -445,7 +445,7 @@ const WidgetContentBox = () => {
             </div>
             {/* Name Input */}
             <div className="form-group col-lg-4 col-md-4 d-flex flex-column">
-              <label>Passport Name</label>
+              <label>Name as per Passport</label>
               <input
                 type="text"
                 name="passportname"

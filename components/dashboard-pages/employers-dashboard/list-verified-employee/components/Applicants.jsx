@@ -98,44 +98,53 @@ const Applicants = () => {
       name: "Id",
       selector: (row) => row.order_id,
       sortable: true,
+      center: "true", 
     },
     {
       name: "Candidate Name",
       selector: (row) => row.candidate_name,
       sortable: true,
+      center: "true", 
     },
     {
       name: "Mobile",
       selector: (row) => row.candidate_mobile,
+      center: "true", 
     },
     {
       name: "Pan Status",
       selector: (row) => renderVerificationStatus(row.pan_response),
       cell: (row) => renderVerificationStatus(row.pan_response),
+      center: "true", 
     },
     {
       name: "Passport Status",
       selector: (row) => renderVerificationStatus(row.passport_response),
       cell: (row) => renderVerificationStatus(row.passport_response),
+      center: "true", 
     },
     {
       name: "Aadhaar Status",
       selector: (row) => renderVerificationStatus(row.aadhaar_response),
       cell: (row) => renderVerificationStatus(row.aadhaar_response),
+      center: "true", 
     },
     {
       name: "DL Status",
       selector: (row) => renderVerificationStatus(row.dl_response),
       cell: (row) => renderVerificationStatus(row.dl_response),
+      center: "true", 
     },
     {
       name: "Epic Status",
       selector: (row) => renderVerificationStatus(row.epic_response),
       cell: (row) => renderVerificationStatus(row.epic_response),
+      center: "true", 
     },
     {
       name: "Verified At",
       selector: (row) => new Date(row.updatedAt).toLocaleDateString("en-GB"),
+      center: "true", 
     },
 
     {

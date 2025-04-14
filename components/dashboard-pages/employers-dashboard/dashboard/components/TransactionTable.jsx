@@ -13,7 +13,7 @@ const TransactionTable = () => {
           <tr>
             <th>#</th>
             <th>Transaction Date</th>
-            <th>Transaction Amount</th>
+            <th>Transaction Amount (₹)</th>
             <th>Transaction Type</th>
           </tr>
         </thead>

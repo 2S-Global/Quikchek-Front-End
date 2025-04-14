@@ -50,13 +50,44 @@ const WidgetContentBox = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
+
+    if (name === "name" || name === "passportname" || name === "panname"|| name === "aadhaarname"||name === "votername" || name === "licensename") {
+      const onlyLetters = /^[A-Za-z\s]*$/; // Allow letters and spaces only
+  
+      if (!onlyLetters.test(value)) {
+        return; // Don't update state if invalid character
+      }
+    }  
+
+    if (name === "phone") {
+      const onlyNumbers = /^[0-9]*$/; // Only numbers allowed
+
+      // If value contains any non-numeric characters, prevent update
+      if (!onlyNumbers.test(value)) {
+        return; // Don't update state if invalid character
+      }
+
+      // Check for exact 10 characters
+      if (value.length > 10) {
+        return; // Prevent more than 10 characters
+      }
+    }
+
+
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
 
+
+
+   
+  };
+  
+  const handleValidation=(e)=>{
+    const { name, value } = e.target; 
     if (name === "pannumber") {
-      const panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
+      const panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/i;
       setValidationErrors((prev) => ({
         ...prev,
         pannumber:
@@ -78,7 +109,7 @@ const WidgetContentBox = () => {
     }
 
     if (name === "licensenumber") {
-      const licenseRegex = /^[A-Z]{2}[0-9]{2}\s?[0-9]{4}\s?[0-9]{7}$/;
+      const licenseRegex = /^[A-Z]{2}[0-9]{2}\s?[0-9]{4}\s?[0-9]{7}$/i;
       setValidationErrors((prev) => ({
         ...prev,
         licensenumber:
@@ -101,20 +132,40 @@ const WidgetContentBox = () => {
     }
 
     if (name === "phone") {
-      const phonePattern = /^[0-9]{10}$/;
-      setValidationErrors((prev) => ({
-        ...prev,
-        phone:
-          value === ""
-            ? ""
-            : phonePattern.test(value)
-              ? ""
-              : "Invalid phone number",
-      }));
+      if (value === "") {
+        setValidationErrors((prev) => ({
+          ...prev,
+          phone: "", // No error if field is left empty
+        }));
+      } else if (value.length !== 10) {
+        setValidationErrors((prev) => ({
+          ...prev,
+          phone: "Phone number must be exactly 10 digits",
+        }));
+      } else {
+        setValidationErrors((prev) => ({
+          ...prev,
+          phone: "", // Valid input
+        }));
+      }
     }
 
+    if (name === "email") {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  
+      setValidationErrors((prev) => ({
+        ...prev,
+        email:
+          value === ""
+            ? "" // or you can show "Email is required" if it's mandatory
+            : emailRegex.test(value)
+            ? ""
+            : "Invalid email format",
+      }));
+    }
+    
     if (name === "uannumber") {
-      const uanRegex = /^[0-9]{12}$/;
+      const uanRegex = /^[0-9]{12}$/i;
 
       setValidationErrors((prev) => ({
         ...prev,
@@ -126,8 +177,7 @@ const WidgetContentBox = () => {
               : "UAN must be a 12-digit number",
       }));
     }
-  };
-
+  }
   const handleDateChange = (date) => {
     if (date) {
       setFormData({ ...formData, dob: date }); // Store raw Date object
@@ -145,8 +195,8 @@ const WidgetContentBox = () => {
     !validationErrors.pannumber &&
     !validationErrors.aadhaarnumber &&
     !validationErrors.licensenumber &&
-    !validationErrors.voternumber &&
-    !validationErrors.uannumber;
+    !validationErrors.voternumber &&  !validationErrors.phone
+    !validationErrors.uannumber && !validationErrors.email && !validationErrors.email;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -300,11 +350,12 @@ const WidgetContentBox = () => {
             <div className="form-group col-lg-4 col-md-4 d-flex flex-column">
               <label>Phone Number</label>
               <input
-                type="number"
+                type="text"
                 name="phone"
                 className="form-control"
                 value={formData.phone}
                 onChange={handleChange}
+                onBlur={handleValidation}
               />
               {validationErrors.phone && (
                 <small className="text-danger">{validationErrors.phone}</small>
@@ -317,13 +368,17 @@ const WidgetContentBox = () => {
                 Email <span style={{ color: "red" }}>*</span>
               </label>
               <input
-                type="email"
+                type="text"
                 name="email"
                 className="form-control"
                 value={formData.email}
                 onChange={handleChange}
+                onBlur={handleValidation}
                 required
               />
+              {validationErrors.email && (
+  <small className="text-danger">{validationErrors.email}</small>
+)}
             </div>
 
             {/* Address */}
@@ -368,6 +423,7 @@ const WidgetContentBox = () => {
             numberError={validationErrors.pannumber}
             onFileChange={handleFileChange}
             onfieldChange={handleChange}
+            onfieldValidation={handleValidation}
           />
 
           <div className="row">
@@ -453,6 +509,7 @@ const WidgetContentBox = () => {
             onFileChange={handleFileChange}
             onfieldChange={handleChange}
             numberError={validationErrors.aadhaarnumber}
+            onfieldValidation={handleValidation}
           />
           <DocumentUpload
             label="Driving License"
@@ -463,6 +520,7 @@ const WidgetContentBox = () => {
             onFileChange={handleFileChange}
             onfieldChange={handleChange}
             numberError={validationErrors.licensenumber}
+            onfieldValidation={handleValidation}
           />
 
           <DocumentUpload
@@ -474,6 +532,7 @@ const WidgetContentBox = () => {
             onFileChange={handleFileChange}
             onfieldChange={handleChange}
             numberError={validationErrors.voternumber}
+            onfieldValidation={handleValidation}
           />
 
           {/*  <div className="row">
@@ -486,6 +545,7 @@ const WidgetContentBox = () => {
                 className="form-control"
                 value={formData.uannumber || ""}
                 onChange={handleChange}
+                    onfieldValidation={handleValidation}
               />
               {validationErrors.uannumber && (
                 <small className="text-danger">

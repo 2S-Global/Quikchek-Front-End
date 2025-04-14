@@ -9,6 +9,7 @@ const DocumentUpload = ({
   numbername,
   onfieldChange,
   numberError, 
+  onfieldValidation
 }) => {
   const [documentData, setDocumentData] = useState({
     docName: "",
@@ -59,6 +60,7 @@ const DocumentUpload = ({
           className="form-control"
           value={numbername}
           onChange={onfieldChange}
+          onBlur={onfieldValidation}
         />
 
 {numberError && (

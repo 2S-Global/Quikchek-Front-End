@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import MessageComponent from "../../ResponseMsg";
+import { Eye, EyeOff } from "lucide-react"; // Or any icon library you prefer
 
 const FormContent2 = () => {
   const router = useRouter();
@@ -81,7 +82,10 @@ const FormContent2 = () => {
       setLoading(false);
     }
   };
-
+  const [showPassword, setShowPassword] = useState(false);
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
   return (
     <div className="form-inner">
       <h3>Login to Quikchek</h3>
@@ -102,15 +106,30 @@ const FormContent2 = () => {
 
         <div className="form-group">
           <label htmlFor="password">Password</label>
-          <input
-            id="password-field"
-            type="password"
-            name="password"
-            placeholder="Password"
-            required
-            value={formData.password}
-            onChange={handleChange}
-          />
+          <div className="position-relative">
+            <input
+              type={showPassword ? "text" : "password"}
+              name="password"
+              className="form-control pe-5"
+              placeholder="Password"
+              required
+              value={formData.password}
+              onChange={handleChange}
+            />
+            <span
+              onClick={togglePasswordVisibility}
+              style={{
+                position: "absolute",
+                top: "50%",
+                right: "15px",
+                transform: "translateY(-50%)",
+                cursor: "pointer",
+                color: "#6c757d",
+              }}
+            >
+              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+            </span>
+          </div>
         </div>
 
         <div className="form-group">

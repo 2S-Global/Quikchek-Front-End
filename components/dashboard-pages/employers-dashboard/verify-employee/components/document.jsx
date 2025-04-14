@@ -10,6 +10,7 @@ const DocumentUpload = ({
   onfieldChange,
   numberError,
   onfieldValidation,
+  disabled,
 }) => {
   const [documentData, setDocumentData] = useState({
     docName: "",
@@ -33,7 +34,13 @@ const DocumentUpload = ({
     }
   };
   return (
-    <div className="row">
+    <div
+      className="row"
+      style={{
+        pointerEvents: disabled ? "none" : "auto",
+        opacity: disabled ? 0.5 : 1,
+      }}
+    >
       {/* Heading */}
       {/* Document Number Input */}
       <div className="form-group col-lg-4 col-md-4 d-flex flex-column">

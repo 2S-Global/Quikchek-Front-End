@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
@@ -46,6 +46,30 @@ const WidgetContentBox = () => {
   const [success, setSuccess] = useState(null);
   const router = useRouter();
   const [errorId, setErrorId] = useState(0);
+  const [approvedFields, setApprovedFields] = useState([]);
+
+  //fetch approved fields list
+  const fetchApprovedFields = async () => {
+    try {
+      setLoading(true);
+      const res = await axios.post(
+        `${apiurl}/api/fields/list_fields_by_company`,
+        null,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      setApprovedFields(res.data.company || []);
+      console.log("Approved Fields:", res.data.company);
+    } catch (err) {
+      setError("Error fetching fields. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    fetchApprovedFields();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -429,80 +453,163 @@ const WidgetContentBox = () => {
             onFileChange={handleFileChange}
             onfieldChange={handleChange}
             onfieldValidation={handleValidation}
+            disabled={!approvedFields.PAN}
           />
 
-          <div className="row">
-            {/* Heading */}
-            {/* Document Number Input passportnumber */}
-            <div className="form-group col-lg-4 col-md-4 d-flex flex-column">
-              <label>Passport File Number</label>
-              <input
-                type="text"
-                name="passportnumber"
-                placeholder="Enter Name as per Passport"
-                className="form-control"
-                value={formData.passportnumber}
-                onChange={handleChange}
-              />
-            </div>
-            {/* Name Input */}
-            <div className="form-group col-lg-4 col-md-4 d-flex flex-column">
-              <label>Name as per Passport</label>
-              <input
-                type="text"
-                name="passportname"
-                placeholder="Enter Name on Passport"
-                className="form-control"
-                value={formData.passportname}
-                onChange={handleChange}
-              />
-            </div>
-
-            {/* File Upload */}
-            <div className="form-group col-lg-4 col-md-4 d-flex flex-column">
-              <label htmlFor={fileId}>Upload Passport File</label>
-              <div className="uploadButton d-flex align-items-center">
+          {/* else render but disable */}
+          {approvedFields.PASSPORT ? (
+            <div className="row">
+              {/* Heading */}
+              {/* Document Number Input passportnumber */}
+              <div className="form-group col-lg-4 col-md-4 d-flex flex-column">
+                <label>Passport File Number</label>
                 <input
-                  className="uploadButton-input"
-                  type="file"
-                  name="file"
-                  accept="image/*,application/pdf"
-                  id={fileId}
-                  onChange={handleFileSelect}
+                  type="text"
+                  name="passportnumber"
+                  placeholder="Enter Name as per Passport"
+                  className="form-control"
+                  value={formData.passportnumber}
+                  onChange={handleChange}
                 />
-                <label
-                  className="uploadButton-button ripple-effect"
-                  htmlFor={fileId}
-                  style={{ width: "100%", height: "40px", cursor: "pointer" }}
-                >
-                  {documentData.file ? (
-                    <span
-                      onClick={() =>
-                        window.open(documentData.filePreview, "_blank")
-                      }
-                    >
-                      {documentData.file.name}
-                    </span>
-                  ) : (
-                    `Browse Passport File`
-                  )}
-                </label>
-                {documentData.file ? (
-                  <Trash2
-                    className="text-danger "
-                    size={20}
-                    onClick={() =>
-                      setDocumentData({
-                        ...documentData,
-                        file: null,
-                        filePreview: null,
-                      })
-                    }
+              </div>
+              {/* Name Input */}
+              <div className="form-group col-lg-4 col-md-4 d-flex flex-column">
+                <label>Name as per Passport</label>
+                <input
+                  type="text"
+                  name="passportname"
+                  placeholder="Enter Name on Passport"
+                  className="form-control"
+                  value={formData.passportname}
+                  onChange={handleChange}
+                />
+              </div>
+
+              {/* File Upload */}
+              <div className="form-group col-lg-4 col-md-4 d-flex flex-column">
+                <label htmlFor={fileId}>Upload Passport File</label>
+                <div className="uploadButton d-flex align-items-center">
+                  <input
+                    className="uploadButton-input"
+                    type="file"
+                    name="file"
+                    accept="image/*,application/pdf"
+                    id={fileId}
+                    onChange={handleFileSelect}
                   />
-                ) : null}
+                  <label
+                    className="uploadButton-button ripple-effect"
+                    htmlFor={fileId}
+                    style={{ width: "100%", height: "40px", cursor: "pointer" }}
+                  >
+                    {documentData.file ? (
+                      <span
+                        onClick={() =>
+                          window.open(documentData.filePreview, "_blank")
+                        }
+                      >
+                        {documentData.file.name}
+                      </span>
+                    ) : (
+                      `Browse Passport File`
+                    )}
+                  </label>
+                  {documentData.file ? (
+                    <Trash2
+                      className="text-danger "
+                      size={20}
+                      onClick={() =>
+                        setDocumentData({
+                          ...documentData,
+                          file: null,
+                          filePreview: null,
+                        })
+                      }
+                    />
+                  ) : null}
+                </div>
               </div>
             </div>
-          </div>
+          ) : (
+            <div style={{ pointerEvents: "none", opacity: 0.5 }}>
+              <div className="row">
+                {/* Heading */}
+                {/* Document Number Input passportnumber */}
+                <div className="form-group col-lg-4 col-md-4 d-flex flex-column">
+                  <label>Passport File Number</label>
+                  <input
+                    type="text"
+                    name="passportnumber"
+                    placeholder="Enter Name as per Passport"
+                    className="form-control"
+                    value={formData.passportnumber}
+                    onChange={handleChange}
+                  />
+                </div>
+                {/* Name Input */}
+                <div className="form-group col-lg-4 col-md-4 d-flex flex-column">
+                  <label>Name as per Passport</label>
+                  <input
+                    type="text"
+                    name="passportname"
+                    placeholder="Enter Name on Passport"
+                    className="form-control"
+                    value={formData.passportname}
+                    onChange={handleChange}
+                  />
+                </div>
+
+                {/* File Upload */}
+                <div className="form-group col-lg-4 col-md-4 d-flex flex-column">
+                  <label htmlFor={fileId}>Upload Passport File</label>
+                  <div className="uploadButton d-flex align-items-center">
+                    <input
+                      className="uploadButton-input"
+                      type="file"
+                      name="file"
+                      accept="image/*,application/pdf"
+                      id={fileId}
+                      onChange={handleFileSelect}
+                    />
+                    <label
+                      className="uploadButton-button ripple-effect"
+                      htmlFor={fileId}
+                      style={{
+                        width: "100%",
+                        height: "40px",
+                        cursor: "pointer",
+                      }}
+                    >
+                      {documentData.file ? (
+                        <span
+                          onClick={() =>
+                            window.open(documentData.filePreview, "_blank")
+                          }
+                        >
+                          {documentData.file.name}
+                        </span>
+                      ) : (
+                        `Browse Passport File`
+                      )}
+                    </label>
+                    {documentData.file ? (
+                      <Trash2
+                        className="text-danger "
+                        size={20}
+                        onClick={() =>
+                          setDocumentData({
+                            ...documentData,
+                            file: null,
+                            filePreview: null,
+                          })
+                        }
+                      />
+                    ) : null}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
 
           <DocumentUpload
             label="Aadhaar"
@@ -514,7 +621,9 @@ const WidgetContentBox = () => {
             onfieldChange={handleChange}
             numberError={validationErrors.aadhaarnumber}
             onfieldValidation={handleValidation}
+            disabled={!approvedFields.AADHAAR}
           />
+
           <DocumentUpload
             label="Driving License"
             name="license"
@@ -525,6 +634,7 @@ const WidgetContentBox = () => {
             onfieldChange={handleChange}
             numberError={validationErrors.licensenumber}
             onfieldValidation={handleValidation}
+            disabled={!approvedFields.DL}
           />
 
           <DocumentUpload
@@ -537,6 +647,7 @@ const WidgetContentBox = () => {
             onfieldChange={handleChange}
             numberError={validationErrors.voternumber}
             onfieldValidation={handleValidation}
+            disabled={!approvedFields.EPIC}
           />
 
           {/*  <div className="row">

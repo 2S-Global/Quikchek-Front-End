@@ -20,6 +20,34 @@ const EditfieldModal = ({ show, onClose, field }) => {
     discount_percent: "",
     id: "",
   });
+  const [formErrors, setFormErrors] = useState({
+    name: "",
+    email: "",
+    password: "",
+    transaction_fee: 0,
+    transaction_gst: 18,
+    allowed_verifications: "",
+    phone_number: "",
+    address: "",
+    gst_no: "",
+    package_id: "",
+    discount_percent: "",
+  });
+
+  const [touched, setTouched] = useState({
+    name: false,
+    email: false,
+    password: false,
+    transaction_fee: false,
+    transaction_gst: false,
+    allowed_verifications: false,
+    phone_number: false,
+    address: false,
+    gst_no: false,
+    package_id: false,
+    discount_percent: false,
+  });
+  const [gstError, setGstError] = useState(false);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -43,8 +71,80 @@ const EditfieldModal = ({ show, onClose, field }) => {
     }
   }, [field]);
 
+  const isValidGST = (gst) => {
+    const regex = /^\d{2}[A-Z]{5}\d{4}[A-Z]{1}[A-Z\d]{1}Z[A-Z\d]{1}$/;
+
+    if (!regex.test(gst)) return false;
+
+    let chars = gst.split("");
+    let factor = [1, 2];
+    let sum = 0;
+    const modulus = 36;
+    const codePointBase = "0".charCodeAt(0);
+    const lettersBase = "A".charCodeAt(0);
+
+    for (let i = 0; i < 14; i++) {
+      let char = chars[i];
+      let code = char.match(/[0-9]/)
+        ? char.charCodeAt(0) - codePointBase
+        : char.charCodeAt(0) - lettersBase + 10;
+
+      let product = code * factor[i % 2];
+      sum += Math.floor(product / modulus) + (product % modulus);
+    }
+
+    const checksumChar = (36 - (sum % 36)) % 36;
+    const expected =
+      checksumChar < 10
+        ? String(checksumChar)
+        : String.fromCharCode(lettersBase + checksumChar - 10);
+
+    return chars[14] === expected;
+  };
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+
+    let updatedValue = value;
+    let errorMsg = "";
+
+    switch (name) {
+      case "name":
+        updatedValue = value.replace(/[^a-zA-Z\s]/g, "");
+        if (value !== updatedValue) {
+          errorMsg = "Only letters (A-Z, a-z) are allowed.";
+        }
+        break;
+
+      case "email":
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!emailRegex.test(value)) {
+          errorMsg = "Please enter a valid email address.";
+        }
+        break;
+
+      case "phone_number":
+        updatedValue = value.replace(/\D/g, ""); // Remove non-digits
+        if (updatedValue.length > 10) {
+          updatedValue = updatedValue.slice(0, 10); // Limit to 10 digits
+        }
+        if (updatedValue && updatedValue.length !== 10) {
+          errorMsg = "Phone number must be exactly 10 digits.";
+        }
+        break;
+
+      default:
+        break;
+    }
+
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: updatedValue,
+    }));
+
+    setFormErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: errorMsg,
+    }));
   };
 
   const handleCheckboxChange = (e) => {
@@ -140,11 +240,14 @@ const EditfieldModal = ({ show, onClose, field }) => {
                     type="text"
                     name="name"
                     className="form-control"
-                    placeholder="Name as per PAN"
+                    placeholder="Company Name"
                     required
                     value={formData.name}
                     onChange={handleChange}
                   />
+                  {formErrors.name && (
+                    <div className="invalid-feedback">{formErrors.name}</div>
+                  )}
                 </div>
 
                 <div className="mb-3 col-md-6">
@@ -152,28 +255,37 @@ const EditfieldModal = ({ show, onClose, field }) => {
                     Phone Number
                   </label>
                   <input
-                    type="text"
                     name="phone_number"
-                    className="form-control"
-                    placeholder="Phone Number"
-                    required
+                    className={`form-control ${formErrors.phone_number ? "is-invalid" : ""}`}
                     value={formData.phone_number}
                     onChange={handleChange}
+                    maxLength={10}
+                    onBlur={() =>
+                      setTouched((prev) => ({
+                        ...prev,
+                        phone_number: true,
+                      }))
+                    }
                   />
+                  {touched.phone_number && formErrors.phone_number && (
+                    <div className="invalid-feedback">
+                      {formErrors.phone_number}
+                    </div>
+                  )}
                 </div>
 
                 <div className="mb-3 col-md-6">
                   <label htmlFor="address" className="form-label">
                     Address
                   </label>
-                  <input
-                    type="text"
+                  <textarea
                     name="address"
                     className="form-control"
                     placeholder="Address"
                     required
                     value={formData.address}
                     onChange={handleChange}
+                    rows={3}
                   />
                 </div>
 
@@ -184,12 +296,29 @@ const EditfieldModal = ({ show, onClose, field }) => {
                   <input
                     type="text"
                     name="gst_no"
-                    className="form-control"
+                    className={`form-control ${gstError ? "is-invalid" : ""}`}
                     placeholder="GST Number"
                     required
                     value={formData.gst_no}
                     onChange={handleChange}
+                    onBlur={(e) => {
+                      const { name, value } = e.target;
+                      const trimmed = value.trim().toUpperCase(); // Convert to uppercase for validation
+
+                      setFormData({
+                        ...formData,
+                        [name]: trimmed,
+                      });
+
+                      // Set error if invalid GST
+                      setGstError(!isValidGST(trimmed));
+                    }}
                   />
+                  {gstError && (
+                    <div className="invalid-feedback d-block">
+                      Invalid GST Number. Please enter a valid one.
+                    </div>
+                  )}
                 </div>
 
                 <div className="mb-3 col-md-6">
@@ -204,23 +333,44 @@ const EditfieldModal = ({ show, onClose, field }) => {
                     onChange={handleChange}
                   >
                     <option value="">Select Package</option>
-                    <option value="1">All</option>
+                    <option value="1">
+                      All( PAN, Aadhaar, EPIC, Driving License, Passport )
+                    </option>
                     <option value="2">Indivitual</option>
                   </select>
                 </div>
 
                 <div className="mb-3 col-md-6">
-                  <label htmlFor="discount_percent" className="form-label">
-                    Discount Percentage
+                  <label htmlFor="transaction_fee" className="form-label">
+                    Transaction Fee
                   </label>
                   <input
                     type="number"
-                    name="discount_percent"
+                    name="transaction_fee"
                     className="form-control"
-                    placeholder="Discount Percentage"
+                    placeholder="Transaction Fee"
                     required
-                    value={formData.discount_percent}
+                    value={formData.transaction_fee}
                     onChange={handleChange}
+                    onBlur={(e) => {
+                      const { name, value } = e.target;
+
+                      let trimmedValue = value.trim();
+
+                      // If it's a decimal like 0.1234, keep the leading 0
+                      if (/^0\.\d+$/.test(trimmedValue)) {
+                        // do nothing, keep as is
+                      } else {
+                        // Remove leading zeros, but preserve decimal portion
+                        trimmedValue =
+                          trimmedValue.replace(/^0+(?=\d)/, "") || "0";
+                      }
+
+                      setFormData({
+                        ...formData,
+                        [name]: trimmedValue,
+                      });
+                    }}
                   />
                 </div>
                 {formData.package_id === "" ? null : formData.package_id ==
@@ -253,25 +403,46 @@ const EditfieldModal = ({ show, onClose, field }) => {
                 ) : (
                   <div className="mb-4 text-center col-md-12">
                     <span className="fw-semibold fs-5 text-success">
-                      All verifications are selected by default
+                      All verifications are selected by default ( PAN, Aadhaar,
+                      EPIC, Driving License, Passport )
                     </span>
                   </div>
                 )}
 
                 <div className="mb-3 col-md-6">
-                  <label htmlFor="transaction_fee" className="form-label">
-                    Transaction Fee
+                  <label htmlFor="discount_percent" className="form-label">
+                    Discount Percentage (%)
                   </label>
                   <input
                     type="number"
-                    name="transaction_fee"
+                    name="discount_percent"
                     className="form-control"
-                    placeholder="Transaction Fee"
+                    placeholder="Discount Percentage"
                     required
-                    value={formData.transaction_fee}
+                    value={formData.discount_percent}
                     onChange={handleChange}
+                    onBlur={(e) => {
+                      const { name, value } = e.target;
+
+                      let trimmedValue = value.trim();
+
+                      // If it's a decimal like 0.1234, keep the leading 0
+                      if (/^0\.\d+$/.test(trimmedValue)) {
+                        // do nothing, keep as is
+                      } else {
+                        // Remove leading zeros, but preserve decimal portion
+                        trimmedValue =
+                          trimmedValue.replace(/^0+(?=\d)/, "") || "0";
+                      }
+
+                      setFormData({
+                        ...formData,
+                        [name]: trimmedValue,
+                      });
+                    }}
                   />
                 </div>
+
                 <div className="mb-3 col-md-6">
                   <label htmlFor="transaction_gst" className="form-label">
                     Transaction GST (%)
@@ -284,6 +455,25 @@ const EditfieldModal = ({ show, onClose, field }) => {
                     required
                     value={formData.transaction_gst}
                     onChange={handleChange}
+                    onBlur={(e) => {
+                      const { name, value } = e.target;
+
+                      let trimmedValue = value.trim();
+
+                      // If it's a decimal like 0.1234, keep the leading 0
+                      if (/^0\.\d+$/.test(trimmedValue)) {
+                        // do nothing, keep as is
+                      } else {
+                        // Remove leading zeros, but preserve decimal portion
+                        trimmedValue =
+                          trimmedValue.replace(/^0+(?=\d)/, "") || "0";
+                      }
+
+                      setFormData({
+                        ...formData,
+                        [name]: trimmedValue,
+                      });
+                    }}
                   />
                 </div>
               </div>

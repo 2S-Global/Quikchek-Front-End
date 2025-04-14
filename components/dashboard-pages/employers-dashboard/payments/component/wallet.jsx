@@ -4,7 +4,7 @@ import MessageComponent from "@/components/common/ResponseMsg";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 
-export default function WalletBalance() {
+const WalletBalance = ({ showTable, setShowTable }) => {
   const [balance, setBalance] = useState(0);
   const [paymentAmount, setPaymentAmount] = useState("");
   const [showPaymentForm, setShowPaymentForm] = useState(false);
@@ -94,10 +94,20 @@ export default function WalletBalance() {
               </div>
               <button
                 onClick={() => setShowPaymentForm(!showPaymentForm)}
-                className="btn btn-outline-dark btn-sm"
+                className={`btn ${showPaymentForm ? "btn-danger" : "btn-success"} btn-sm`}
               >
                 {showPaymentForm ? "Cancel" : "Add Balance"}
                 {!showPaymentForm && <i className="bi bi-arrow-right ms-2"></i>}
+              </button>
+            </div>
+
+            <div className="mt-3 text-end">
+              <button
+                onClick={() => setShowTable && setShowTable(!showTable)}
+                className={`btn ${showTable ? "btn-danger" : "btn-primary"} btn-sm`}
+              >
+                {showTable ? "Cancel" : "Transaction History"}
+                {!showTable && <i className="bi bi-arrow-right ms-2"></i>}
               </button>
             </div>
           </section>
@@ -140,4 +150,6 @@ export default function WalletBalance() {
       )}
     </div>
   );
-}
+};
+
+export default WalletBalance;

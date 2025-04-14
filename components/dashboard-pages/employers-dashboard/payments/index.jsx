@@ -6,10 +6,14 @@ import BreadCrumb from "../../BreadCrumb";
 import CopyrightFooter from "../../CopyrightFooter";
 import MenuToggler from "../../MenuToggler";
 
+import { useState } from "react";
+
 //component
 import PaymentDetails from "./component/paynowtable";
 import WalletBalance from "./component/wallet";
 const index = () => {
+  const [showTable, setShowTable] = useState(false);
+
   return (
     <div className="page-wrapper dashboard">
       <span className="header-span"></span>
@@ -36,7 +40,10 @@ const index = () => {
                 <div className="tabs-box">
                   <div className="widget-content">
                     <div className="table-outer">
-                      <WalletBalance />
+                      <WalletBalance
+                        showTable={showTable}
+                        setShowTable={setShowTable}
+                      />
                     </div>
                   </div>
                 </div>
@@ -44,24 +51,27 @@ const index = () => {
               </div>
             </div>
           </div>
-          <div className="row">
-            <div className="col-lg-12">
-              <div className="ls-widget">
-                <div className="tabs-box">
-                  <div className="widget-title">
-                    <h4>Transaction History</h4>
-                  </div>
-                  <div className="widget-content">
-                    <div className="table-outer">
-                      <PaymentDetails />
+
+          {showTable && (
+            <div className="row">
+              <div className="col-lg-12">
+                <div className="ls-widget">
+                  <div className="tabs-box">
+                    <div className="widget-title">
+                      <h4>Transaction History</h4>
+                    </div>
+                    <div className="widget-content">
+                      <div className="table-outer">
+                        <PaymentDetails />
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            {/* <!-- End Applicants Widget --> */}
-          </div>
+              {/* <!-- End Applicants Widget --> */}
+            </div>
+          )}
         </div>
         {/* End dashboard-outer */}
       </section>

@@ -81,13 +81,29 @@ const PaymentDetails = () => {
             {payments.map((payment, index) => (
               <tr key={payment._id}>
                 <td style={{ textAlign: "center" }}>{index + 1}</td>
-                <td style={{ textAlign: "center" }}>{payment.name}</td>
                 <td style={{ textAlign: "center" }}>
-                  {payment.mobile || "N/A"}
+                  {new Date(payment.createdAt).toLocaleDateString("en-GB")}
                 </td>
+
                 <td style={{ textAlign: "center" }}>
-                  {payment.payFor || "N/A"}
+                  {payment.payment_method || "N/A"}
                 </td>
+                <td
+                  style={{ textAlign: "center" }}
+                  className={`fw-semibold ${
+                    payment.payment_type === "credit"
+                      ? "text-success"
+                      : payment.payment_type === "debit"
+                        ? "text-danger"
+                        : ""
+                  }`}
+                >
+                  {payment.payment_type
+                    ? payment.payment_type.charAt(0).toUpperCase() +
+                      payment.payment_type.slice(1)
+                    : "N/A"}
+                </td>
+
                 <td style={{ textAlign: "center" }}>{payment.amount} INR</td>
               </tr>
             ))}

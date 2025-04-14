@@ -384,18 +384,6 @@ const WidgetContentBox = () => {
               )}
             </div>
 
-            {/* Address */}
-            <div className="form-group col-lg-4 col-md-4 d-flex flex-column">
-              <label>Address</label>
-              <input
-                type="text"
-                name="address"
-                className="form-control"
-                value={formData.address}
-                onChange={handleChange}
-              />
-            </div>
-
             {/* Gender */}
             <div className="form-group col-lg-4 col-md-4 d-flex flex-column">
               <label>Gender</label>
@@ -410,6 +398,20 @@ const WidgetContentBox = () => {
                 <option value="female">Female</option>
                 <option value="other">Other</option>
               </select>
+            </div>
+
+            {/* Address */}
+            <div className="form-group col-lg-4 col-md-4 d-flex flex-column">
+              <label>Address</label>
+              <textarea
+                name="address"
+                className="form-control"
+                placeholder="Address"
+                required
+                value={formData.address}
+                onChange={handleChange}
+                rows={1}
+              />
             </div>
 
             {/* from anaother */}

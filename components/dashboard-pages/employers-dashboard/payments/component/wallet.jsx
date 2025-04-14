@@ -106,7 +106,7 @@ const WalletBalance = ({ showTable, setShowTable }) => {
                 onClick={() => setShowTable && setShowTable(!showTable)}
                 className={`btn ${showTable ? "btn-danger" : "btn-primary"} btn-sm`}
               >
-                {showTable ? "Cancel" : "Transaction History"}
+                {showTable ? "Hide" : "Transaction History"}
                 {!showTable && <i className="bi bi-arrow-right ms-2"></i>}
               </button>
             </div>

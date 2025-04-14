@@ -71,8 +71,8 @@ const PaymentDetails = () => {
           <thead className="table-light">
             <tr>
               <th style={{ textAlign: "center" }}>#</th>
+              <th style={{ textAlign: "center" }}>Transaction ID</th>
               <th style={{ textAlign: "center" }}>Date</th>
-              <th style={{ textAlign: "center" }}>Order ID</th>
               <th style={{ textAlign: "center" }}>Amount</th>
             </tr>
           </thead>
@@ -81,11 +81,10 @@ const PaymentDetails = () => {
               <tr key={payment._id}>
                 <td style={{ textAlign: "center" }}>{index + 1}</td>
                 <td style={{ textAlign: "center" }}>
-                  {new Date(payment.createdAt).toLocaleDateString("en-GB")}
-                </td>
-
-                <td style={{ textAlign: "center" }}>
                   {payment.transactionId || "N/A"}
+                </td>
+                <td style={{ textAlign: "center" }}>
+                  {new Date(payment.createdAt).toLocaleDateString("en-GB")}
                 </td>
 
                 <td style={{ textAlign: "center" }}>{payment.amount} INR</td>

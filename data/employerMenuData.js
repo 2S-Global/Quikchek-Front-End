@@ -15,8 +15,9 @@ module.exports = [
   },
   {
     id: 7,
-    name: "Wallet",
-    icon: "la-wallet",
+    name: "History",
+    icon: "la-history",
+
     routePath: "/payments",
     active: "",
   },

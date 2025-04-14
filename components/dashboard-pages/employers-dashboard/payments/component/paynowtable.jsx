@@ -72,8 +72,7 @@ const PaymentDetails = () => {
             <tr>
               <th style={{ textAlign: "center" }}>#</th>
               <th style={{ textAlign: "center" }}>Date</th>
-              <th style={{ textAlign: "center" }}>Payment Method</th>
-              <th style={{ textAlign: "center" }}>Type</th>
+              <th style={{ textAlign: "center" }}>Order ID</th>
               <th style={{ textAlign: "center" }}>Amount</th>
             </tr>
           </thead>
@@ -86,22 +85,7 @@ const PaymentDetails = () => {
                 </td>
 
                 <td style={{ textAlign: "center" }}>
-                  {payment.payment_method || "N/A"}
-                </td>
-                <td
-                  style={{ textAlign: "center" }}
-                  className={`fw-semibold ${
-                    payment.payment_type === "credit"
-                      ? "text-success"
-                      : payment.payment_type === "debit"
-                        ? "text-danger"
-                        : ""
-                  }`}
-                >
-                  {payment.payment_type
-                    ? payment.payment_type.charAt(0).toUpperCase() +
-                      payment.payment_type.slice(1)
-                    : "N/A"}
+                  {payment.order_id || "N/A"}
                 </td>
 
                 <td style={{ textAlign: "center" }}>{payment.amount} INR</td>

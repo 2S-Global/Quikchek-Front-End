@@ -18,7 +18,7 @@ const PaymentDetails = () => {
   const [success, setSuccess] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [token, setToken] = useState(null);
-  const [paymentmethod, setPaymentmethod] = useState("");
+  const [paymentmethod, setPaymentmethod] = useState("online");
   const apiurl = process.env.NEXT_PUBLIC_API_URL;
 
   /* Billing part */
@@ -273,7 +273,7 @@ const PaymentDetails = () => {
             </div>
 
             <div className="mt-3">
-              <div className="d-flex justify-content-end align-items-center gap-2">
+              {/*  <div className="d-flex justify-content-end align-items-center gap-2">
                 <label htmlFor="paymentmethod" className="mb-0">
                   Payment Method:
                 </label>
@@ -290,7 +290,7 @@ const PaymentDetails = () => {
                     Wallet (Balance: ₹{walletBalance.toFixed(2)})
                   </option>
                 </select>
-              </div>
+              </div> */}
 
               <div className="d-flex justify-content-end gap-2 mt-3">
                 {paymentmethod === "Wallet" && (

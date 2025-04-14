@@ -12,7 +12,7 @@ import { useState } from "react";
 import PaymentDetails from "./component/paynowtable";
 import WalletBalance from "./component/wallet";
 const index = () => {
-  const [showTable, setShowTable] = useState(false);
+  const [showTable, setShowTable] = useState(true);
 
   return (
     <div className="page-wrapper dashboard">
@@ -34,7 +34,7 @@ const index = () => {
       {/* <!-- Dashboard --> */}
       <section className="user-dashboard">
         <div className="dashboard-outer">
-          <div className="row">
+          {/*   <div className="row">
             <div className="col-lg-12">
               <div className="ls-widget">
                 <div className="tabs-box">
@@ -47,10 +47,9 @@ const index = () => {
                     </div>
                   </div>
                 </div>
-                {/* End widget-title */}
               </div>
             </div>
-          </div>
+          </div> */}
 
           {showTable && (
             <div className="row">

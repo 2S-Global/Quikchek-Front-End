@@ -13,6 +13,13 @@ module.exports = [
     routePath: "/admin/listcompany",
     active: "",
   },
+  {
+    id: 3,
+    name: "List Packages",
+    icon: "la-boxes",
+    routePath: "/admin/listpackage",
+    active: "",
+  },
   /*  {
     id: 15,
     name: "Logout",

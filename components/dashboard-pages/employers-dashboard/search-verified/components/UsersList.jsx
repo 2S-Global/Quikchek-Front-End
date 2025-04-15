@@ -71,7 +71,7 @@ const UsersList = ({ users }) => {
 
                   <td style={{ textAlign: "center" }}>
                     <Link
-                      href={`/employers-dashboard/list-verified-employee/details?id=${candidate._id}`}
+                      href={`/list-verified-employee/details?id=${candidate._id}`}
                     >
                       <button className="btn btn-outline-primary btn-sm w-100">
                         <Eye size={14} className="me-1" /> View Details

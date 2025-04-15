@@ -357,7 +357,7 @@ const AddCompanyModal = ({ show, onClose }) => {
                       </div>
                     )}
                   </div>
-
+                  {/* 
                   <div className="mb-3 col-md-6">
                     <label htmlFor="package_id" className="form-label">
                       Package
@@ -513,7 +513,7 @@ const AddCompanyModal = ({ show, onClose }) => {
                         });
                       }}
                     />
-                  </div>
+                  </div> */}
                 </div>
                 <button
                   type="submit"

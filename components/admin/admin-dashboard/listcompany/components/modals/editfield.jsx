@@ -12,7 +12,6 @@ const EditfieldModal = ({ show, onClose, field }) => {
     allowed_verifications: "",
     transaction_fee: 0,
     transaction_gst: 18,
-    allowed_verifications: "",
     phone_number: "",
     address: "",
     gst_no: "",
@@ -312,7 +311,7 @@ const EditfieldModal = ({ show, onClose, field }) => {
                   )}
                 </div>
 
-                <div className="mb-3 col-md-6">
+                {/*   <div className="mb-3 col-md-6">
                   <label htmlFor="package_id" className="form-label">
                     Package
                   </label>
@@ -466,7 +465,7 @@ const EditfieldModal = ({ show, onClose, field }) => {
                       });
                     }}
                   />
-                </div>
+                </div> */}
               </div>
               <button
                 type="submit"

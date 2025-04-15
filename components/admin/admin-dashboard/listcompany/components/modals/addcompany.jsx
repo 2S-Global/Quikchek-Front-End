@@ -96,13 +96,6 @@ const AddCompanyModal = ({ show, onClose }) => {
     let errorMsg = "";
 
     switch (name) {
-      case "name":
-        updatedValue = value.replace(/[^a-zA-Z\s]/g, "");
-        if (value !== updatedValue) {
-          errorMsg = "Only letters (A-Z, a-z) are allowed.";
-        }
-        break;
-
       case "email":
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         if (!emailRegex.test(value)) {
@@ -380,7 +373,7 @@ const AddCompanyModal = ({ show, onClose }) => {
                       <option value="1">
                         All( PAN, Aadhaar, EPIC, Driving License, Passport )
                       </option>
-                      <option value="2">Indivitual</option>
+                      <option value="2">Individual</option>
                     </select>
                   </div>
                   <div className="mb-3 col-md-6">

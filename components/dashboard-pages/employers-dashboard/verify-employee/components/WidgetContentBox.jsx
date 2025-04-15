@@ -427,14 +427,13 @@ const WidgetContentBox = () => {
             {/* Address */}
             <div className="form-group col-lg-4 col-md-4 d-flex flex-column">
               <label>Address</label>
-              <textarea
+              <input
+                type="text"
                 name="address"
                 className="form-control"
                 placeholder="Address"
-                required
                 value={formData.address}
                 onChange={handleChange}
-                rows={1}
               />
             </div>
 

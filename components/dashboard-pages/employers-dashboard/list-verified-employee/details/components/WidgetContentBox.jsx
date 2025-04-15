@@ -39,7 +39,7 @@ const WidgetContentBox = () => {
           `${apiurl}/api/verify/verifiedDetails`,
           {
             id: userid, // Send in req.body
-          },
+          }
         );
         setUser(response.data.user);
       } catch (err) {
@@ -91,7 +91,13 @@ const WidgetContentBox = () => {
 
   return (
     <div className="widget-content p-4 border rounded shadow-sm bg-white">
-      <h4 className="mb-3 text-primary">User Information</h4>
+      <h4 className="mb-3 text-primary">
+        User Information
+        <small style={{ fontSize: "12px", color: "black" }}>
+          {" "}
+          ( Order ID:{user?.order_id} )
+        </small>
+      </h4>
       {loading && <p>Loading...</p>}
       {error && <p className="text-danger">{error}</p>}
       {!loading && !error && user && (

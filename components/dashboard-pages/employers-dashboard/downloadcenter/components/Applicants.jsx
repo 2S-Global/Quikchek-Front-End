@@ -238,7 +238,7 @@ const Applicants = () => {
   return (
     <div className="container mt-4">
       <DataTable
-        title="Applicants"
+        title=""
         columns={columns}
         data={candidates}
         progressPending={loading}

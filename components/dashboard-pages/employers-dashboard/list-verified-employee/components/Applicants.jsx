@@ -192,7 +192,7 @@ const Applicants = () => {
     <div className="container mt-4">
       {/* DataTable */}
       <DataTable
-        title="Applicants"
+        title=""
         columns={columns}
         data={candidates}
         progressPending={loading}

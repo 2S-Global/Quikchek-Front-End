@@ -88,14 +88,14 @@ const FormContent2 = () => {
     setShowPassword((prev) => !prev);
   };
   return (
-    <div className="form-inner">
+    <div className="form-inner pb-4">
       {/* image logo */}
-      <div className="mb-3 d-flex justify-content-center pb-4 pt-2">
+      <div className="mb-3 d-flex justify-content-center pb-4 pt-4">
         <Image
           alt="brand"
           src="/images/logo.png"
-          width={194}
-          height={60}
+          width={214}
+          height={70}
           priority
         />
       </div>

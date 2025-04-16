@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -88,6 +89,17 @@ const FormContent2 = () => {
   };
   return (
     <div className="form-inner">
+      {/* image logo */}
+      <div className="mb-3 d-flex justify-content-center pb-5">
+        <Image
+          alt="brand"
+          src="/images/logo.png"
+          width={194}
+          height={60}
+          priority
+        />
+      </div>
+
       <h3>Login to Quikchek</h3>
       <MessageComponent error={error} success={success} />
 

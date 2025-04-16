@@ -4,8 +4,9 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import MessageComponent from "@/components/common/ResponseMsg";
 
-import { Trash2, Settings, Pencil } from "lucide-react";
+import { Trash2, Settings, Pencil, PackageOpen } from "lucide-react";
 import EditfieldModal from "./modals/editfield";
+import EditplanModal from "./modals/planmodal";
 const Companytable = () => {
   const apiurl = process.env.NEXT_PUBLIC_API_URL;
   const router = useRouter();
@@ -18,16 +19,29 @@ const Companytable = () => {
   const [editcompany, setEditcompany] = useState(null);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalplanOpen, setIsModalplanOpen] = useState(false);
 
   const openModalRH = (companydetails) => {
     setEditcompany(companydetails);
     setIsModalOpen(true);
     document.body.style.overflow = "hidden"; // Disable background scrolling
   };
+  const openModalPlanRH = (companydetails) => {
+    setEditcompany(companydetails);
+    setIsModalplanOpen(true);
+    document.body.style.overflow = "hidden"; // Disable background scrolling
+    console.log("open modal plan");
+  };
 
   const closeModalRH = () => {
     setIsModalOpen(false);
     document.body.style.overflow = "auto"; // Re-enable background scrolling
+  };
+
+  const closeModalPlanRH = () => {
+    setIsModalplanOpen(false);
+    document.body.style.overflow = "auto"; // Re-enable background scrolling
+    console.log("close modal plan");
   };
 
   useEffect(() => {
@@ -205,6 +219,12 @@ const Companytable = () => {
                               onClick={() => openModalRH(company)}
                               size={20}
                             />
+                            <PackageOpen
+                              className="text-info"
+                              style={{ cursor: "pointer" }}
+                              onClick={() => openModalPlanRH(company)}
+                              size={20}
+                            />
                             <Settings
                               className="text-secondary"
                               style={{ cursor: "pointer" }}
@@ -237,6 +257,14 @@ const Companytable = () => {
         <EditfieldModal
           show={isModalOpen}
           onClose={closeModalRH}
+          field={editcompany}
+        />
+      )}
+
+      {isModalplanOpen && (
+        <EditplanModal
+          show={isModalplanOpen}
+          onClose={closeModalPlanRH}
           field={editcompany}
         />
       )}

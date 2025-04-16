@@ -25,17 +25,17 @@ const Index = () => {
       {/* End MobileMenu */}
 
       <div className="login-section">
-        <div
+        {/*  <div
           className="image-layer"
           style={{ backgroundImage: "url(/images/background/12.jpg)" }}
-        ></div>
-        <div className="outer-box">
-          {/* <!-- Login Form --> */}
-          <div className="login-form default-form">
-            <FormContent2 />
-          </div>
-          {/* <!--End Login Form --> */}
+        ></div> */}
+        {/*     <div className="outer-box"> */}
+        {/* <!-- Login Form --> */}
+        <div className="login-form default-form">
+          <FormContent2 />
         </div>
+        {/* <!--End Login Form --> */}
+        {/*  </div> */}
       </div>
       {/* <!-- End Info Section --> */}
     </>

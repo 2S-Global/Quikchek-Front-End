@@ -109,9 +109,9 @@ const Companytable = () => {
 
     try {
       const response = await axios.post(
-        `${apiurl}/api/auth/togglestatus-companies`,
+        `${apiurl}/api/pacakageRoute/toggleStatusPackage`,
         {
-          companyId: id,
+          pack_id: id,
           status: !currentStatus,
         },
         {
@@ -158,13 +158,14 @@ const Companytable = () => {
                       Verification Allowed
                     </th>
                     <th style={{ textAlign: "center" }}>Price</th>
+                    <th style={{ textAlign: "center" }}>Company Status</th>
                     <th style={{ textAlign: "center" }}>Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   {companies.length === 0 ? (
                     <tr>
-                      <td colSpan="5" style={{ textAlign: "center" }}>
+                      <td colSpan="6" style={{ textAlign: "center" }}>
                         No records found
                       </td>
                     </tr>
@@ -178,6 +179,30 @@ const Companytable = () => {
                         </td>
                         <td style={{ textAlign: "center" }}>
                           ₹ {company.transaction_fee}
+                        </td>
+                        <td style={{ textAlign: "center" }}>
+                          <div className="form-check form-switch d-flex justify-content-center align-items-center">
+                            <input
+                              className="form-check-input"
+                              type="checkbox"
+                              role="switch"
+                              id={`switch-${company._id}`}
+                              checked={company.is_active}
+                              onChange={() =>
+                                toggleStatus(company._id, company.is_active)
+                              }
+                            />
+                            <label
+                              className={`form-check-label ms-2 fw-semibold ${
+                                company.is_active
+                                  ? "text-success"
+                                  : "text-danger"
+                              }`}
+                              htmlFor={`switch-${company._id}`}
+                            >
+                              {company.is_active ? "Active" : "Inactive"}
+                            </label>
+                          </div>
                         </td>
 
                         <td className="text-center">

@@ -90,7 +90,7 @@ const FormContent2 = () => {
   return (
     <div className="form-inner">
       {/* image logo */}
-      <div className="mb-3 d-flex justify-content-center pb-5">
+      <div className="mb-3 d-flex justify-content-center pb-4 pt-2">
         <Image
           alt="brand"
           src="/images/logo.png"

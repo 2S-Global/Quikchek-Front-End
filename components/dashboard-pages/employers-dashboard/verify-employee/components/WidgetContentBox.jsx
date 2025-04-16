@@ -35,6 +35,7 @@ const WidgetContentBox = () => {
     additionalfields: {},
     // uanname:null,
     uannumber: null,
+    plan_id: "",
   });
 
   const [validationErrors, setValidationErrors] = useState({});
@@ -47,6 +48,7 @@ const WidgetContentBox = () => {
   const router = useRouter();
   const [errorId, setErrorId] = useState(0);
   const [approvedFields, setApprovedFields] = useState([]);
+  const [availablePlans, setAvailablePlans] = useState([]);
 
   //fetch approved fields list
   const fetchApprovedFields = async () => {
@@ -60,15 +62,37 @@ const WidgetContentBox = () => {
         }
       );
       setApprovedFields(res.data.company || []);
-      console.log("Approved Fields:", res.data.company);
+      //  console.log("Approved Fields:", res.data.company);
     } catch (err) {
       setError("Error fetching fields. Please try again.");
     } finally {
       setLoading(false);
     }
   };
+  /* /api/companyPackageRoute/getPackageByCompanyId */
+
+  const fetchAvailablePlans = async () => {
+    try {
+      setLoading(true);
+      const res = await axios.post(
+        `${apiurl}/api/companyPackageRoute/getPackageByCompany`,
+        null,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      setAvailablePlans(res.data.data.selected_plan || []);
+      //  console.log("Available Plans:", res.data.data.selected_plan);
+    } catch (err) {
+      //  console.log("Error fetching plans. Please try again.", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     fetchApprovedFields();
+    fetchAvailablePlans();
   }, []);
 
   const handleChange = (e) => {
@@ -259,9 +283,9 @@ const WidgetContentBox = () => {
 
     try {
       for (let pair of formDataToSend.entries()) {
-        console.log(`${pair[0]}: ${pair[1]}`);
+        //    console.log(`${pair[0]}: ${pair[1]}`);
       }
-      console.log(formDataToSend.additionalfields);
+      //  console.log(formDataToSend.additionalfields);
       const response = await axios.post(
         `${apiurl}/api/usercart/add_user_cart`,
         formDataToSend,
@@ -280,12 +304,21 @@ const WidgetContentBox = () => {
         setError(response.data.error);
       }
     } catch (err) {
-      console.error("Error submitting form:", err);
+      //   console.error("Error submitting form:", err);
       setError(err.response?.data?.message || "Failed. Try again.");
     } finally {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (availablePlans.length > 0 && !formData.plan) {
+      setFormData((prev) => ({
+        ...prev,
+        plan: availablePlans[0]._id,
+      }));
+    }
+  }, [availablePlans]);
 
   const fileId = "upload-passport";
 
@@ -309,6 +342,10 @@ const WidgetContentBox = () => {
         handleFileChange(name, file);
       }
     }
+  };
+  const handlePlanChange = (e) => {
+    const plan_id = e.target.value;
+    console.log("Plan changed:", plan_id);
   };
 
   const today = new Date();
@@ -435,6 +472,26 @@ const WidgetContentBox = () => {
                 value={formData.address}
                 onChange={handleChange}
               />
+            </div>
+            {/* plan  */}
+            {console.log("plans for drop down", availablePlans)}
+            <div className="form-group col-lg-4 col-md-4 d-flex flex-column">
+              <label htmlFor="plan">Plan</label>
+              <select
+                className="form-control"
+                name="plan"
+                value={formData.plan}
+                onChange={handleChange}
+                required
+                onBlur={handlePlanChange}
+              >
+                <option value="">Select Plan</option>
+                {availablePlans?.map((plan) => (
+                  <option key={plan._id} value={plan._id}>
+                    {plan.name} (₹ {plan.transaction_fee})
+                  </option>
+                ))}
+              </select>
             </div>
 
             {/* from anaother */}

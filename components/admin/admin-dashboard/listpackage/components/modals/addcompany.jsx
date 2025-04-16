@@ -138,14 +138,33 @@ const AddCompanyModal = ({ show, onClose }) => {
                   </div>
                   <div className="mb-3 col-md-6">
                     <label className="form-label" htmlFor="expiryDate">
-                      Expiry Date
+                      Validity Days
                     </label>
                     <input
-                      type="text"
+                      type="number"
                       className="form-control"
                       name="expiryDate"
                       value={formData.expiryDate}
                       onChange={handleChange}
+                      onBlur={(e) => {
+                        const { name, value } = e.target;
+
+                        let trimmedValue = value.trim();
+
+                        // If it's a decimal like 0.1234, keep the leading 0
+                        if (/^0\.\d+$/.test(trimmedValue)) {
+                          // do nothing, keep as is
+                        } else {
+                          // Remove leading zeros, but preserve decimal portion
+                          trimmedValue =
+                            trimmedValue.replace(/^0+(?=\d)/, "") || "0";
+                        }
+
+                        setFormData({
+                          ...formData,
+                          [name]: trimmedValue,
+                        });
+                      }}
                     />
                   </div>
 

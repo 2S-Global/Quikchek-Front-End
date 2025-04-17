@@ -10,7 +10,8 @@ import {
   Legend,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
-import { faker } from "@faker-js/faker";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 ChartJS.register(
   CategoryScale,
@@ -22,9 +23,8 @@ ChartJS.register(
   Legend
 );
 
-export const options = {
+const options = {
   responsive: true,
-
   plugins: {
     legend: {
       display: false,
@@ -32,61 +32,90 @@ export const options = {
     title: {
       display: false,
     },
-
-    tooltips: {
-      position: "nearest",
+    tooltip: {
       mode: "index",
       intersect: false,
-      yPadding: 10,
-      xPadding: 10,
-      caretSize: 4,
-      backgroundColor: "rgba(72, 241, 12, 1)",
-      borderColor: "rgb(255, 99, 132)",
-      backgroundColor: "#1967d2",
-      borderColor: "rgba(0,0,0,1)",
-      borderWidth: 4,
     },
   },
 };
 
-const labels = ["January", "February", "March", "April", "May", "June"];
-
-export const data = {
-  labels,
-  datasets: [
-    {
-      label: "Dataset",
-      data: labels.map(() => faker.number.int({ min: 100, max: 400 })),
-      borderColor: "#1967d2",
-      backgroundColor: "#1967d2",
-      data: [196, 132, 215, 362, 210, 252],
-      fill: false,
-    },
-  ],
-};
-
 const ProfileChart = () => {
+  const [chartData, setChartData] = useState({
+    labels: [],
+    datasets: [
+      {
+        label: "Total",
+        data: [],
+        borderColor: "#1967d2",
+        backgroundColor: "#1967d2",
+        fill: false,
+      },
+    ],
+  });
+
+  const apiurl = process.env.NEXT_PUBLIC_API_URL;
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem("Super_token");
+        const response = await axios.get(
+          `${apiurl}/api/dashboard/getMonthlyUserVerifications`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (response.data.success) {
+          const labels = response.data.data.map((item) => item.monthName);
+          const data = response.data.data.map((item) => item.total);
+
+          setChartData({
+            labels,
+            datasets: [
+              {
+                label: "Total",
+                data,
+                borderColor: "#1967d2",
+                backgroundColor: "#1967d2",
+                fill: false,
+              },
+            ],
+          });
+
+          setSuccess(true);
+        } else {
+          setSuccess(false);
+          setError(response.data.message || "Failed to load chart data");
+        }
+      } catch (err) {
+        setError(err.message || "Unexpected error");
+        setSuccess(false);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <div className="tabs-box">
       <div className="widget-title">
         <h4>Total Verification Statistics</h4>
-        <div className="chosen-outer">
-          {/* <!--Tabs Box--> */}
-          <select className="chosen-single form-select">
-            <option>Last 6 Months</option>
-            <option>Last 12 Months</option>
-            <option>Last 16 Months</option>
-            <option>Last 24 Months</option>
-            <option>Last 5 year</option>
-          </select>
-        </div>
+        <div className="chosen-outer"></div>
       </div>
-      {/* End widget top bar */}
 
       <div className="widget-content">
-        <Line options={options} data={data} />
+        {loading && <p>Loading chart...</p>}
+        {error && <p className="text-red-500">Error: {error}</p>}
+        {!loading && !error && <Line options={options} data={chartData} />}
       </div>
-      {/* End  profile chart */}
     </div>
   );
 };

@@ -1,9 +1,6 @@
+import CompanyProfile from "../../components/dashboard-pages/CopyrightFooter";
 const CopyrightFooter = () => {
-  return (
-    <div className="copyright-text">
-      <p>© {new Date().getFullYear()} Quikchek . All Right Reserved.</p>
-    </div>
-  );
+  return <CompanyProfile />;
 };
 
 export default CopyrightFooter;

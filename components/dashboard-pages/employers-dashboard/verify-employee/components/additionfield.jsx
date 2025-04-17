@@ -34,7 +34,7 @@ const Additionfield = ({ formData, setFormData }) => {
       try {
         setLoading(true);
         const res = await axios.post(
-          `${apiurl}/api/fields/list_fields_by_company`,
+          `${apiurl}/api/fields/get_all_company_fields`,
           null,
           {
             headers: { Authorization: `Bearer ${token}` },

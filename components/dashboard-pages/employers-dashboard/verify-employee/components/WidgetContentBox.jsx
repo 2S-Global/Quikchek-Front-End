@@ -35,7 +35,7 @@ const WidgetContentBox = () => {
     additionalfields: {},
     // uanname:null,
     uannumber: null,
-    plan_id: "",
+    plan: "",
   });
 
   const [validationErrors, setValidationErrors] = useState({});
@@ -342,7 +342,7 @@ const WidgetContentBox = () => {
         setApprovedFields(res.data.company || []);
         console.log("Approved Fields:", res.data.company);
       } catch (err) {
-        setError("Error fetching fields. Please try again.");
+        //       setError("Error fetching fields. Please try again.");
       } finally {
         setLoading(false);
       }

@@ -51,24 +51,6 @@ const WidgetContentBox = () => {
   const [availablePlans, setAvailablePlans] = useState([]);
 
   //fetch approved fields list
-  const fetchApprovedFields = async () => {
-    try {
-      setLoading(true);
-      const res = await axios.post(
-        `${apiurl}/api/fields/list_fields_by_company`,
-        null,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      setApprovedFields(res.data.company || []);
-      //  console.log("Approved Fields:", res.data.company);
-    } catch (err) {
-      setError("Error fetching fields. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
   /* /api/companyPackageRoute/getPackageByCompanyId */
 
   const fetchAvailablePlans = async () => {
@@ -91,7 +73,7 @@ const WidgetContentBox = () => {
   };
 
   useEffect(() => {
-    fetchApprovedFields();
+    /*   fetchApprovedFields(); */
     fetchAvailablePlans();
   }, []);
 
@@ -346,6 +328,26 @@ const WidgetContentBox = () => {
   const handlePlanChange = (e) => {
     const plan_id = e.target.value;
     console.log("Plan changed:", plan_id);
+
+    const fetchApprovedFields = async () => {
+      try {
+        setLoading(true);
+        const res = await axios.post(
+          `${apiurl}/api/fields/list_fields_by_company`,
+          { plan_id },
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        setApprovedFields(res.data.company || []);
+        console.log("Approved Fields:", res.data.company);
+      } catch (err) {
+        setError("Error fetching fields. Please try again.");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchApprovedFields();
   };
 
   const today = new Date();

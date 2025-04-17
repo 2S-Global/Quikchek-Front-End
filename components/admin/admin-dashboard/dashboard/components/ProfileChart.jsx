@@ -3,19 +3,22 @@ import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
+  BarElement,
   PointElement,
   LineElement,
   Title,
   Tooltip,
   Legend,
 } from "chart.js";
-import { Line } from "react-chartjs-2";
+import { Bar, Line } from "react-chartjs-2";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
+// Register both Bar and Line elements
 ChartJS.register(
   CategoryScale,
   LinearScale,
+  BarElement,
   PointElement,
   LineElement,
   Title,
@@ -46,8 +49,8 @@ const ProfileChart = () => {
       {
         label: "Total",
         data: [],
-        borderColor: "#1967d2",
         backgroundColor: "#1967d2",
+        borderColor: "#1967d2",
         fill: false,
       },
     ],
@@ -56,7 +59,7 @@ const ProfileChart = () => {
   const apiurl = process.env.NEXT_PUBLIC_API_URL;
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+  const [success, setSuccess] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -81,8 +84,8 @@ const ProfileChart = () => {
               {
                 label: "Total",
                 data,
-                borderColor: "#1967d2",
                 backgroundColor: "#1967d2",
+                borderColor: "#1967d2",
                 fill: false,
               },
             ],
@@ -102,7 +105,7 @@ const ProfileChart = () => {
     };
 
     fetchData();
-  }, []);
+  }, [apiurl]);
 
   return (
     <div className="tabs-box">
@@ -111,10 +114,16 @@ const ProfileChart = () => {
         <div className="chosen-outer"></div>
       </div>
 
-      <div className="widget-content">
+      <div className="widget-content space-y-6">
         {loading && <p>Loading chart...</p>}
         {error && <p className="text-red-500">Error: {error}</p>}
-        {!loading && !error && <Line options={options} data={chartData} />}
+
+        {!loading && !error && (
+          <>
+            <Bar options={options} data={chartData} />
+            <Line options={options} data={chartData} />
+          </>
+        )}
       </div>
     </div>
   );

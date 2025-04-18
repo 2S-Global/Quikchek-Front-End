@@ -78,14 +78,22 @@ const CopyrightFooter = () => {
 
           <div className="d-flex justify-content-center gap-3">
             <button
-              onClick={() => handleExternalLink("https://www.facebook.com")}
+              onClick={() =>
+                handleExternalLink(
+                  "https://www.facebook.com/profile.php?id=61575548305003"
+                )
+              }
               className="btn btn-outline-primary rounded-circle"
               aria-label="Facebook"
             >
               <FaFacebookF />
             </button>
             <button
-              onClick={() => handleExternalLink("https://www.linkedin.com")}
+              onClick={() =>
+                handleExternalLink(
+                  "https://www.linkedin.com/company/global-employability-information-services-india-limited/"
+                )
+              }
               className="btn btn-outline-primary rounded-circle"
               aria-label="LinkedIn"
             >

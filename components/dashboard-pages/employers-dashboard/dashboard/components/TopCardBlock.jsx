@@ -14,7 +14,32 @@ const TopCardBlock = () => {
   const [success, setSuccess] = useState(null);
   const token = localStorage.getItem("Admin_token");
 
-  const fetchData = async () => {};
+  const fetchData = async () => {
+    /* /api/dashboard/getTotalFrontend
+post  */
+    setLoading(true);
+    try {
+      const response = await axios.post(
+        `${apiurl}/api/dashboard/getTotalFrontend`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.data.success) {
+        setTotalpayments(response.data.totalTransactionAmount);
+        setTotalactiveverification(response.data.totalActiveVerification);
+        setTotalpendingverification(response.data.totalPendingVerifications);
+        setTotalplan(response.data.totalSelectedPlans);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+    setLoading(false);
+  };
 
   useEffect(() => {
     fetchData();

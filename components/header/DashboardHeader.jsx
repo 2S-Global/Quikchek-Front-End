@@ -47,12 +47,11 @@ const DashboardHeader = () => {
                 </Link>
               </div>
             </div>
-            {/* End .logo-box */}
-
-            {/*    <HeaderNavContent /> */}
-            {/* <!-- Main Menu End--> */}
           </div>
           {/* End .nav-outer */}
+          <p className="text-center text-muted fw-medium fs-5 ">
+            Post &amp; Accurate KYC Verification Platform
+          </p>
 
           <div className="outer-box">
             {/* End notification-icon */}

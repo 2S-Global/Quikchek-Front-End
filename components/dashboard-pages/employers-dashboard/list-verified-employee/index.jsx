@@ -25,8 +25,8 @@ const index = () => {
       {/* <!-- End User Sidebar Menu --> */}
 
       {/* <!-- Dashboard --> */}
-      <section className="user-dashboard">
-        <div className="dashboard-outer">
+      <section className="user-dashboard d-flex flex-column min-vh-100">
+        <div className="dashboard-outer flex-grow-1">
           <div className="row">
             <div className="col-lg-12">
               <div className="applicants-widget ls-widget">

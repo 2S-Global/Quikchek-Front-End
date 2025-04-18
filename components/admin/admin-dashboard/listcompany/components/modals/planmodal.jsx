@@ -138,8 +138,8 @@ const EditplanModal = ({ show, onClose, field }) => {
 
       setSuccess(response.data.message);
       setTimeout(() => {
-        window.location.reload();
-        router.push("/admin/listcompany");
+        //window.location.reload();
+        //  router.push("/admin/listcompany");
       }, 1000);
     } catch (err) {
       setError(

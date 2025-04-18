@@ -14,7 +14,7 @@ import { Bar, Line } from "react-chartjs-2";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-// Register both Bar and Line elements
+// Register chart components
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -29,12 +29,8 @@ ChartJS.register(
 const options = {
   responsive: true,
   plugins: {
-    legend: {
-      display: false,
-    },
-    title: {
-      display: false,
-    },
+    legend: { display: false },
+    title: { display: false },
     tooltip: {
       mode: "index",
       intersect: false,
@@ -43,87 +39,97 @@ const options = {
 };
 
 const ProfileChart = () => {
-  const [chartData, setChartData] = useState({
-    labels: [],
-    datasets: [
-      {
-        label: "Total",
-        data: [],
-        backgroundColor: "#1967d2",
-        borderColor: "#1967d2",
-        fill: false,
-      },
-    ],
-  });
-
   const apiurl = process.env.NEXT_PUBLIC_API_URL;
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState(false);
+
+  const [chartData, setChartData] = useState({
+    labels: [],
+    datasets: [],
+  });
+
+  const [lineChartData, setLineChartData] = useState({
+    labels: [],
+    datasets: [],
+  });
+
+  const fetchChartData = async (endpoint, setData) => {
+    try {
+      const token = localStorage.getItem("Super_token");
+      const response = await axios.get(`${apiurl}${endpoint}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (!response.data?.success) {
+        throw new Error(response.data?.message || "Failed to fetch chart data");
+      }
+
+      const labels = response.data.data.map((item) => item.monthName);
+      const data = response.data.data.map((item) => item.total);
+
+      setData({
+        labels,
+        datasets: [
+          {
+            label: "Total",
+            data,
+            backgroundColor: "#1967d2",
+            borderColor: "#1967d2",
+            fill: false,
+          },
+        ],
+      });
+    } catch (err) {
+      setError(err.message || "Unexpected error");
+    }
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const token = localStorage.getItem("Super_token");
-        const response = await axios.get(
-          `${apiurl}/api/dashboard/getMonthlyUserVerifications`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        if (response.data.success) {
-          const labels = response.data.data.map((item) => item.monthName);
-          const data = response.data.data.map((item) => item.total);
-
-          setChartData({
-            labels,
-            datasets: [
-              {
-                label: "Total",
-                data,
-                backgroundColor: "#1967d2",
-                borderColor: "#1967d2",
-                fill: false,
-              },
-            ],
-          });
-
-          setSuccess(true);
-        } else {
-          setSuccess(false);
-          setError(response.data.message || "Failed to load chart data");
-        }
-      } catch (err) {
-        setError(err.message || "Unexpected error");
-        setSuccess(false);
-      } finally {
-        setLoading(false);
-      }
+    const fetchAll = async () => {
+      setLoading(true);
+      await Promise.all([
+        fetchChartData(
+          "/api/dashboard/getMonthlyUserVerifications",
+          setChartData
+        ),
+        fetchChartData("/api/dashboard/getMonthlyUsers", setLineChartData),
+      ]);
+      setLoading(false);
     };
 
-    fetchData();
+    fetchAll();
   }, [apiurl]);
 
   return (
-    <div className="tabs-box">
-      <div className="widget-title">
-        <h4>Total Verification Statistics</h4>
-        <div className="chosen-outer"></div>
+    <div className="row">
+      <div className="tabs-box col-md-6">
+        <div className="widget-title">
+          <h4>Total Verification Statistics</h4>
+        </div>
+        <div className="widget-content space-y-6">
+          {loading ? (
+            <p>Loading chart...</p>
+          ) : error ? (
+            <p className="text-red-500">Error: {error}</p>
+          ) : (
+            <Bar options={options} data={chartData} />
+          )}
+        </div>
       </div>
 
-      <div className="widget-content space-y-6">
-        {loading && <p>Loading chart...</p>}
-        {error && <p className="text-red-500">Error: {error}</p>}
-
-        {!loading && !error && (
-          <>
-            <Bar options={options} data={chartData} />
-            <Line options={options} data={chartData} />
-          </>
-        )}
+      <div className="tabs-box col-md-6">
+        <div className="widget-title">
+          <h4>Total User Statistics</h4>
+        </div>
+        <div className="widget-content space-y-6">
+          {loading ? (
+            <p>Loading chart...</p>
+          ) : error ? (
+            <p className="text-red-500">Error: {error}</p>
+          ) : (
+            <Line options={options} data={lineChartData} />
+          )}
+        </div>
       </div>
     </div>
   );

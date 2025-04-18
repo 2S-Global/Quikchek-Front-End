@@ -10,6 +10,7 @@ import { usePathname } from "next/navigation";
 
 const DashboardHeader = () => {
   const [navbar, setNavbar] = useState(false);
+  const name = localStorage.getItem("Admin_name");
 
   const changeBackground = () => {
     if (window.scrollY >= 0) {
@@ -72,7 +73,7 @@ const DashboardHeader = () => {
                   width={50}
                   height={50}
                 />
-                <span className="name">My Account</span>
+                <span className="name">{name}</span>
               </a>
 
               <ul className="dropdown-menu">

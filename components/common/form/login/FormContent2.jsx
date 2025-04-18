@@ -72,9 +72,11 @@ const FormContent2 = () => {
 
       if (role == "1") {
         localStorage.setItem("Admin_token", token);
+        localStorage.setItem("Admin_name", response.data.data.name);
         router.push("/dashboard");
       } else if (role == "0") {
         localStorage.setItem("Super_token", token);
+        localStorage.setItem("Super_name", response.data.data.name);
         router.push("/admin/dashboard");
       }
     } catch (err) {

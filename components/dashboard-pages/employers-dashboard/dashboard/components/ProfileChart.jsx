@@ -64,7 +64,7 @@ const ProfileChart = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const token = localStorage.getItem("Super_token");
+        const token = localStorage.getItem("Admin_token");
         const response = await axios.get(
           `${apiurl}/api/dashboard/getMonthlyUserVerificationsFrontend`,
           {

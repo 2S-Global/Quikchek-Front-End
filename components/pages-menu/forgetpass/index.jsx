@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import MessageComponent from "@/components/common/ResponseMsg";
@@ -44,40 +45,46 @@ const Index = () => {
 
   return (
     <>
-      <div className="login-section">
+      <div className="login-section" style={{ backgroundColor: "#EBE8E2" }}>
         <div
-          className="image-layer"
-          style={{ backgroundImage: "url(/images/background/12.jpg)" }}
-        ></div>
-        <div className="outer-box">
-          <div className="login-form default-form">
-            <div className="form-inner">
-              <h3>Forgot Password</h3>
-              <MessageComponent error={error} success={success} />
-              <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                  <label htmlFor="email">Email Address</label>
-                  <input
-                    type="email"
-                    name="email"
-                    placeholder="Enter your email address"
-                    required
-                    value={formData.email}
-                    onChange={handleChange}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <button
-                    className="theme-btn btn-style-one"
-                    type="submit"
-                    disabled={loading}
-                  >
-                    {loading ? "Submitting..." : "Submit"}
-                  </button>
-                </div>
-              </form>
+          className="login-form default-form"
+          style={{ backgroundColor: "#FFFFFF" }}
+        >
+          <div className="form-inner pb-4">
+            <div className="mb-3 d-flex justify-content-center pb-4 pt-4">
+              <Image
+                alt="brand"
+                src="/images/logo.png"
+                width={214}
+                height={70}
+                priority
+              />
             </div>
+            <h3>Forgot Password</h3>
+            <MessageComponent error={error} success={success} />
+            <form onSubmit={handleSubmit}>
+              <div className="form-group">
+                <label htmlFor="email">Email Address</label>
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Enter your email address"
+                  required
+                  value={formData.email}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="form-group">
+                <button
+                  className="theme-btn btn-style-one"
+                  type="submit"
+                  disabled={loading}
+                >
+                  {loading ? "Submitting..." : "Submit"}
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>

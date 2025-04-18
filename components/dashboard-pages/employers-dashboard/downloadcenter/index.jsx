@@ -27,8 +27,8 @@ const index = () => {
       {/* <!-- End User Sidebar Menu --> */}
 
       {/* <!-- Dashboard --> */}
-      <section className="user-dashboard">
-        <div className="dashboard-outer">
+      <section className="user-dashboard d-flex flex-column min-vh-100">
+        <div className="dashboard-outer flex-grow-1">
           {/* <BreadCrumb title="Verified Employee List!" />
 
 

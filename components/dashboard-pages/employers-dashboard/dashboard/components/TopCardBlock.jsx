@@ -3,10 +3,10 @@ import axios from "axios";
 
 import { useState, useEffect } from "react";
 const TopCardBlock = () => {
-  const [totalpayments, setTotalpayments] = useState(10);
-  const [totalactiveverification, setTotalactiveverification] = useState(12);
-  const [totalpendingverification, setTotalpendingverification] = useState(2);
-  const [totalplan, setTotalplan] = useState(5);
+  const [totalpayments, setTotalpayments] = useState(0);
+  const [totalactiveverification, setTotalactiveverification] = useState(0);
+  const [totalpendingverification, setTotalpendingverification] = useState(0);
+  const [totalplan, setTotalplan] = useState(0);
 
   const apiurl = process.env.NEXT_PUBLIC_API_URL;
   const [loading, setLoading] = useState(true);

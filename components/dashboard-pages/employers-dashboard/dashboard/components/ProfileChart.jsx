@@ -66,7 +66,7 @@ const ProfileChart = () => {
       try {
         const token = localStorage.getItem("Super_token");
         const response = await axios.get(
-          `${apiurl}/api/dashboard/getMonthlyUserVerifications`,
+          `${apiurl}/api/dashboard/getMonthlyUserVerificationsFrontend`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

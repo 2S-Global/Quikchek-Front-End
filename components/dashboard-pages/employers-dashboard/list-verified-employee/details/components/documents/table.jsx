@@ -51,8 +51,34 @@ export const DocumentsTable = ({ user, handleclick }) => {
               </td>
             ))}
             <td className="py-3">
-              {/* this should download the pdf */}
-              <FileText className="text-primary cursor-pointer" size={20} />
+              <FileText
+                className="text-primary cursor-pointer"
+                size={20}
+                onClick={async () => {
+                  const fileUrl =
+                    "https://res.cloudinary.com/da4unxero/raw/upload/v1745228849/user_pdfs/user_67fd02d36b16e7a74feff539.pdf";
+                  const fileName = "user_document.pdf";
+
+                  try {
+                    const response = await fetch(fileUrl);
+                    const blob = await response.blob();
+                    const url = window.URL.createObjectURL(blob);
+
+                    const link = document.createElement("a");
+                    link.href = url;
+                    link.download = fileName;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+
+                    // Clean up the blob URL
+                    window.URL.revokeObjectURL(url);
+                  } catch (error) {
+                    console.error("Download failed:", error);
+                    alert("Failed to download file.");
+                  }
+                }}
+              />
             </td>
           </tr>
         </tbody>

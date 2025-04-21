@@ -39,7 +39,7 @@ const WidgetContentBox = () => {
     licensenumdoc: null,
     passportdoc: null,
     additionalfields: {},
-    // uanname:null,
+    uanname: null,
     uannumber: null,
     plan: "",
   });
@@ -742,25 +742,26 @@ const WidgetContentBox = () => {
               disabled={!approvedFields.EPIC}
             />
 
-            {/*  <div className="row">
-            <div className="form-group col-lg-4 col-md-4 d-flex flex-column">
-              <label>UAN</label>
-              <input
-                type="text"
-                name="uannumber"
-                placeholder="Enter UAN"
-                className="form-control"
-                value={formData.uannumber || ""}
-                onChange={handleChange}
-                    onfieldValidation={handleValidation}
-              />
-              {validationErrors.uannumber && (
-                <small className="text-danger">
-                  {validationErrors.uannumber}
-                </small>
-              )}
+            <div className="row">
+              <div className="form-group col-lg-4 col-md-4 d-flex flex-column">
+                <label>UAN (Currently Unavailable)</label>
+                <input
+                  type="text"
+                  name="uannumber"
+                  placeholder="Currently Unavailable"
+                  className="form-control"
+                  value={formData.uannumber || ""}
+                  /* onChange={handleChange}
+                  onfieldValidation={handleValidation} */
+                  readOnly
+                />
+                {validationErrors.uannumber && (
+                  <small className="text-danger">
+                    {validationErrors.uannumber}
+                  </small>
+                )}
+              </div>
             </div>
-          </div> */}
             {/* Submit Button */}
             <div className="form-group">
               <div className="form-check mb-3">

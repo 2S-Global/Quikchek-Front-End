@@ -35,13 +35,13 @@ module.exports = [
     routePath: "/search-employee",
     active: "",
   },
-  {
+  /*   {
     id: 10,
     name: "Verified Employee",
     icon: "la-user-check",
     routePath: "/list-verified-employee",
     active: "",
-  },
+  }, */
   {
     id: 11,
     name: "Download Center",

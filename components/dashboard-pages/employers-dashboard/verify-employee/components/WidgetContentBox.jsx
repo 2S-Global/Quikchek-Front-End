@@ -743,7 +743,10 @@ const WidgetContentBox = () => {
             />
 
             <div className="row">
-              <div className="form-group col-lg-4 col-md-4 d-flex flex-column">
+              <div
+                className="form-group col-lg-4 col-md-4 d-flex flex-column"
+                disabled
+              >
                 <label>UAN (Feature coming soon)</label>
                 <input
                   type="text"

@@ -744,11 +744,11 @@ const WidgetContentBox = () => {
 
             <div className="row">
               <div className="form-group col-lg-4 col-md-4 d-flex flex-column">
-                <label>UAN (Currently Unavailable)</label>
+                <label>UAN (Feature coming soon)</label>
                 <input
                   type="text"
                   name="uannumber"
-                  placeholder="Currently Unavailable"
+                  placeholder="Feature coming soon"
                   className="form-control"
                   value={formData.uannumber || ""}
                   /* onChange={handleChange}

@@ -51,15 +51,11 @@ const DashboardHeader = () => {
           {/* End .nav-outer */}
           <p
             className="text-center fw-large"
-            style={{
-              color: "rgb(34,73,144)",
-              fontSize: "2.0rem",
-              textTransform: "uppercase",
-              textDecoration: "underline",
-              textDecorationColor: "rgb(237,58,62)",
-            }}
+            style={{ color: "rgb(34,73,144)", fontSize: "2.3rem" }}
           >
-            Fast &amp; Accurate KYC Verification Platform
+            Fast &amp; Accurate{" "}
+            <span style={{ color: "rgb(237,58,62)" }}>KYC</span> Verification
+            Platform
           </p>
 
           <div className="outer-box">

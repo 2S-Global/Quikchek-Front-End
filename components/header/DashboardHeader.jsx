@@ -49,8 +49,11 @@ const DashboardHeader = () => {
             </div>
           </div>
           {/* End .nav-outer */}
-          <p className="text-center text-muted fw-medium fs-5 ">
-            Post &amp; Accurate KYC Verification Platform
+          <p
+            className="text-center fw-large"
+            style={{ color: "rgb(34,73,144)", fontSize: "2.5rem" }}
+          >
+            Fast &amp; Accurate KYC Verification Platform
           </p>
 
           <div className="outer-box">

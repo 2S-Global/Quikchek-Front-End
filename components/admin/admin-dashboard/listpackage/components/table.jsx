@@ -213,7 +213,7 @@ const Companytable = () => {
                               onClick={() => openModalRH(company)}
                               size={20}
                             />
-                            <Settings
+                            {/* <Settings
                               className="text-secondary"
                               style={{ cursor: "pointer" }}
                               size={20}
@@ -222,7 +222,7 @@ const Companytable = () => {
                                   `/admin/company-setting?id=${company._id}`
                                 )
                               }
-                            />
+                            /> */}
                             <Trash2
                               size={20}
                               className="text-danger"

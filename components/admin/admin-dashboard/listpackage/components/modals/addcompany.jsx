@@ -136,7 +136,7 @@ const AddCompanyModal = ({ show, onClose }) => {
                       />
                     </div>
                   </div>
-                  <div className="mb-3 col-md-6">
+                  {/*     <div className="mb-3 col-md-6">
                     <label className="form-label" htmlFor="expiryDate">
                       Validity Days
                     </label>
@@ -166,7 +166,7 @@ const AddCompanyModal = ({ show, onClose }) => {
                         });
                       }}
                     />
-                  </div>
+                  </div> */}
 
                   <div className="mb-3 col-md-6">
                     <label htmlFor="description" className="form-label">

@@ -151,7 +151,7 @@ const EditfieldModal = ({ show, onClose, field }) => {
                     onChange={handleChange}
                   />
                 </div>
-                <div className="mb-3 col-md-6">
+                {/* <div className="mb-3 col-md-6">
                   <label className="form-label" htmlFor="expiryDate">
                     Validity Days
                   </label>
@@ -181,7 +181,7 @@ const EditfieldModal = ({ show, onClose, field }) => {
                       });
                     }}
                   />
-                </div>
+                </div> */}
 
                 <div className="mb-3 col-md-6">
                   <label className="form-label">Description</label>

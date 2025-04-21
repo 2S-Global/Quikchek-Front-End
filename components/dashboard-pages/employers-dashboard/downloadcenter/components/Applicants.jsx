@@ -99,6 +99,42 @@ const Applicants = () => {
     );
   };
 
+  const RenderOverall = (overallstatus) => {
+    const status = overallstatus?.toLowerCase();
+
+    switch (status) {
+      case "processing":
+        return (
+          <span
+            title="Processing"
+            style={{ color: "#FFA500", fontWeight: "bold" }}
+          >
+            Processing
+          </span>
+        );
+
+      case "verified":
+        return (
+          <span
+            title="Verified"
+            style={{ color: "#28a745", fontWeight: "bold" }}
+          >
+            Verified
+          </span>
+        );
+
+      default:
+        return (
+          <span
+            title="Unknown"
+            style={{ color: "#6c757d", fontWeight: "bold" }}
+          >
+            Unknown
+          </span>
+        );
+    }
+  };
+
   // DataTable columns configuration
   const columns = [
     {
@@ -112,9 +148,8 @@ const Applicants = () => {
       sortable: true,
     },
     {
-      name: "Mobile",
-      selector: (row) => row.candidate_mobile,
-      sortable: true,
+      name: "Overall Status",
+      selector: (row) => RenderOverall(row.status),
     },
     {
       name: "PAN Status",

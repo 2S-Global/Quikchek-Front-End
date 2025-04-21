@@ -77,7 +77,9 @@ const DashboardHeader = () => {
                   width={50}
                   height={50}
                 />
-                <span className="name">{name}</span>
+                <span className="name">
+                  {name.length > 10 ? name.substring(0, 10) + "..." : name}
+                </span>
               </a>
 
               <ul className="dropdown-menu">

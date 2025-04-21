@@ -335,7 +335,6 @@ const AddCompanyModal = ({ show, onClose }) => {
                       name="gst_no"
                       className={`form-control ${gstError ? "is-invalid" : ""}`}
                       placeholder="GST Number"
-                      required
                       value={formData.gst_no}
                       onChange={handleChange}
                       onBlur={(e) => {

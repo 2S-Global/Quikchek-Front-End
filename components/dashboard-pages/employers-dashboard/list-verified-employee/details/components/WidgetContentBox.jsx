@@ -92,7 +92,7 @@ const WidgetContentBox = () => {
   return (
     <div className="widget-content p-4 border rounded shadow-sm bg-white">
       <h4 className="mb-3 text-primary">
-        User Information
+        Candidate Information
         <small style={{ fontSize: "12px", color: "black" }}>
           {" "}
           ( Order ID:{user?.order_id} )
@@ -123,7 +123,17 @@ const WidgetContentBox = () => {
               <small style={{ fontSize: "12px", color: "black" }}>
                 {" "}
                 ( Verified at:{" "}
-                {new Date(user.createdAt).toLocaleDateString("en-GB")} )
+                {new Date(user.createdAt).toLocaleString("en-IN", {
+                  timeZone: "Asia/Kolkata",
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  second: "2-digit",
+                  hour12: true, // for AM/PM, optional
+                })}{" "}
+                )
               </small>
             </h4>
 

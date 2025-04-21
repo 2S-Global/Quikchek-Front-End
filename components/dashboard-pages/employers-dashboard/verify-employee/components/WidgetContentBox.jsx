@@ -13,6 +13,8 @@ import Additionfield from "./additionfield";
 import TermsModal from "../../footermodal/termsmodal";
 
 const WidgetContentBox = () => {
+  const company_name = localStorage.getItem("Admin_name");
+
   const [showTermsModal, setShowTermsModal] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -390,14 +392,14 @@ const WidgetContentBox = () => {
               errorId={errorId}
             />
             <div className="row">
-              <div className="col-lg-12 col-md-12">
+              {/* <div className="col-lg-12 col-md-12">
                 <h5
                   className="text-center mb-2"
                   style={{ textDecoration: "underline" }}
                 >
                   Personal Details
                 </h5>
-              </div>
+              </div> */}
 
               {/* Full Name */}
               <div className="form-group col-lg-4 col-md-4 d-flex flex-column">
@@ -770,7 +772,9 @@ const WidgetContentBox = () => {
                   onChange={handleCheckboxChange}
                 />
                 <label className="form-check-label" htmlFor="termsCheck">
-                  I agree to the{" "}
+                  This KYC verification is being done as per the request from "
+                  {company_name}". The result is not for any promotional &
+                  commercial purposes. I agree to all{" "}
                   <span
                     style={{ textDecoration: "underline", cursor: "pointer" }}
                     onClick={handleShowTermsModal}

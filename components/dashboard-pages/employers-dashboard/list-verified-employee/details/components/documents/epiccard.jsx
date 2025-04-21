@@ -113,7 +113,7 @@ const EpicDetails = ({ user }) => {
           </div>
 
           {/* Polling Booth Details */}
-          <div className="mb-2">
+          {/*  <div className="mb-2">
             <h5 className="fw-bold">Polling Booth Details</h5>
             <div className="d-flex align-items-center mb-1">
               <span className="fw-bold me-2">Polling Booth:</span>
@@ -136,7 +136,6 @@ const EpicDetails = ({ user }) => {
                 {epicResult?.serial_number_applicable_part || "N/A"}
               </span>
             </div>
-            {/* Last Updated */}
             <div className="d-flex align-items-center mb-1">
               <span className="fw-bold me-2">Last Updated:</span>
               <span className="text-break">
@@ -151,12 +150,12 @@ const EpicDetails = ({ user }) => {
                         minute: "2-digit",
                         second: "2-digit",
                         hour12: true,
-                      },
+                      }
                     )
                   : "N/A"}
               </span>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

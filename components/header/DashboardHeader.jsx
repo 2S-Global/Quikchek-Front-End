@@ -51,7 +51,13 @@ const DashboardHeader = () => {
           {/* End .nav-outer */}
           <p
             className="text-center fw-large"
-            style={{ color: "rgb(34,73,144)", fontSize: "2.5rem" }}
+            style={{
+              color: "rgb(34,73,144)",
+              fontSize: "2.0rem",
+              textTransform: "uppercase",
+              textDecoration: "underline",
+              textDecorationColor: "rgb(237,58,62)",
+            }}
           >
             Fast &amp; Accurate KYC Verification Platform
           </p>

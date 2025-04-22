@@ -21,38 +21,44 @@ const Applicants = () => {
   const [error, setError] = useState(null);
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-  useEffect(() => {
-    const fetchCandidates = async () => {
-      try {
-        const token = localStorage.getItem("Admin_token");
-        if (!token) {
-          console.error("Error: No token found in localStorage");
-          setError("Unauthorized: No token found");
-          setLoading(false);
-          return;
-        }
-
-        const response = await axios.post(
-          `${API_URL}/api/usercart/getPaidUserVerificationCartByEmployer`,
-          {},
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
-        setCandidates(response.data.data); // ✅ This sets only the actual array
-      } catch (error) {
-        console.error(
-          "Error fetching candidates:",
-          error.response?.data || error
-        );
-        setError(error.response?.data?.message || "Internal Server Error");
-      } finally {
+useEffect(() => {
+  const fetchCandidates = async () => {
+    try {
+      const token = localStorage.getItem("Admin_token");
+      if (!token) {
+        console.error("Error: No token found in localStorage");
+        setError("Unauthorized: No token found");
         setLoading(false);
+        return;
       }
-    };
 
+      const response = await axios.post(
+        `${API_URL}/api/usercart/getPaidUserVerificationCartByEmployer`,
+        {},
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      setCandidates(response.data.data);
+    } catch (error) {
+      console.error("Error fetching candidates:", error.response?.data || error);
+      setError(error.response?.data?.message || "Internal Server Error");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Call immediately when component mounts
+  fetchCandidates();
+
+  // Then run every 60 seconds
+  const interval = setInterval(() => {
     fetchCandidates();
-  }, [API_URL]);
+  }, 60000);
+
+  // Clear interval when component unmounts
+  return () => clearInterval(interval);
+}, [API_URL]);
 
   const handleDownload = async (fileUrl) => {
     if (!fileUrl) {
@@ -116,10 +122,10 @@ const Applicants = () => {
       case "verified":
         return (
           <span
-            title="Verified"
+            title="Completed"
             style={{ color: "#28a745", fontWeight: "bold" }}
           >
-            Verified
+            Completed
           </span>
         );
 

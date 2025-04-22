@@ -145,6 +145,7 @@ const PaymentDetails = () => {
   };
 
   const handlePaymentSuccess = async (response, pay, pids) => {
+    setLoading(true);
     try {
       const paymentResponse = await axios.post(
         `${apiurl}/api/verify/paynow`,
@@ -167,10 +168,12 @@ const PaymentDetails = () => {
           "Your payment has been successfully processed. An invoice will be sent to your registered email shortly."
         );
         setPayments([]);
+        setLoading(false);
 
+        // Redirect to the download center after a 5-second delay
         setTimeout(() => {
           router.push("/download-center");
-        }, 5000); // 5-second delay
+        }, 5000);
       }
     } catch (err) {
       setError("Error processing payment. Please try again.");
@@ -203,7 +206,8 @@ const PaymentDetails = () => {
     }
   };
 
-  if (loading) return <p className="text-center">Loading...</p>;
+  if (loading) return;
+  <p className="text-center">Loading...</p>;
 
   const paymentIdsString = payments.map((payment) => payment.id).join(", ");
   console.log("Payment IDs:", paymentIdsString);

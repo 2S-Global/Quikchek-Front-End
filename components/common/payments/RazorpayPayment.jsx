@@ -34,7 +34,7 @@ const RazorpayPayment = ({ amount, razorpayKey, onSuccess, paymentIds }) => {
       key: razorpayKey,
       amount: amount * 100, // Convert INR to paise
       currency: "INR",
-      name: "E2 Score",
+      name: "Quikchek",
       description: "Payment for Verification",
       handler: function (response) {
         // alert("Payment successful! Payment ID: " + response.razorpay_payment_id);

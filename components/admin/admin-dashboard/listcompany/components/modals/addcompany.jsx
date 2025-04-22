@@ -157,6 +157,23 @@ const AddCompanyModal = ({ show, onClose }) => {
       setError("Token not found. Please log in again.");
       return;
     }
+    try {
+      const invite = await axios.post(
+        `${apiurl}/api/invite/invite`,
+        {
+          email: formData.email,
+          name: formData.name,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log("invite response", invite);
+    } catch (err) {
+      setError(err.invite?.data?.message || "Invite failed. Try again.");
+    }
 
     try {
       const response = await axios.post(

@@ -116,10 +116,10 @@ const Applicants = () => {
       case "verified":
         return (
           <span
-            title="Verified"
+            title="Completed"
             style={{ color: "#28a745", fontWeight: "bold" }}
           >
-            Verified
+            Completed
           </span>
         );
 

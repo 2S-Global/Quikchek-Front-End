@@ -21,7 +21,8 @@ const Applicants = () => {
   const [error, setError] = useState(null);
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-  useEffect(() => {
+ useEffect(() => {
+  const timer = setTimeout(() => {
     const fetchCandidates = async () => {
       try {
         const token = localStorage.getItem("Admin_token");
@@ -39,7 +40,7 @@ const Applicants = () => {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
-        setCandidates(response.data.data); // ✅ This sets only the actual array
+        setCandidates(response.data.data);
       } catch (error) {
         console.error(
           "Error fetching candidates:",
@@ -52,7 +53,11 @@ const Applicants = () => {
     };
 
     fetchCandidates();
-  }, [API_URL]);
+  }, 60000); // 60,000 ms = 60 seconds
+
+  // Clear timeout if the component unmounts before the timeout completes
+  return () => clearTimeout(timer);
+}, [API_URL]);
 
   const handleDownload = async (fileUrl) => {
     if (!fileUrl) {

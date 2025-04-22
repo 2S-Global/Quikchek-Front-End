@@ -54,7 +54,7 @@ useEffect(() => {
   // Then run every 60 seconds
   const interval = setInterval(() => {
     fetchCandidates();
-  }, 60000);
+  }, 30000);
 
   // Clear interval when component unmounts
   return () => clearInterval(interval);

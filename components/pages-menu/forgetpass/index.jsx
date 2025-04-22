@@ -76,6 +76,17 @@ const Index = () => {
               </div>
 
               <div className="form-group">
+                <div className="d-flex justify-content-end">
+                  <a
+                    href="/"
+                    className="text-primary fw-medium text-decoration-none"
+                  >
+                    Login
+                  </a>
+                </div>
+              </div>
+
+              <div className="form-group">
                 <button
                   className="theme-btn btn-style-one"
                   type="submit"

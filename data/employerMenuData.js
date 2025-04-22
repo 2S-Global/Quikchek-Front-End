@@ -8,7 +8,7 @@ module.exports = [
   },
   {
     id: 6,
-    name: "Verify Employee",
+    name: "Verify Candidate",
     icon: "la-id-badge",
     routePath: "/verify-employee",
     active: "",
@@ -30,7 +30,7 @@ module.exports = [
   },
   {
     id: 9,
-    name: "Search Employee",
+    name: "Search Candidate",
     icon: "la-search",
     routePath: "/search-employee",
     active: "",

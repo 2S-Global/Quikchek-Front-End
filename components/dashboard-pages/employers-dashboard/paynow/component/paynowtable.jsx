@@ -163,8 +163,14 @@ const PaymentDetails = () => {
 
       /* if code 200 */
       if (paymentResponse.status === 200) {
-        setSuccess(paymentResponse.data.message);
-        router.push("/download-center");
+        setSuccess(
+          "Your payment has been successfully processed. An invoice will be sent to your registered email shortly."
+        );
+        setPayments([]);
+
+        setTimeout(() => {
+          router.push("/download-center");
+        }, 5000); // 5-second delay
       }
     } catch (err) {
       setError("Error processing payment. Please try again.");

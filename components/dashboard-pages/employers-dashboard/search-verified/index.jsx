@@ -34,7 +34,7 @@ const index = () => {
             <div className="col-lg-12">
               <div className="applicants-widget ls-widget">
                 <div className="widget-title">
-                  <h4>Search Employee Details</h4>
+                  <h4>Search Candidate Details</h4>
                   {/*  <WidgetToFilterBox /> */}
                   {/* Add a button */}
                 </div>

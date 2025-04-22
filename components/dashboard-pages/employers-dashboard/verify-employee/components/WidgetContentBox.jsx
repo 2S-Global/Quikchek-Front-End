@@ -380,7 +380,7 @@ const WidgetContentBox = () => {
       <div className="widget-content">
         <div className="col-lg-12 col-md-12 py-2">
           <h5>
-            <strong>Add Employee Details</strong>
+            <strong>Add Candidate Details</strong>
           </h5>
         </div>
 

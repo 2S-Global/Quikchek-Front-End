@@ -53,10 +53,14 @@ const DashboardHeader = () => {
             {/* <!-- Main Menu End--> */}
           </div>
           {/* End .nav-outer */}
-          <p className="text-center text-muted fw-medium fs-5 ">
-            Post &amp; Accurate KYC Verification Platform
+          <p
+            className="text-center fw-large"
+            style={{ color: "rgb(34,73,144)", fontSize: "2.3rem" }}
+          >
+            Fast &amp; Accurate{" "}
+            <span style={{ color: "rgb(237,58,62)" }}>KYC</span> Verification
+            Platform
           </p>
-
           <div className="outer-box">
             {/* End notification-icon */}
 

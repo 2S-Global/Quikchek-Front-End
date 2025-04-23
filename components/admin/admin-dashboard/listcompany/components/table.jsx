@@ -170,6 +170,7 @@ const Companytable = () => {
                     <th style={{ textAlign: "center" }}>Company Name</th>
                     <th style={{ textAlign: "center" }}>Company Email</th>
                     <th style={{ textAlign: "center" }}>Company Status</th>
+                    <th style={{ textAlign: "center" }}>Total Verification</th>
                     <th style={{ textAlign: "center" }}>Action</th>
                   </tr>
                 </thead>
@@ -209,6 +210,9 @@ const Companytable = () => {
                               {company.is_active ? "Active" : "Inactive"}
                             </label>
                           </div>
+                        </td>
+                        <td style={{ textAlign: "center" }}>
+                          {company.orderCount}
                         </td>
 
                         <td className="text-center">

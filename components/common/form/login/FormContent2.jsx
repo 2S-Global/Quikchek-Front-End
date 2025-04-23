@@ -90,7 +90,7 @@ const FormContent2 = () => {
     setShowPassword((prev) => !prev);
   };
   return (
-    <div className="form-inner pb-2">
+    <div className="form-inner pb-4">
       {/* image logo */}
       <div className="mb-3 d-flex justify-content-center pb-4 pt-4">
         <Image

@@ -10,7 +10,6 @@ const Index = () => {
       <div
         style={{
           backgroundColor: "#EBE8E2",
-          minHeight: "100vh",
           display: "flex",
           flexDirection: "column",
         }}

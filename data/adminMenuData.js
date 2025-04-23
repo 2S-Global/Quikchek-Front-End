@@ -20,6 +20,13 @@ module.exports = [
     routePath: "/admin/listpackage",
     active: "",
   },
+  {
+    id: 4,
+    name: "List Verified Candidate",
+    icon: "la-id-badge",
+    routePath: "/admin/listverified",
+    active: "",
+  },
   /*  {
     id: 15,
     name: "Logout",

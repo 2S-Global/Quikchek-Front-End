@@ -32,6 +32,11 @@ const Companytable = () => {
     document.body.style.overflow = "hidden"; // Disable background scrolling
     console.log("open modal plan");
   };
+  const openModalVL = (companydetails) => {
+    const id = companydetails._id;
+    console.log("open modal vl id :", id);
+    console.log("open modal vl details :", companydetails);
+  };
 
   const closeModalRH = () => {
     setIsModalOpen(false);
@@ -211,8 +216,26 @@ const Companytable = () => {
                             </label>
                           </div>
                         </td>
-                        <td style={{ textAlign: "center" }}>
-                          {company.orderCount}
+                        <td
+                          style={{
+                            textAlign: "center",
+                            cursor:
+                              company.orderCount > 0 ? "pointer" : "default",
+                            transition: "background-color 0.3s ease",
+                          }}
+                          onClick={() =>
+                            company.orderCount > 0 && openModalVL(company)
+                          }
+                          onMouseEnter={(e) => {
+                            if (company.orderCount > 0) {
+                              e.target.style.backgroundColor = "#c6f79a"; // Light gray on hover
+                            }
+                          }}
+                          onMouseLeave={(e) => {
+                            e.target.style.backgroundColor = ""; // Reset to default
+                          }}
+                        >
+                          {company.orderCount > 0 ? company.orderCount : 0}
                         </td>
 
                         <td className="text-center">

@@ -5,15 +5,6 @@ import { useEffect } from "react";
 import Link from "next/link";
 
 const Index = () => {
-  useEffect(() => {
-    // Allow scrolling
-    document.body.style.overflow = "auto";
-
-    return () => {
-      document.body.style.overflow = "auto";
-    };
-  }, []);
-
   return (
     <>
       <div
@@ -24,18 +15,17 @@ const Index = () => {
           flexDirection: "column",
         }}
       >
-        {/* Login Section */}
-        <div className="container my-auto py-3 flex-grow d-flex align-items-center justify-content-center">
+        <div className="login-section flex-grow">
           <div
-            className="login-form bg-white p-4 rounded shadow w-100"
-            style={{ maxWidth: "500px" }}
+            className="login-form default-form"
+            style={{ backgroundColor: "#FFFFFF" }}
           >
             <FormContent2 />
           </div>
         </div>
 
-        {/* Footer */}
-        <footer className="bg-light text-center text-muted py-3 mt-auto">
+        {/* Sticky Footer */}
+        <footer className="bg-light text-center text-muted py-3">
           <div className="container">
             <div className="d-flex flex-wrap justify-content-center gap-3 mb-2">
               <Link href="/" className="text-muted text-decoration-none">

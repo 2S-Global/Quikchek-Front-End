@@ -1,24 +1,39 @@
 const IntroDescriptions = () => {
   return (
     <div className="text-box">
-      <h4>About E²-Score</h4>
+      <h4>About QuikChek</h4>
       <p>
-        Far much that one rank beheld bluebird after outside ignobly allegedly
-        more when oh arrogantly vehement irresistibly fussy penguin insect
-        additionally wow absolutely crud meretriciously hastily dalmatian a
-        glowered inset one echidna cassowary some parrot and much as goodness
-        some froze the sullen much connected bat wonderfully on instantaneously
-        eel valiantly petted this along across highhandedly much.
+        QuikChek is a secure and reliable KYC verification platform developed by
+        2S Global Technologies Limited, designed to simplify and streamline the
+        KYC process for businesses and their clients. Our goal is to make
+        identity verification hassle-free while ensuring full compliance with
+        regulatory standards.
       </p>
       <p>
-        Repeatedly dreamed alas opossum but dramatically despite expeditiously
-        that jeepers loosely yikes that as or eel underneath kept and slept
-        compactly far purred sure abidingly up above fitting to strident wiped
-        set waywardly far the and pangolin horse approving paid chuckled
-        cassowary oh above a much opposite far much hypnotically more therefore
-        wasp less that hey apart well like while superbly orca and far hence
-        one.Far much that one rank beheld bluebird after outside ignobly
-        allegedly more when oh arrogantly vehement irresistibly fussy.
+        With QuikChek, businesses can initiate, manage, and monitor KYC
+        verifications through a user-friendly interface that prioritizes
+        accuracy, data security, and operational efficiency. Whether you're
+        onboarding new clients or verifying existing ones, our platform provides
+        a seamless experience from start to finish.
+      </p>
+      <p>
+        To facilitate smooth transactions, QuikChek is integrated with the
+        Razorpay payment gateway, allowing businesses to collect payments
+        directly from clients for each completed KYC verification. This
+        integration not only adds convenience but also supports a transparent,
+        pay-per-verification model that’s ideal for growing companies.
+      </p>
+      <p>
+        Built with scalability in mind, QuikChek empowers organizations of all
+        sizes to automate their verification processes while minimizing manual
+        errors and reducing turnaround time. Our system is regularly updated to
+        align with the latest compliance guidelines, giving our clients peace of
+        mind.
+      </p>
+      <p>
+        At QuikChek, we’re committed to delivering a trusted verification
+        experience that balances speed, security, and simplicity—all under one
+        powerful platform.
       </p>
     </div>
   );

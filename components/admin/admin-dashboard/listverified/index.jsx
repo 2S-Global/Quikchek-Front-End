@@ -3,7 +3,7 @@ import DashboardHeader from "../../../header/DashboardAdminheader";
 import DashboardEmployerSidebar from "../../../header/DashboardAdminsidebar";
 
 import CopyrightFooter from "../../CopyrightFooter";
-
+import Table from "./component/table";
 const Index = () => {
   return (
     <>
@@ -27,6 +27,7 @@ const Index = () => {
                   <div className="widget-title">
                     <h4>Verified Employee List</h4>
                   </div>
+                  <Table />
                   {/*     <Companytable /> */}
                 </div>
               </div>

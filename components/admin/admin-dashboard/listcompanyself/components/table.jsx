@@ -171,6 +171,7 @@ const Companytable = () => {
                     <th style={{ textAlign: "center" }}>Company Email</th>
                     <th style={{ textAlign: "center" }}>Required Services</th>
                     <th style={{ textAlign: "center" }}>Company Status</th>
+                    <th style={{ textAlign: "center" }}>Total Verification</th>
                     <th style={{ textAlign: "center" }}>Action</th>
                   </tr>
                 </thead>
@@ -212,6 +213,7 @@ const Companytable = () => {
                             </label>
                           </div>
                         </td>
+                               <td style={{ textAlign: "center" }}>{company.orderCount}</td>
 
                         <td className="text-center">
                           <div className="d-flex justify-content-center gap-3">

@@ -7,32 +7,12 @@ import TermsText from "./TermsText";
 const index = () => {
   return (
     <>
-      {/* <!-- Header Span --> */}
-      <span className="header-span"></span>
-
-      <LoginPopup />
-      {/* End Login Popup Modal */}
-
-      <DefaulHeader />
-      {/* <!--End Main Header --> */}
-
-      <MobileMenu />
-      {/* End MobileMenu */}
-
-      <section className="tnc-section">
+      <section className="about-section-three">
         <div className="auto-container">
-          <div className="sec-title text-center">
-            <h2>Terms and Conditions</h2>
-            <div className="text">Home / Terms and Conditions</div>
-          </div>
           {/* End sec-title */}
           <TermsText />
         </div>
       </section>
-      {/* <!-- End TNC Section --> */}
-
-      <FooterDefault footerStyle="alternate5" />
-      {/* <!-- End Main Footer --> */}
     </>
   );
 };

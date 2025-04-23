@@ -9,7 +9,12 @@ const IntroDescriptions = () => {
       }}
     >
       <p
-        style={{ fontSize: "1.5rem", fontWeight: "bold", marginBottom: "1rem" }}
+        style={{
+          fontSize: "1.5rem",
+          fontWeight: "bold",
+          marginBottom: "1rem",
+          color: "#000",
+        }}
       >
         Privacy Policy for QuikChek
       </p>

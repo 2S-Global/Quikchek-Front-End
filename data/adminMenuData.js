@@ -13,27 +13,29 @@ module.exports = [
     routePath: "/admin/listcompany",
     active: "",
   },
-  {
+
+      {
     id: 3,
+    name: "List Company Self",
+    icon: "la-file-alt",
+    routePath: "/admin/listcompanyself",
+    active: "",
+  },
+  {
+    id: 4,
     name: "List Packages",
     icon: "la-boxes",
     routePath: "/admin/listpackage",
     active: "",
   },
   {
-    id: 4,
+    id: 5,
     name: "List Verified Candidate",
     icon: "la-id-badge",
     routePath: "/admin/listverified",
     active: "",
   },
-    {
-    id: 5,
-    name: "List Company Self",
-    icon: "la-id-badge",
-    routePath: "/admin/listcompanyself",
-    active: "",
-  },
+
   /*  {
     id: 15,
     name: "Logout",

@@ -27,6 +27,13 @@ module.exports = [
     routePath: "/admin/listverified",
     active: "",
   },
+    {
+    id: 5,
+    name: "List Company Self",
+    icon: "la-id-badge",
+    routePath: "/admin/listcompanyself",
+    active: "",
+  },
   /*  {
     id: 15,
     name: "Logout",

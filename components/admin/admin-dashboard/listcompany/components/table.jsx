@@ -7,6 +7,7 @@ import MessageComponent from "@/components/common/ResponseMsg";
 import { Trash2, Settings, Pencil, PackageOpen } from "lucide-react";
 import EditfieldModal from "./modals/editfield";
 import EditplanModal from "./modals/planmodal";
+import VerifiedlistModal from "./modals/verifiedlistModal";
 const Companytable = () => {
   const apiurl = process.env.NEXT_PUBLIC_API_URL;
   const router = useRouter();
@@ -20,6 +21,7 @@ const Companytable = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalplanOpen, setIsModalplanOpen] = useState(false);
+  const [isModalvlOpen, setIsModalvlOpen] = useState(false);
 
   const openModalRH = (companydetails) => {
     setEditcompany(companydetails);
@@ -33,9 +35,15 @@ const Companytable = () => {
     console.log("open modal plan");
   };
   const openModalVL = (companydetails) => {
-    const id = companydetails._id;
-    console.log("open modal vl id :", id);
-    console.log("open modal vl details :", companydetails);
+    setEditcompany(companydetails);
+    setIsModalvlOpen(true);
+    document.body.style.overflow = "hidden"; // Disable background scrolling
+    console.log("open modal verified list");
+  };
+  const closeModalVL = () => {
+    setIsModalvlOpen(false);
+    document.body.style.overflow = "auto"; // Re-enable background scrolling
+    console.log("close modal verified list");
   };
 
   const closeModalRH = () => {
@@ -306,6 +314,14 @@ const Companytable = () => {
           show={isModalplanOpen}
           onClose={closeModalPlanRH}
           field={editcompany}
+        />
+      )}
+
+      {isModalvlOpen && (
+        <VerifiedlistModal
+          show={isModalvlOpen}
+          onClose={closeModalVL}
+          company={editcompany}
         />
       )}
     </>

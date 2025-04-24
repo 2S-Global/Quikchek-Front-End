@@ -5,33 +5,36 @@ const index = () => {
         <div className="auto-container max-w-3xl mx-auto px-4">
           <h1 className="text-2xl font-bold mb-4">QuikChek Pricing</h1>
           <p className="mb-4">
-            QuikChek offers flexible and dynamic pricing based on the type and
-            volume of KYC verification services required.
+            QuikChek, a product by 2S Global Technologies Limited, is your
+            trusted solution for instant and efficient KYC verification.
+            Designed to simplify and accelerate identity checks, QuikChek
+            ensures accuracy, compliance, and security—all in real time.
           </p>
-          <ul className="list-disc pl-6 mb-4">
-            <li>
-              Pricing depends on the verification type (Basic, Enhanced, etc.).
-            </li>
-            <li>Discounts may apply for bulk or enterprise-level requests.</li>
-            <li>
-              The final amount is shown before you make a payment via Razorpay.
-            </li>
-          </ul>
+
           <p className="mb-4">
-            For an accurate price, please use our platform to begin the
-            verification process. You'll see a detailed charge summary before
-            completing your payment.
+            We offer straightforward and competitive pricing to suit your needs.
+            Currently, each verification is charged at ₹100 plus 18% GST. This
+            includes instant access to our powerful KYC engine that delivers
+            fast results and integrates seamlessly into your systems.
           </p>
-          <p>
-            For custom pricing or enterprise inquiries, feel free to contact us
-            at{" "}
-            <a
-              href="mailto:info@geisil.com"
-              className="text-blue-600 underline"
-            >
-              info@geisil.com
-            </a>
-            .
+
+          <p className="mb-4">
+            Please note that pricing may vary depending on the specific services
+            selected and the volume of verifications required. We understand
+            that businesses have different needs, and we’re committed to
+            offering flexible and scalable pricing plans to meet them. Whether
+            you’re a startup or an enterprise, we have the right plan for you.
+          </p>
+
+          <p className="mb-4">
+            For custom requirements, high-volume usage, or additional
+            verification modules, please contact our sales team for a tailored
+            quote.
+          </p>
+
+          <p className="mb-4">
+            Choose QuikChek today for reliable and real-time KYC—because every
+            second counts.
           </p>
         </div>
       </section>

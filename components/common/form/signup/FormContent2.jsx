@@ -152,7 +152,7 @@ const FormContent2 = () => {
       setErrors({});
   
       setTimeout(() => {
-        router.push('/login'); // Redirect after 1.5s
+        router.push('/'); // Redirect after 1.5s
       }, 1500);
     } catch (err) {
       setError("An error occurred during registration.");

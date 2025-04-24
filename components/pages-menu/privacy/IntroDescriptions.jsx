@@ -30,7 +30,7 @@ const IntroDescriptions = () => {
 
       <ol style={{ paddingLeft: "1.5rem", marginTop: "1.5rem" }}>
         <li>
-          <strong>1. Information We Collect</strong>
+          <strong className="text-primary">1. Information We Collect</strong>
         </li>
       </ol>
 
@@ -88,7 +88,9 @@ const IntroDescriptions = () => {
 
       <ol start="2" style={{ paddingLeft: "1.5rem", marginTop: "1.5rem" }}>
         <li>
-          <strong>2. How We Use Your Information</strong>
+          <strong className="text-primary">
+            2. How We Use Your Information
+          </strong>
         </li>
       </ol>
 
@@ -132,7 +134,9 @@ const IntroDescriptions = () => {
 
       <ol start="3" style={{ paddingLeft: "1.5rem", marginTop: "1.5rem" }}>
         <li>
-          <strong>3. Information Sharing and Disclosure</strong>
+          <strong className="text-primary">
+            3. Information Sharing and Disclosure
+          </strong>
         </li>
       </ol>
 
@@ -167,7 +171,7 @@ const IntroDescriptions = () => {
 
       <ol start="4" style={{ paddingLeft: "1.5rem", marginTop: "1.5rem" }}>
         <li>
-          <strong>4. Data Retention</strong>
+          <strong className="text-primary">4. Data Retention</strong>
         </li>
       </ol>
 
@@ -180,7 +184,7 @@ const IntroDescriptions = () => {
 
       <ol start="5" style={{ paddingLeft: "1.5rem", marginTop: "1.5rem" }}>
         <li>
-          <strong>5. Security</strong>
+          <strong className="text-primary">5. Security</strong>
         </li>
       </ol>
 
@@ -198,7 +202,7 @@ const IntroDescriptions = () => {
 
       <ol start="6" style={{ paddingLeft: "1.5rem", marginTop: "1.5rem" }}>
         <li>
-          <strong>6. Your Rights</strong>
+          <strong className="text-primary">6. Your Rights</strong>
         </li>
       </ol>
 
@@ -239,7 +243,7 @@ const IntroDescriptions = () => {
 
       <ol start="7" style={{ paddingLeft: "1.5rem", marginTop: "1.5rem" }}>
         <li>
-          <strong>7. Third-Party Links</strong>
+          <strong className="text-primary">7. Third-Party Links</strong>
         </li>
       </ol>
 
@@ -252,7 +256,9 @@ const IntroDescriptions = () => {
 
       <ol start="8" style={{ paddingLeft: "1.5rem", marginTop: "1.5rem" }}>
         <li>
-          <strong>8. Changes to this Privacy Policy</strong>
+          <strong className="text-primary">
+            8. Changes to this Privacy Policy
+          </strong>
         </li>
       </ol>
 
@@ -266,7 +272,7 @@ const IntroDescriptions = () => {
 
       <ol start="9" style={{ paddingLeft: "1.5rem", marginTop: "1.5rem" }}>
         <li>
-          <strong>9. Contact Us</strong>
+          <strong className="text-primary">9. Contact Us</strong>
         </li>
       </ol>
 

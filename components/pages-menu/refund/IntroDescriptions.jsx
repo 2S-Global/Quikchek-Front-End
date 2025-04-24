@@ -28,7 +28,7 @@ const IntroDescriptions = () => {
 
       <ol style={{ paddingLeft: "1.5rem", marginTop: "1.5rem" }}>
         <li>
-          <strong>1. Service Description</strong>
+          <strong className="text-primary">1. Service Description</strong>
         </li>
       </ol>
       <p>
@@ -40,7 +40,7 @@ const IntroDescriptions = () => {
 
       <ol start="2" style={{ paddingLeft: "1.5rem", marginTop: "1.5rem" }}>
         <li>
-          <strong>2. Payment and Processing</strong>
+          <strong className="text-primary">2. Payment and Processing</strong>
         </li>
       </ol>
       <ul style={{ paddingLeft: "1.5rem" }}>
@@ -64,7 +64,7 @@ const IntroDescriptions = () => {
 
       <ol start="3" style={{ paddingLeft: "1.5rem", marginTop: "1.5rem" }}>
         <li>
-          <strong>3. Refund Conditions</strong>
+          <strong className="text-primary">3. Refund Conditions</strong>
         </li>
       </ol>
       <p>
@@ -98,7 +98,7 @@ const IntroDescriptions = () => {
 
       <ol start="4" style={{ paddingLeft: "1.5rem", marginTop: "1.5rem" }}>
         <li>
-          <strong>4. Non-Refundable Situations</strong>
+          <strong className="text-primary">4. Non-Refundable Situations</strong>
         </li>
       </ol>
       <p>
@@ -133,7 +133,7 @@ const IntroDescriptions = () => {
 
       <ol start="5" style={{ paddingLeft: "1.5rem", marginTop: "1.5rem" }}>
         <li>
-          <strong>5. Refund Process</strong>
+          <strong className="text-primary">5. Refund Process</strong>
         </li>
       </ol>
       <ul style={{ paddingLeft: "1.5rem" }}>
@@ -158,7 +158,7 @@ const IntroDescriptions = () => {
 
       <ol start="6" style={{ paddingLeft: "1.5rem", marginTop: "1.5rem" }}>
         <li>
-          <strong>6. Cancellation Policy</strong>
+          <strong className="text-primary">6. Cancellation Policy</strong>
         </li>
       </ol>
       <p>
@@ -168,7 +168,9 @@ const IntroDescriptions = () => {
 
       <ol start="7" style={{ paddingLeft: "1.5rem", marginTop: "1.5rem" }}>
         <li>
-          <strong>7. Changes to this Refund Policy</strong>
+          <strong className="text-primary">
+            7. Changes to this Refund Policy
+          </strong>
         </li>
       </ol>
       <p>
@@ -180,7 +182,7 @@ const IntroDescriptions = () => {
 
       <ol start="8" style={{ paddingLeft: "1.5rem", marginTop: "1.5rem" }}>
         <li>
-          <strong>8. Contact Us</strong>
+          <strong className="text-primary">8. Contact Us</strong>
         </li>
       </ol>
       <p>If you have any questions about this Refund Policy, contact us at:</p>

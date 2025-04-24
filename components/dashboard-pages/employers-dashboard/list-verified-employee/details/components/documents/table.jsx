@@ -9,7 +9,7 @@ export const DocumentsTable = ({ user, handleclick }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
-  const handleDownload = async (id) => {
+  const handleDownload = async (id, name) => {
     setLoading(true);
     setError(null);
     setSuccess(null);
@@ -25,7 +25,7 @@ export const DocumentsTable = ({ user, handleclick }) => {
       );
       const link = document.createElement("a");
       link.href = url;
-      link.setAttribute("download", `user_${id}.pdf`);
+      link.setAttribute("download", `${name}.pdf`);
       document.body.appendChild(link);
       link.click();
       link.remove();
@@ -98,7 +98,7 @@ export const DocumentsTable = ({ user, handleclick }) => {
                 <FileText
                   className="text-primary cursor-pointer"
                   size={20}
-                  onClick={() => handleDownload(user._id)}
+                  onClick={() => handleDownload(user._id, user.candidate_name)}
                 />
               )}
             </td>

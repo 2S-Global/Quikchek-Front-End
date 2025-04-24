@@ -130,6 +130,20 @@ const FormContent2 = () => {
   
     setLoading(true);
     try {
+      const invite = await axios.post(
+        `${apiurl}/api/invite/invite`,
+        {
+          email: formData.email,
+          name: formData.name,
+        },
+       
+      );
+      console.log("invite response", invite);
+    } catch (err) {
+      setError(err.invite?.data?.message || "Invite failed. Try again.");
+    }
+    
+    try {
       const response = await axios.post(`${apiurl}/api/auth/register-frontend`, formDataToSubmit);
       setSuccess("Registration successful!");
       setError(null);

@@ -7,6 +7,7 @@ import MessageComponent from "@/components/common/ResponseMsg";
 import { Trash2, Settings, Pencil, PackageOpen } from "lucide-react";
 import EditfieldModal from "./modals/editfield";
 import EditplanModal from "./modals/planmodal";
+import VerifiedlistModal from "../../listcompany/components/modals/verifiedlistModal";
 const Companytable = () => {
   const apiurl = process.env.NEXT_PUBLIC_API_URL;
   const router = useRouter();
@@ -20,7 +21,18 @@ const Companytable = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalplanOpen, setIsModalplanOpen] = useState(false);
-
+  const [isModalvlOpen, setIsModalvlOpen] = useState(false);
+  const openModalVL = (companydetails) => {
+    setEditcompany(companydetails);
+    setIsModalvlOpen(true);
+    document.body.style.overflow = "hidden"; // Disable background scrolling
+    console.log("open modal verified list");
+  };
+  const closeModalVL = () => {
+    setIsModalvlOpen(false);
+    document.body.style.overflow = "auto"; // Re-enable background scrolling
+    console.log("close modal verified list");
+  };
   const openModalRH = (companydetails) => {
     setEditcompany(companydetails);
     setIsModalOpen(true);
@@ -188,7 +200,9 @@ const Companytable = () => {
                         <td style={{ textAlign: "center" }}>{index + 1}</td>
                         <td style={{ textAlign: "center" }}>{company.name}</td>
                         <td style={{ textAlign: "center" }}>{company.email}</td>
-                        <td style={{ textAlign: "center" }}>{company.required_services}</td>
+                        <td style={{ textAlign: "center" }}>
+                          {company.required_services}
+                        </td>
                         <td style={{ textAlign: "center" }}>
                           <div className="form-check form-switch d-flex justify-content-center align-items-center">
                             <input
@@ -213,7 +227,27 @@ const Companytable = () => {
                             </label>
                           </div>
                         </td>
-                               <td style={{ textAlign: "center" }}>{company.orderCount}</td>
+                        <td
+                          style={{
+                            textAlign: "center",
+                            cursor:
+                              company.orderCount > 0 ? "pointer" : "default",
+                            transition: "background-color 0.3s ease",
+                          }}
+                          onClick={() =>
+                            company.orderCount > 0 && openModalVL(company)
+                          }
+                          onMouseEnter={(e) => {
+                            if (company.orderCount > 0) {
+                              e.target.style.backgroundColor = "#c6f79a"; // Light gray on hover
+                            }
+                          }}
+                          onMouseLeave={(e) => {
+                            e.target.style.backgroundColor = ""; // Reset to default
+                          }}
+                        >
+                          {company.orderCount > 0 ? company.orderCount : 0}
+                        </td>
 
                         <td className="text-center">
                           <div className="d-flex justify-content-center gap-3">
@@ -270,6 +304,13 @@ const Companytable = () => {
           show={isModalplanOpen}
           onClose={closeModalPlanRH}
           field={editcompany}
+        />
+      )}
+      {isModalvlOpen && (
+        <VerifiedlistModal
+          show={isModalvlOpen}
+          onClose={closeModalVL}
+          company={editcompany}
         />
       )}
     </>

@@ -331,15 +331,16 @@ const FormContent2 = () => {
 )}
         </div>
 
-        <div className="form-group">
-          <a href="/" className="pwd">Go to login</a>
-        </div>
+      <div className="form-group">
+  <button className="theme-btn btn-style-one" type="submit" disabled={loading}>
+    {loading ? "Registering..." : "Register"}
+  </button>
+</div>
 
-        <div className="form-group">
-          <button className="theme-btn btn-style-one" type="submit" disabled={loading}>
-            {loading ? "Registering..." : "Register"}
-          </button>
-        </div>
+{/* Login Link below */}
+<div className="form-group text-center mt-3">
+  <a href="/login" className="pwd">Returning User? Click Here to Login...</a>
+</div>
       </form>
     </div>
   );

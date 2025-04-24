@@ -339,7 +339,7 @@ const FormContent2 = () => {
 
 {/* Login Link below */}
 <div className="form-group text-center mt-3">
-  <a href="/login" className="pwd">Returning User? Click Here to Login...</a>
+  <a href="/" className="pwd">Returning User? Click Here to Login...</a>
 </div>
       </form>
     </div>

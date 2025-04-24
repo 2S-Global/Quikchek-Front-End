@@ -147,21 +147,28 @@ const FormContent2 = () => {
         </div>
 
         <div className="form-group">
-          <div className="field-outer">
-            <div className="input-group checkboxes square">
+          <div className="d-flex justify-content-between align-items-center mb-2">
+            <div className="form-check mb-0">
               <input
+                className="form-check-input"
                 type="checkbox"
                 name="rememberMe"
                 id="remember"
                 checked={formData.rememberMe}
                 onChange={handleChange}
               />
-              <label htmlFor="remember" className="remember">
-                <span className="custom-checkbox"></span> Remember me
+              <label className="form-check-label" htmlFor="remember">
+                Remember me
               </label>
             </div>
-            <a href="/forgot-password" className="pwd">
+            <a href="/forgot-password" className="">
               Forgot password?
+            </a>
+          </div>
+
+          <div className="text-end">
+            <a href="/signup" className="">
+              Don't have an account? Sign up
             </a>
           </div>
         </div>

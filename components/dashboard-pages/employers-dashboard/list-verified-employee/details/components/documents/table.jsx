@@ -1,8 +1,43 @@
 "use client"; // Required in Next.js App Router
-import React from "react";
+import React, { useState } from "react";
 import { BadgeAlert, BadgeCheck, FileText, OctagonAlert } from "lucide-react";
+import axios from "axios";
+import MessageComponent from "@/components/common/ResponseMsg";
+
 export const DocumentsTable = ({ user, handleclick }) => {
-  // Helper function to get the appropriate icon
+  const apiurl = process.env.NEXT_PUBLIC_API_URL;
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
+  const handleDownload = async (id) => {
+    setLoading(true);
+    setError(null);
+    setSuccess(null);
+    try {
+      const response = await axios.post(
+        `https://quikchek-backend.onrender.com/api/pdf/generate-pdf`,
+        { order_id: id },
+        { responseType: "blob" }
+      );
+
+      const url = window.URL.createObjectURL(
+        new Blob([response.data], { type: "application/pdf" })
+      );
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", `user_${id}.pdf`);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      setSuccess("PDF downloaded successfully!");
+    } catch (err) {
+      console.error("Error downloading PDF:", err);
+      setError("Failed to download PDF. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const getStatusIcon = (key) => {
     if (!user?.[key]) {
       return <OctagonAlert className="text-danger" size={20} />;
@@ -24,6 +59,7 @@ export const DocumentsTable = ({ user, handleclick }) => {
 
   return (
     <div className="table-responsive">
+      <MessageComponent error={error} success={success} />
       <table className="table table-bordered text-center align-middle">
         <thead className="table-light">
           <tr>
@@ -51,34 +87,20 @@ export const DocumentsTable = ({ user, handleclick }) => {
               </td>
             ))}
             <td className="py-3">
-              <FileText
-                className="text-primary cursor-pointer"
-                size={20}
-                onClick={async () => {
-                  const fileUrl =
-                    "https://res.cloudinary.com/da4unxero/raw/upload/v1745228849/user_pdfs/user_67fd02d36b16e7a74feff539.pdf";
-                  const fileName = "user_document.pdf";
-
-                  try {
-                    const response = await fetch(fileUrl);
-                    const blob = await response.blob();
-                    const url = window.URL.createObjectURL(blob);
-
-                    const link = document.createElement("a");
-                    link.href = url;
-                    link.download = fileName;
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-
-                    // Clean up the blob URL
-                    window.URL.revokeObjectURL(url);
-                  } catch (error) {
-                    console.error("Download failed:", error);
-                    alert("Failed to download file.");
-                  }
-                }}
-              />
+              {loading ? (
+                <div
+                  className="spinner-border spinner-border-sm text-primary"
+                  role="status"
+                >
+                  <span className="visually-hidden">Loading...</span>
+                </div>
+              ) : (
+                <FileText
+                  className="text-primary cursor-pointer"
+                  size={20}
+                  onClick={() => handleDownload(user._id)}
+                />
+              )}
             </td>
           </tr>
         </tbody>

@@ -96,11 +96,18 @@ const Table = () => {
                           </td>
 
                           <td className="text-center">
-                            <Eye
-                              className="text-primary"
-                              style={{ cursor: "pointer" }}
-                              size={20}
-                            ></Eye>
+                            <Link
+                              href={`/admin/listverified/details?id=${company.id}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              <button
+                                className="btn btn-sm"
+                                title="View Details"
+                              >
+                                <Eye size={16} className="me-1 text-primary" />
+                              </button>
+                            </Link>
                           </td>
                         </tr>
                       ))

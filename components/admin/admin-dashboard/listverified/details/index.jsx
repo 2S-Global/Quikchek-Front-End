@@ -1,24 +1,14 @@
-import React from "react";
-import MobileMenu from "../../../../header/MobileMenu";
-import DashboardHeader from "../../../../header/DashboardHeader";
-import LoginPopup from "../../../../common/form/login/LoginPopup";
-import DashboardEmployerSidebar from "../../../../header/DashboardEmployerSidebar";
+import DashboardHeader from "../../../../header/DashboardAdminheader";
+import DashboardEmployerSidebar from "../../../../header/DashboardAdminsidebar";
 import CopyrightFooter from "../../../CopyrightFooter";
-import WidgetContentBox from "./components/WidgetContentBox";
+import WidgetContentBox from "@/components/dashboard-pages/employers-dashboard/list-verified-employee/details/components/WidgetContentBox";
 const index = () => {
   return (
     <div className="page-wrapper dashboard">
       <span className="header-span"></span>
-      {/* <!-- Header Span for hight --> */}
-
-      <LoginPopup />
-      {/* End Login Popup Modal */}
 
       <DashboardHeader />
       {/* End Header */}
-
-      <MobileMenu />
-      {/* End MobileMenu */}
 
       <DashboardEmployerSidebar />
       {/* <!-- End User Sidebar Menu --> */}

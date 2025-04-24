@@ -176,13 +176,14 @@ const Companytable = () => {
                     <th style={{ textAlign: "center" }}>Company Email</th>
                     <th style={{ textAlign: "center" }}>Company Status</th>
                     <th style={{ textAlign: "center" }}>Total Verification</th>
+                    <th style={{ textAlign: "center" }}>Created Date</th>
                     <th style={{ textAlign: "center" }}>Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   {companies.length === 0 ? (
                     <tr>
-                      <td colSpan="5" style={{ textAlign: "center" }}>
+                      <td colSpan="7" style={{ textAlign: "center" }}>
                         No records found
                       </td>
                     </tr>
@@ -236,6 +237,18 @@ const Companytable = () => {
                           }}
                         >
                           {company.orderCount > 0 ? company.orderCount : 0}
+                        </td>
+                        <td style={{ textAlign: "center" }}>
+                          {new Date(company.createdAt).toLocaleString("en-IN", {
+                            day: "2-digit",
+                            month: "2-digit",
+                            year: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit",
+
+                            hour12: true,
+                            timeZone: "Asia/Kolkata",
+                          })}
                         </td>
 
                         <td className="text-center">

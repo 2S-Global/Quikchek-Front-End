@@ -32,7 +32,8 @@ const Table = () => {
             },
           }
         );
-        console.log("response", response);
+        // console.log("response", response);
+        setUsers(response.data.data);
       } catch (err) {
         setError("Error fetching companies. Please try again.");
       } finally {
@@ -42,7 +43,7 @@ const Table = () => {
 
     fetchUsers();
   }, []);
-
+  console.log("users", users);
   return (
     <>
       <MessageComponent error={error} success={success} />
@@ -79,62 +80,27 @@ const Table = () => {
                       </tr>
                     ) : (
                       users.map((company, index) => (
-                        <tr key={company._id}>
+                        <tr key={company.id}>
                           <td style={{ textAlign: "center" }}>{index + 1}</td>
                           <td style={{ textAlign: "center" }}>
-                            {company.name}
+                            {company.candidate_name}
                           </td>
                           <td style={{ textAlign: "center" }}>
-                            {company.email}
+                            {company.employer_name}
                           </td>
                           <td style={{ textAlign: "center" }}>
-                            <div className="form-check form-switch d-flex justify-content-center align-items-center">
-                              <input
-                                className="form-check-input"
-                                type="checkbox"
-                                role="switch"
-                                id={`switch-${company._id}`}
-                                checked={company.is_active}
-                                onChange={() =>
-                                  toggleStatus(company._id, company.is_active)
-                                }
-                              />
-                              <label
-                                className={`form-check-label ms-2 fw-semibold ${
-                                  company.is_active
-                                    ? "text-success"
-                                    : "text-danger"
-                                }`}
-                                htmlFor={`switch-${company._id}`}
-                              >
-                                {company.is_active ? "Active" : "Inactive"}
-                              </label>
-                            </div>
+                            {company.date}
                           </td>
-                          <td
-                            style={{
-                              textAlign: "center",
-                              cursor:
-                                company.orderCount > 0 ? "pointer" : "default",
-                              transition: "background-color 0.3s ease",
-                            }}
-                            onClick={() =>
-                              company.orderCount > 0 && openModalVL(company)
-                            }
-                            onMouseEnter={(e) => {
-                              if (company.orderCount > 0) {
-                                e.target.style.backgroundColor = "#c6f79a"; // Light gray on hover
-                              }
-                            }}
-                            onMouseLeave={(e) => {
-                              e.target.style.backgroundColor = ""; // Reset to default
-                            }}
-                          >
-                            {company.orderCount > 0 ? company.orderCount : 0}
+                          <td style={{ textAlign: "center" }}>
+                            {company.verifications_done}
                           </td>
 
                           <td className="text-center">
-                            <div className="d-flex justify-content-center gap-3"></div>
+                            <Eye
+                              className="text-primary"
+                              style={{ cursor: "pointer" }}
+                              size={20}
+                            ></Eye>
                           </td>
                         </tr>
                       ))

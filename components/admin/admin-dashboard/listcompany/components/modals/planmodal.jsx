@@ -15,6 +15,8 @@ const EditplanModal = ({ show, onClose, field }) => {
     discount_percent: "",
     selected_plan: [],
     companyId: "",
+    aadhar_otp: "disable", // default
+    aadhar_price: "",
   });
 
   const [loading, setLoading] = useState(false);
@@ -62,6 +64,8 @@ const EditplanModal = ({ show, onClose, field }) => {
             ...prev,
             selected_plan: response.data.data.selected_plan || [],
             discount_percent: response.data.data.discount_percent || "",
+            aadhar_otp: response.data.data.aadhar_otp || "disable",
+            aadhar_price: response.data.data.aadhar_price || "",
           }));
         }
       } catch (err) {
@@ -138,8 +142,8 @@ const EditplanModal = ({ show, onClose, field }) => {
 
       setSuccess(response.data.message);
       setTimeout(() => {
-        window.location.reload();
-        router.push("/admin/listcompany");
+        // window.location.reload();
+        // router.push("/admin/listcompany");
       }, 1000);
     } catch (err) {
       setError(
@@ -248,7 +252,78 @@ const EditplanModal = ({ show, onClose, field }) => {
                       min="0"
                       max="100"
                     />
+
+
+
+
+<div className="col-md-12">
+  <label className="form-label fw-semibold">Aadhaar with OTP</label>
+  <div className="form-check">
+    <input
+      className="form-check-input"
+      type="radio"
+      name="aadhar_otp"
+      id="aadhar_enable"
+      value="enable"
+      checked={formData.aadhar_otp === "enable"}
+      onChange={handleChange}
+    />
+    <label className="form-check-label" htmlFor="aadhar_enable">
+      Enable
+    </label>
+  </div>
+  <div className="form-check">
+    <input
+      className="form-check-input"
+      type="radio"
+      name="aadhar_otp"
+      id="aadhar_disable"
+      value="disable"
+      checked={formData.aadhar_otp === "disable"}
+      onChange={handleChange}
+    />
+    <label className="form-check-label" htmlFor="aadhar_disable">
+      Disable
+    </label>
+  </div>
+</div>
+
+{formData.aadhar_otp === "enable" && (
+  <div className="col-md-12">
+    <label htmlFor="aadhar_price" className="form-label fw-semibold">
+ Price (₹)
+    </label>
+    <input
+  type="text"
+  className="form-control"
+  id="aadhar_price"
+  name="aadhar_price"
+  placeholder="Enter Aadhaar verification price"
+  value={formData.aadhar_price}
+  onChange={(e) => {
+    const value = e.target.value;
+    // Allow only numbers and optional single dot (for decimals)
+    if (/^\d*\.?\d*$/.test(value)) {
+      setFormData((prev) => ({ ...prev, aadhar_price: value }));
+    }
+  }}
+  onBlur={(e) => {
+    // Optionally trim leading zeros or format decimal
+    let value = e.target.value.trim();
+    if (!/^0\.\d+$/.test(value)) {
+      value = value.replace(/^0+(?=\d)/, "") || "0";
+    }
+    setFormData((prev) => ({ ...prev, aadhar_price: value }));
+  }}
+/>
+
+  </div>
+)}
                   </div>
+
+
+
+
                 </div>
 
                 <div className="mt-4">

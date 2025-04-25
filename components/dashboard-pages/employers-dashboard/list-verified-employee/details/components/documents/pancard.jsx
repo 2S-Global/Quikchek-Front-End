@@ -44,6 +44,17 @@ const PanDetails = ({ user }) => {
               {user?.pan_response?.result?.pan_type || "N/A"}
             </span>
           </div>
+          <div className="d-flex align-items-center mb-1">
+            {user.pan_image && (
+              <button
+                type="button"
+                className="btn btn-sm btn-outline-primary me-2"
+                onClick={() => window.open(user.pan_image, "_blank")}
+              >
+                View Document
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </div>

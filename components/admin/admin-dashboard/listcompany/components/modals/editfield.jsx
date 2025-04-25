@@ -16,6 +16,7 @@ const EditfieldModal = ({ show, onClose, field }) => {
     address: "",
     gst_no: "",
     package_id: "",
+    email: "",
     discount_percent: "",
     id: "",
   });
@@ -241,6 +242,27 @@ const EditfieldModal = ({ show, onClose, field }) => {
                 </div>
 
                 <div className="mb-3 col-md-6">
+                  <label htmlFor="email" className="form-label">
+                    Official Email Address
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    className={`form-control ${touched.email && formErrors.email ? "is-invalid" : ""}`}
+                    placeholder="Enter your Official Email address"
+                    required
+                    value={formData.email}
+                    onChange={handleChange}
+                    onBlur={() =>
+                      setTouched((prev) => ({ ...prev, email: true }))
+                    }
+                  />
+                  {touched.email && formErrors.email && (
+                    <div className="invalid-feedback">{formErrors.email}</div>
+                  )}
+                </div>
+
+                <div className="mb-3 col-md-6">
                   <label htmlFor="phone_number" className="form-label">
                     Phone Number
                   </label>
@@ -288,7 +310,6 @@ const EditfieldModal = ({ show, onClose, field }) => {
                     name="gst_no"
                     className={`form-control ${gstError ? "is-invalid" : ""}`}
                     placeholder="GST Number"
-                    
                     value={formData.gst_no}
                     onChange={handleChange}
                     onBlur={(e) => {

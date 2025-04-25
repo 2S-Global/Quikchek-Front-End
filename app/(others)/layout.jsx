@@ -1,8 +1,12 @@
 "use client";
 
 import Link from "next/link";
+import { FaFacebookF, FaLinkedinIn } from "react-icons/fa";
 
 export default function Layout({ children }) {
+  const handlecompanyclick = () => {
+    handleExternalLink("https://2sglobal.co/");
+  };
   return (
     <>
       <div
@@ -16,7 +20,7 @@ export default function Layout({ children }) {
         <main className="flex-grow">{children}</main>
 
         {/* Footer */}
-        <footer className="bg-light text-center text-muted py-3 mt-auto">
+        <footer className="bg-light text-center text-dark py-4 mt-5 border-top mt-auto">
           <div className="container">
             <div className="d-flex flex-wrap justify-content-center gap-3 mb-2">
               <Link href="/" className="text-muted text-decoration-none">
@@ -42,8 +46,45 @@ export default function Layout({ children }) {
               </Link>
             </div>
             <div>
-              &copy; {new Date().getFullYear()} QuikChek by 2S Global
-              Technologies Limited
+              <p className="mb-1">
+                © {new Date().getFullYear()}{" "}
+                <strong className="text-primary">Quikchek</strong>. All Rights
+                Reserved.
+              </p>
+              <p className="mb-3 text-muted small">
+                Developed and maintained by{" "}
+                <strong
+                  className="text-dark"
+                  onClick={handlecompanyclick}
+                  style={{ cursor: "pointer" }}
+                >
+                  2S Global Technologies Ltd
+                </strong>
+              </p>
+            </div>
+            <div className="d-flex justify-content-center gap-3">
+              <button
+                onClick={() =>
+                  handleExternalLink(
+                    "https://www.facebook.com/profile.php?id=61575548305003"
+                  )
+                }
+                className="btn btn-outline-primary rounded-circle"
+                aria-label="Facebook"
+              >
+                <FaFacebookF />
+              </button>
+              <button
+                onClick={() =>
+                  handleExternalLink(
+                    "https://www.linkedin.com/company/global-employability-information-services-india-limited/"
+                  )
+                }
+                className="btn btn-outline-primary rounded-circle"
+                aria-label="LinkedIn"
+              >
+                <FaLinkedinIn />
+              </button>
             </div>
           </div>
         </footer>

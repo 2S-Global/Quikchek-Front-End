@@ -36,15 +36,15 @@ const DashboardHeader = () => {
           <div className="nav-outer">
             <div className="logo-box">
               <div className="logo">
-                <Link href="/">
-                  <Image
-                    alt="brand"
-                    src="/images/logo.png"
-                    width={154}
-                    height={50}
-                    priority
-                  />
-                </Link>
+                {/*  <Link href="/"> */}
+                <Image
+                  alt="brand"
+                  src="/images/logo.png"
+                  width={154}
+                  height={50}
+                  priority
+                />
+                {/*  </Link> */}
               </div>
             </div>
             {/* End .logo-box */}

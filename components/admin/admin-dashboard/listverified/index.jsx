@@ -11,8 +11,8 @@ const Index = () => {
         <span className="header-span"></span>
         <DashboardHeader />
         {/* End Header */}
-
-        {/*   <MobileMenu /> */}
+        {/* 
+        <MobileMenu /> */}
         {/* End MobileMenu */}
 
         <DashboardEmployerSidebar />

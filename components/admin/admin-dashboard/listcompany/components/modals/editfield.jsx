@@ -67,6 +67,7 @@ const EditfieldModal = ({ show, onClose, field }) => {
         gst_no: field.gst_no || "",
         package_id: field.package_id || "",
         discount_percent: field.discount_percent || "",
+        email: field.email || "",
       });
     }
   }, [field]);

@@ -105,13 +105,16 @@ const DocumentUpload = ({
             <Trash2
               className="text-danger "
               size={20}
-              onClick={() =>
+              onClick={() => {
                 setDocumentData({
                   ...documentData,
                   file: null,
                   filePreview: null,
-                })
-              }
+                });
+                if (onFileChange) {
+                  onFileChange(name, null); // Notify parent
+                }
+              }}
             />
           ) : null}
         </div>

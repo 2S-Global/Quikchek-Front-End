@@ -4,7 +4,15 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import MessageComponent from "@/components/common/ResponseMsg";
 
-import { Trash2, Settings, Pencil, PackageOpen } from "lucide-react";
+import {
+  Trash2,
+  Settings,
+  Pencil,
+  PackageOpen,
+  Send,
+  FilePen,
+  Mailbox,
+} from "lucide-react";
 import EditfieldModal from "./modals/editfield";
 import EditplanModal from "./modals/planmodal";
 import VerifiedlistModal from "./modals/verifiedlistModal";
@@ -22,7 +30,11 @@ const Companytable = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalplanOpen, setIsModalplanOpen] = useState(false);
   const [isModalvlOpen, setIsModalvlOpen] = useState(false);
+  /*  const  */
+  const [message_id, setMessage_id] = useState(null);
+  const [errorId, setErrorId] = useState(null);
 
+  const [emailloading, setEmailloading] = useState(false);
   const openModalRH = (companydetails) => {
     setEditcompany(companydetails);
     setIsModalOpen(true);
@@ -163,9 +175,133 @@ const Companytable = () => {
     }
   };
 
+  const handleInvite = async (company) => {
+    setEmailloading(true);
+    console.log("Inviting company:", company.name);
+    console.log("Inviting company email:", company.email);
+    /* api/invite/invite */
+
+    const token = localStorage.getItem("Super_token");
+
+    if (!token) {
+      setError("Token not found. Please log in again.");
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        `${apiurl}/api/invite/invite`,
+        { email: company.email, name: company.name },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log("invite response", response);
+
+      if (response.data.success) {
+        const time = Date.now();
+        setMessage_id(time);
+        setSuccess(response.data.message);
+      }
+    } catch (err) {
+      setError(err.invite?.data?.message || "Invite failed. Try again.");
+      const time = Date.now();
+      setErrorId(time);
+    } finally {
+      setEmailloading(false);
+    }
+  };
+  const handleSignupemail = async (company) => {
+    const confirmed = window.confirm(
+      "Are you sure you want to send the Sign Up Email?\nThis will also reset the password."
+    );
+
+    if (!confirmed) return; // Exit if user cancels
+
+    setEmailloading(true);
+
+    /* api/invite/invite */
+
+    const token = localStorage.getItem("Super_token");
+
+    if (!token) {
+      setError("Token not found. Please log in again.");
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        `${apiurl}/api/auth/sendAccessEmail`,
+        { companyId: company._id, email: company.email, name: company.name },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log("invite response", response);
+
+      if (response.data.success) {
+        const time = Date.now();
+        setMessage_id(time);
+        setSuccess(response.data.message);
+      }
+    } catch (err) {
+      setError(err.invite?.data?.message || "Invite failed. Try again.");
+      const time = Date.now();
+      setErrorId(time);
+    } finally {
+      setEmailloading(false);
+    }
+  };
+  const handleplanmail = async (company) => {
+    setEmailloading(true);
+
+    /* api/invite/invite */
+
+    const token = localStorage.getItem("Super_token");
+
+    if (!token) {
+      setError("Token not found. Please log in again.");
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        `${apiurl}/api/companyPackageRoute/resendCompanyPackageEmail`,
+        { companyId: company._id, email: company.email, name: company.name },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log("invite response", response);
+
+      if (response.data.success) {
+        const time = Date.now();
+        setMessage_id(time);
+        setSuccess(response.data.message);
+      }
+    } catch (err) {
+      setError(err.invite?.data?.message || "Invite failed. Try again.");
+      const time = Date.now();
+      setErrorId(time);
+    } finally {
+      setEmailloading(false);
+    }
+  };
+
   return (
     <>
-      <MessageComponent error={error} success={success} />
+      <MessageComponent
+        error={error}
+        success={success}
+        message_id={message_id}
+        errorId={errorId}
+      />
       {loading ? (
         <div className="d-flex justify-content-center align-items-center vh-100">
           <div className="spinner-border text-primary" role="status">
@@ -261,34 +397,84 @@ const Companytable = () => {
 
                         <td className="text-center">
                           <div className="d-flex justify-content-center gap-3">
-                            <Pencil
-                              className="text-primary"
-                              style={{ cursor: "pointer" }}
-                              onClick={() => openModalRH(company)}
-                              size={20}
-                            />
-                            <PackageOpen
-                              className="text-info"
-                              style={{ cursor: "pointer" }}
-                              onClick={() => openModalPlanRH(company)}
-                              size={20}
-                            />
-                            <Settings
-                              className="text-secondary"
-                              style={{ cursor: "pointer" }}
-                              size={20}
-                              onClick={() =>
-                                router.push(
-                                  `/admin/company-setting?id=${company._id}`
-                                )
-                              }
-                            />
-                            <Trash2
-                              size={20}
-                              className="text-danger"
-                              style={{ cursor: "pointer" }}
-                              onClick={() => handleDelete(company._id)}
-                            />
+                            <div className="row">
+                              <span title="Edit">
+                                <Pencil
+                                  className="text-primary"
+                                  style={{ cursor: "pointer" }}
+                                  onClick={() => openModalRH(company)}
+                                  size={20}
+                                />
+                              </span>
+                              <span title="Plan">
+                                <PackageOpen
+                                  className="text-info"
+                                  style={{ cursor: "pointer" }}
+                                  onClick={() => openModalPlanRH(company)}
+                                  size={20}
+                                />
+                              </span>
+                              <span title="Fields">
+                                <Settings
+                                  className="text-secondary"
+                                  style={{ cursor: "pointer" }}
+                                  size={20}
+                                  onClick={() =>
+                                    router.push(
+                                      `/admin/company-setting?id=${company._id}`
+                                    )
+                                  }
+                                />
+                              </span>
+
+                              <span title="Delete">
+                                <Trash2
+                                  size={20}
+                                  className="text-danger"
+                                  style={{ cursor: "pointer" }}
+                                  onClick={() => handleDelete(company._id)}
+                                />
+                              </span>
+                            </div>
+                            {emailloading ? (
+                              <div className="d-flex justify-content-center align-items-center">
+                                <div
+                                  className="spinner-border text-primary"
+                                  role="status"
+                                >
+                                  <span className="visually-hidden">
+                                    Loading...
+                                  </span>
+                                </div>
+                              </div>
+                            ) : (
+                              <div className="row">
+                                <span title="Invitation">
+                                  <Send
+                                    size={20}
+                                    className="text-success"
+                                    style={{ cursor: "pointer" }}
+                                    onClick={() => handleInvite(company)}
+                                  />
+                                </span>
+                                <span title="Signup">
+                                  <FilePen
+                                    size={20}
+                                    className="text-primary"
+                                    style={{ cursor: "pointer" }}
+                                    onClick={() => handleSignupemail(company)}
+                                  />
+                                </span>
+                                <span title="Package">
+                                  <Mailbox
+                                    size={20}
+                                    className="text-info"
+                                    style={{ cursor: "pointer" }}
+                                    onClick={() => handleplanmail(company)}
+                                  />
+                                </span>
+                              </div>
+                            )}
                           </div>
                         </td>
                       </tr>

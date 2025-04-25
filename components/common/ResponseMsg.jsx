@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const MessageComponent = ({ error, success, errorId }) => {
+const MessageComponent = ({ error, success, errorId, message_id }) => {
   const [showError, setShowError] = useState(null);
   const [showSuccess, setShowSuccess] = useState(null);
+  const time = Date.now();
 
   useEffect(() => {
     if (error) {
@@ -19,7 +20,7 @@ const MessageComponent = ({ error, success, errorId }) => {
       const timer = setTimeout(() => setShowSuccess(null), 5000);
       return () => clearTimeout(timer);
     }
-  }, [success]);
+  }, [success, message_id]);
 
   const messageVariants = {
     hidden: { opacity: 0, y: -20, scale: 0.9 },

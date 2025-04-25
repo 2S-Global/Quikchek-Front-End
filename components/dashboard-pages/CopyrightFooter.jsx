@@ -106,9 +106,9 @@ const CopyrightFooter = () => {
       <footer className="bg-light text-center text-dark py-4 mt-5 border-top mt-auto">
         <div className="container">
           <div className="d-flex flex-wrap justify-content-center gap-3 mb-2">
-            <Link href="/" className="text-muted text-decoration-none">
+            {/* <Link href="/" className="text-muted text-decoration-none">
               Home
-            </Link>
+            </Link> */}
             <Link href="/about" className="text-muted text-decoration-none">
               About Us
             </Link>

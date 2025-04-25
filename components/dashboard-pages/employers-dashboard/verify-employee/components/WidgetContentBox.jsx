@@ -659,7 +659,7 @@ const WidgetContentBox = () => {
                         className="uploadButton-input"
                         type="file"
                         name="file"
-                        accept="image/*,application/pdf"
+                        accept="image/*"
                         id={fileId}
                         onChange={handleFileSelect}
                       />

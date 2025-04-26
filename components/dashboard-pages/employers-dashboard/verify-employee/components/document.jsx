@@ -12,6 +12,7 @@ const DocumentUpload = ({
   onfieldValidation,
   disabled,
 }) => {
+    const [inputKey, setInputKey] = useState(Date.now());
   const [documentData, setDocumentData] = useState({
     docName: "",
     docNumber: "",
@@ -79,6 +80,7 @@ const DocumentUpload = ({
         <label htmlFor={fileId}>Upload {label}</label>
         <div className="uploadButton d-flex align-items-center">
           <input
+             key={inputKey}
             className="uploadButton-input"
             type="file"
             name="file"
@@ -111,6 +113,7 @@ const DocumentUpload = ({
                   file: null,
                   filePreview: null,
                 });
+                 setInputKey(Date.now());
                 if (onFileChange) {
                   onFileChange(name, null); // Notify parent
                 }

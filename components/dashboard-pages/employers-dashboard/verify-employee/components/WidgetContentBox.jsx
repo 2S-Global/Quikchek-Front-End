@@ -9,7 +9,7 @@ import { Trash2 } from "lucide-react";
 import MessageComponent from "@/components/common/ResponseMsg";
 import { validateDocuments } from "@/components/dashboard-pages/employers-dashboard/verify-employee/components/validateDocuments"; // adjust path as needed
 import Additionfield from "./additionfield";
-
+import PassdocumentUpload from "./pasdocument";
 import TermsModal from "../../footermodal/termsmodal";
 
 const WidgetContentBox = () => {
@@ -234,10 +234,20 @@ const WidgetContentBox = () => {
   };
 
   const handleFileChange = (docType, file) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      [`${docType}doc`]: file || null, // Ensure null when file is removed
-    }));
+    setFormData((prevData) => {
+      let fieldName = "";
+
+      if (docType === "passport") {
+        fieldName = "doc";
+      } else {
+        fieldName = `${docType}doc`;
+      }
+
+      return {
+        ...prevData,
+        [fieldName]: file || null,
+      };
+    });
   };
 
   const isFormValid =
@@ -545,12 +555,22 @@ const WidgetContentBox = () => {
               onfieldValidation={handleValidation}
               disabled={!approvedFields.PAN}
             />
+            <PassdocumentUpload
+              label="Passport"
+              name="passport"
+              fileId="upload-passport"
+              valuename={formData.passportname}
+              numbername={formData.passportnumber}
+              numberError={validationErrors.passportnumber}
+              onFileChange={handleFileChange}
+              onfieldChange={handleChange}
+              onfieldValidation={handleValidation}
+              disabled={!approvedFields.PASSPORT}
+            />
 
-            {/* else render but disable */}
-            {approvedFields.PASSPORT ? (
+            {/*  commented for now */}
+            {/*  {approvedFields.PASSPORT ? (
               <div className="row">
-                {/* Heading */}
-                {/* Document Number Input passportnumber */}
                 <div className="form-group col-lg-4 col-md-4 d-flex flex-column">
                   <label>Passport File Number</label>
                   <input
@@ -562,7 +582,7 @@ const WidgetContentBox = () => {
                     onChange={handleChange}
                   />
                 </div>
-                {/* Name Input */}
+
                 <div className="form-group col-lg-4 col-md-4 d-flex flex-column">
                   <label>Name as per Passport</label>
                   <input
@@ -575,7 +595,6 @@ const WidgetContentBox = () => {
                   />
                 </div>
 
-                {/* File Upload */}
                 <div className="form-group col-lg-4 col-md-4 d-flex flex-column">
                   <label htmlFor={fileId}>Upload Passport File</label>
                   <div className="uploadButton d-flex align-items-center">
@@ -583,7 +602,7 @@ const WidgetContentBox = () => {
                       className="uploadButton-input"
                       type="file"
                       name="file"
-                      accept="image/*,application/pdf"
+                      accept="image/*"
                       id={fileId}
                       onChange={handleFileSelect}
                     />
@@ -627,8 +646,6 @@ const WidgetContentBox = () => {
             ) : (
               <div style={{ pointerEvents: "none", opacity: 0.5 }}>
                 <div className="row">
-                  {/* Heading */}
-                  {/* Document Number Input passportnumber */}
                   <div className="form-group col-lg-4 col-md-4 d-flex flex-column">
                     <label>Passport File Number</label>
                     <input
@@ -640,7 +657,6 @@ const WidgetContentBox = () => {
                       onChange={handleChange}
                     />
                   </div>
-                  {/* Name Input */}
                   <div className="form-group col-lg-4 col-md-4 d-flex flex-column">
                     <label>Name as per Passport</label>
                     <input
@@ -652,8 +668,6 @@ const WidgetContentBox = () => {
                       onChange={handleChange}
                     />
                   </div>
-
-                  {/* File Upload */}
                   <div className="form-group col-lg-4 col-md-4 d-flex flex-column">
                     <label htmlFor={fileId}>Upload Passport File</label>
                     <div className="uploadButton d-flex align-items-center">
@@ -703,7 +717,7 @@ const WidgetContentBox = () => {
                   </div>
                 </div>
               </div>
-            )}
+            )} */}
 
             <DocumentUpload
               label="Aadhaar"

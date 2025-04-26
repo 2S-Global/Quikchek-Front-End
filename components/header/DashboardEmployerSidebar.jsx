@@ -71,7 +71,7 @@ const DashboardEmployerSidebar = () => {
           {aadhar_otp == "enable" && (
             <li
               className={`${
-                isActiveLink("/dashboard/aadhar-otp", pathname) ? "active" : ""
+                isActiveLink("/aadhar-otp", pathname) ? "active" : ""
               } mb-1`}
               key={99}
               onClick={menuToggleHandler}

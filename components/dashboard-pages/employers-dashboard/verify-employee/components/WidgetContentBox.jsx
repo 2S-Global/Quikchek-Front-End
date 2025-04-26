@@ -317,6 +317,8 @@ const WidgetContentBox = () => {
         ...prev,
         plan: availablePlans[0]._id,
       }));
+
+      handlePlanChange({ target: { value: availablePlans[0]._id } });
     }
   }, [availablePlans]);
 

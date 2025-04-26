@@ -164,6 +164,18 @@ const DlDetails = ({ user }) => {
               <p className="text-muted">N/A</p>
             )}
           </div>
+
+          <div className="d-flex align-items-center mb-1">
+            {user.dl_image && (
+              <button
+                type="button"
+                className="btn btn-sm btn-outline-primary me-2"
+                onClick={() => window.open(user.dl_image, "_blank")}
+              >
+                View Document
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </div>

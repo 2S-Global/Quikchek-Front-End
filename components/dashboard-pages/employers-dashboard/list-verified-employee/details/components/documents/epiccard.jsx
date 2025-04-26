@@ -156,6 +156,18 @@ const EpicDetails = ({ user }) => {
               </span>
             </div>
           </div> */}
+
+          <div className="d-flex align-items-center mb-1">
+            {user.epic_image && (
+              <button
+                type="button"
+                className="btn btn-sm btn-outline-primary me-2"
+                onClick={() => window.open(user.epic_image, "_blank")}
+              >
+                View Document
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </div>

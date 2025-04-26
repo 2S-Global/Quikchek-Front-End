@@ -1,11 +1,11 @@
 module.exports = [
-  {
+  /*  {
     id: 1,
     name: "Dashboard",
     icon: "la-home",
     routePath: "/dashboard",
     active: "active",
-  },
+  }, */
   {
     id: 6,
     name: "Verify Candidate",

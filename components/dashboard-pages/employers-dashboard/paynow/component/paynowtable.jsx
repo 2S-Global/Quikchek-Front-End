@@ -147,17 +147,6 @@ const PaymentDetails = () => {
   const handlePaymentSuccess = async (response, pay, pids) => {
     setLoading(true);
 
-    console.log("razorpay response", response);
-    const payment_id = response.razorpay_payment_id;
-
-    const capturepayment = await axios.post(
-      `https://api.razorpay.com/v1/payments/${payment_id}/capture`,
-      {
-        amount: pay,
-        currency: "INR",
-      }
-    );
-
     try {
       const paymentResponse = await axios.post(
         `${apiurl}/api/verify/paynow`,

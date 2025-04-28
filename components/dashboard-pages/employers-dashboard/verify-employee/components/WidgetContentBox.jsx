@@ -44,6 +44,7 @@ const WidgetContentBox = () => {
     uannumber: "",
     plan: "",
   });
+  /* for build */
   const handleShowTermsModal = () => {
     setShowTermsModal(true);
     document.body.style.overflow = "hidden";

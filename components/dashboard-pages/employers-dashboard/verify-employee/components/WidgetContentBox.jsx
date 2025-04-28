@@ -38,9 +38,10 @@ const WidgetContentBox = () => {
     voterdoc: null,
     licensenumdoc: null,
     passportdoc: null,
+    uandoc: null,
     additionalfields: {},
-    uanname: null,
-    uannumber: null,
+    uanname: "",
+    uannumber: "",
     plan: "",
   });
   const handleShowTermsModal = () => {
@@ -744,7 +745,7 @@ const WidgetContentBox = () => {
               onfieldValidation={handleValidation}
               disabled={!approvedFields.DL}
             />
-
+            {/* this works */}
             <DocumentUpload
               label="Epic (Voter)"
               name="voter"
@@ -757,8 +758,21 @@ const WidgetContentBox = () => {
               onfieldValidation={handleValidation}
               disabled={!approvedFields.EPIC}
             />
+            {/* this doesnt */}
+            <DocumentUpload
+              label="UAN"
+              name="uan"
+              fileId="upload-UAN"
+              valuename={formData.uanname}
+              numbername={formData.uannumber}
+              onFileChange={handleFileChange}
+              onfieldChange={handleChange}
+              numberError={validationErrors.uannumber}
+              onfieldValidation={handleValidation}
+              disabled={!approvedFields.UAN}
+            />
 
-            <div className="row">
+            {/*  <div className="row">
               <div
                 className="form-group col-lg-4 col-md-4 d-flex flex-column"
                 disabled
@@ -770,8 +784,10 @@ const WidgetContentBox = () => {
                   placeholder="Feature coming soon"
                   className="form-control"
                   value={formData.uannumber || ""}
-                  /* onChange={handleChange}
-                  onfieldValidation={handleValidation} */
+                  comment this
+                  onChange={handleChange}
+                  onfieldValidation={handleValidation} 
+                  comment this
                   readOnly
                 />
                 {validationErrors.uannumber && (
@@ -780,7 +796,7 @@ const WidgetContentBox = () => {
                   </small>
                 )}
               </div>
-            </div>
+            </div> */}
             {/* Submit Button */}
             <div className="form-group">
               <div className="form-check mb-3">

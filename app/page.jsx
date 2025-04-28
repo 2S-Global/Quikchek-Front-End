@@ -3,7 +3,7 @@ import Wrapper from "@/layout/Wrapper";
 import LogIn from "@/components/pages-menu/login";
 
 export const metadata = {
-  title: "Quikchek Staging 1234",
+  title: "Quikchek",
   description: "Quikchek Verification",
 };
 
@@ -11,7 +11,6 @@ export default function page() {
   return (
     <Wrapper>
       {/*   <Home /> */}
-
       <LogIn />
     </Wrapper>
   );

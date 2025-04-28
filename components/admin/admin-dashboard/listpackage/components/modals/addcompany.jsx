@@ -188,7 +188,7 @@ const AddCompanyModal = ({ show, onClose }) => {
                       Allowed Verification
                     </strong>
                     <div className="d-flex justify-content-center flex-wrap gap-3">
-                      {["PAN", "Aadhaar", "EPIC", "DL", "Passport"].map(
+                      {["PAN", "Aadhaar", "EPIC", "DL", "Passport", "UAN"].map(
                         (item, index) => (
                           <div className="form-check" key={index}>
                             <input

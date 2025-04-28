@@ -111,7 +111,14 @@ const EditfieldModal = ({ show, onClose, field }) => {
 
   if (!show) return null;
 
-  const verificationOptions = ["PAN", "Aadhaar", "EPIC", "DL", "Passport"];
+  const verificationOptions = [
+    "PAN",
+    "Aadhaar",
+    "EPIC",
+    "DL",
+    "Passport",
+    "UAN",
+  ];
   const selectedVerifications = formData.allowed_verifications
     .split(",")
     .map((item) => item.trim());

@@ -57,6 +57,7 @@ const WidgetContentBox = () => {
   const apiurl = process.env.NEXT_PUBLIC_API_URL;
   const token = localStorage.getItem("Admin_token");
   const [loading, setLoading] = useState(false);
+  const [formloading, setFormLoading] = useState(true);
   const [error, setError] = useState(null);
   const [valiError, setvaliError] = useState(null);
   const [success, setSuccess] = useState(null);
@@ -357,6 +358,7 @@ const WidgetContentBox = () => {
     }
   };
   const handlePlanChange = (e) => {
+    setFormLoading(true);
     const plan_id = e.target.value;
     console.log("Plan changed:", plan_id);
 
@@ -376,6 +378,29 @@ const WidgetContentBox = () => {
         //       setError("Error fetching fields. Please try again.");
       } finally {
         setLoading(false);
+        setFormLoading(false);
+        setFormData((prevData) => ({
+          ...prevData,
+          panname: "",
+          aadhaarname: "",
+          votername: "",
+          licensename: "",
+          passportname: "",
+          pannumber: "",
+          aadhaarnumber: "",
+          voternumber: "",
+          licensenumber: "",
+          passportnumber: "",
+          pandoc: null,
+          aadhaardoc: null,
+          voterdoc: null,
+          licensenumdoc: null,
+          passportdoc: null,
+          uandoc: null,
+          additionalfields: {},
+          uanname: "",
+          uannumber: "",
+        }));
       }
     };
     fetchApprovedFields();
@@ -530,7 +555,6 @@ const WidgetContentBox = () => {
                   required
                   onBlur={handlePlanChange}
                 >
-                  <option value="">Select Plan</option>
                   {availablePlans?.map((plan) => (
                     <option key={plan._id} value={plan._id}>
                       {plan.name} (₹ {plan.transaction_fee})
@@ -542,35 +566,43 @@ const WidgetContentBox = () => {
               {/* from anaother */}
               <Additionfield formData={formData} setFormData={setFormData} />
             </div>
+            {/* if form loading */}
+            {formloading ? (
+              <div className="d-flex justify-content-center align-items-center">
+                <div className="spinner-border text-primary" role="status">
+                  <span className="visually-hidden">Loading...</span>
+                </div>
+              </div>
+            ) : (
+              <>
+                {/* Document Uploads */}
+                <DocumentUpload
+                  label="PAN"
+                  name="pan"
+                  fileId="upload-pan"
+                  valuename={formData.panname}
+                  numbername={formData.pannumber}
+                  numberError={validationErrors.pannumber}
+                  onFileChange={handleFileChange}
+                  onfieldChange={handleChange}
+                  onfieldValidation={handleValidation}
+                  disabled={!approvedFields.PAN}
+                />
+                <PassdocumentUpload
+                  label="Passport"
+                  name="passport"
+                  fileId="upload-passport"
+                  valuename={formData.passportname}
+                  numbername={formData.passportnumber}
+                  numberError={validationErrors.passportnumber}
+                  onFileChange={handleFileChange}
+                  onfieldChange={handleChange}
+                  onfieldValidation={handleValidation}
+                  disabled={!approvedFields.PASSPORT}
+                />
 
-            {/* Document Uploads */}
-            <DocumentUpload
-              label="PAN"
-              name="pan"
-              fileId="upload-pan"
-              valuename={formData.panname}
-              numbername={formData.pannumber}
-              numberError={validationErrors.pannumber}
-              onFileChange={handleFileChange}
-              onfieldChange={handleChange}
-              onfieldValidation={handleValidation}
-              disabled={!approvedFields.PAN}
-            />
-            <PassdocumentUpload
-              label="Passport"
-              name="passport"
-              fileId="upload-passport"
-              valuename={formData.passportname}
-              numbername={formData.passportnumber}
-              numberError={validationErrors.passportnumber}
-              onFileChange={handleFileChange}
-              onfieldChange={handleChange}
-              onfieldValidation={handleValidation}
-              disabled={!approvedFields.PASSPORT}
-            />
-
-            {/*  commented for now */}
-            {/*  {approvedFields.PASSPORT ? (
+                {/*  commented for now */}
+                {/*  {approvedFields.PASSPORT ? (
               <div className="row">
                 <div className="form-group col-lg-4 col-md-4 d-flex flex-column">
                   <label>Passport File Number</label>
@@ -720,57 +752,59 @@ const WidgetContentBox = () => {
               </div>
             )} */}
 
-            <DocumentUpload
-              label="Aadhaar"
-              name="aadhaar"
-              fileId="upload-aadhaar"
-              valuename={formData.aadhaarname}
-              numbername={formData.aadhaarnumber}
-              onFileChange={handleFileChange}
-              onfieldChange={handleChange}
-              numberError={validationErrors.aadhaarnumber}
-              onfieldValidation={handleValidation}
-              disabled={!approvedFields.AADHAAR}
-            />
+                <DocumentUpload
+                  label="Aadhaar"
+                  name="aadhaar"
+                  fileId="upload-aadhaar"
+                  valuename={formData.aadhaarname}
+                  numbername={formData.aadhaarnumber}
+                  onFileChange={handleFileChange}
+                  onfieldChange={handleChange}
+                  numberError={validationErrors.aadhaarnumber}
+                  onfieldValidation={handleValidation}
+                  disabled={!approvedFields.AADHAAR}
+                />
 
-            <DocumentUpload
-              label="Driving License"
-              name="license"
-              fileId="upload-license"
-              valuename={formData.licensename}
-              numbername={formData.licensenumber}
-              onFileChange={handleFileChange}
-              onfieldChange={handleChange}
-              numberError={validationErrors.licensenumber}
-              onfieldValidation={handleValidation}
-              disabled={!approvedFields.DL}
-            />
-            {/* this works */}
-            <DocumentUpload
-              label="Epic (Voter)"
-              name="voter"
-              fileId="upload-voter"
-              valuename={formData.votername}
-              numbername={formData.voternumber}
-              onFileChange={handleFileChange}
-              onfieldChange={handleChange}
-              numberError={validationErrors.voternumber}
-              onfieldValidation={handleValidation}
-              disabled={!approvedFields.EPIC}
-            />
-            {/* this doesnt */}
-            <DocumentUpload
-              label="UAN"
-              name="uan"
-              fileId="upload-UAN"
-              valuename={formData.uanname}
-              numbername={formData.uannumber}
-              onFileChange={handleFileChange}
-              onfieldChange={handleChange}
-              numberError={validationErrors.uannumber}
-              onfieldValidation={handleValidation}
-              disabled={!approvedFields.UAN}
-            />
+                <DocumentUpload
+                  label="Driving License"
+                  name="license"
+                  fileId="upload-license"
+                  valuename={formData.licensename}
+                  numbername={formData.licensenumber}
+                  onFileChange={handleFileChange}
+                  onfieldChange={handleChange}
+                  numberError={validationErrors.licensenumber}
+                  onfieldValidation={handleValidation}
+                  disabled={!approvedFields.DL}
+                />
+                {/* this works */}
+                <DocumentUpload
+                  label="Epic (Voter)"
+                  name="voter"
+                  fileId="upload-voter"
+                  valuename={formData.votername}
+                  numbername={formData.voternumber}
+                  onFileChange={handleFileChange}
+                  onfieldChange={handleChange}
+                  numberError={validationErrors.voternumber}
+                  onfieldValidation={handleValidation}
+                  disabled={!approvedFields.EPIC}
+                />
+                {/* this doesnt */}
+                <DocumentUpload
+                  label="UAN"
+                  name="uan"
+                  fileId="upload-UAN"
+                  valuename={formData.uanname}
+                  numbername={formData.uannumber}
+                  onFileChange={handleFileChange}
+                  onfieldChange={handleChange}
+                  numberError={validationErrors.uannumber}
+                  onfieldValidation={handleValidation}
+                  disabled={!approvedFields.UAN}
+                />
+              </>
+            )}
 
             {/*  <div className="row">
               <div

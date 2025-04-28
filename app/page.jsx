@@ -3,7 +3,7 @@ import Wrapper from "@/layout/Wrapper";
 import LogIn from "@/components/pages-menu/login";
 
 export const metadata = {
-  title: "Quikchek",
+  title: "Quikchek Staging",
   description: "Quikchek Verification",
 };
 

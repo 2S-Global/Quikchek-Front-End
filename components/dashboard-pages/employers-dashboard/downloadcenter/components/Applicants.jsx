@@ -158,14 +158,14 @@ useEffect(() => {
       selector: (row) => RenderOverall(row.status),
     },
     {
-      name: "PAN Status",
+      name: "PAN",
       selector: (row) =>
         renderProcessingIcon(row.pan_number, row.pan_name, row.pan_response),
       cell: (row) =>
         renderProcessingIcon(row.pan_number, row.pan_name, row.pan_response),
     },
     {
-      name: "Passport Status",
+      name: "Passport",
       selector: (row) =>
         renderProcessingIcon(
           row.passport_file_number,
@@ -180,7 +180,7 @@ useEffect(() => {
         ),
     },
     {
-      name: "Aadhaar Status",
+      name: "Aadhaar",
       selector: (row) =>
         renderProcessingIcon(
           row.aadhar_number,
@@ -195,14 +195,14 @@ useEffect(() => {
         ),
     },
     {
-      name: "DL Status",
+      name: "DL",
       selector: (row) =>
         renderProcessingIcon(row.dl_number, row.dl_name, row.dl_response),
       cell: (row) =>
         renderProcessingIcon(row.dl_number, row.dl_name, row.dl_response),
     },
     {
-      name: "Epic Status",
+      name: "Epic",
       selector: (row) =>
         renderProcessingIcon(row.epic_number, row.epic_name, row.epic_response),
       cell: (row) =>

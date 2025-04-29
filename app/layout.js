@@ -56,7 +56,7 @@ export default function RootLayout({ children }) {
               pauseOnHover
               theme="colored"
             />
-            {/* <!-- Scroll To Top --> */}
+            {/* <!-- Scroll To Top  new build --> */}
             <ScrollToTop />
           </div>
         </Provider>

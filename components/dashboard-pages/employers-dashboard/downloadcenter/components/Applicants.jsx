@@ -208,6 +208,13 @@ useEffect(() => {
       cell: (row) =>
         renderProcessingIcon(row.epic_number, row.epic_name, row.epic_response),
     },
+        {
+      name: "UAN",
+      selector: (row) =>
+        renderProcessingIcon(row.uan_number, row.uan_name, row.uan_response),
+      cell: (row) =>
+        renderProcessingIcon(row.uan_number, row.uan_name, row.uan_response),
+    },
     {
       name: "Verified At",
       selector: (row) =>

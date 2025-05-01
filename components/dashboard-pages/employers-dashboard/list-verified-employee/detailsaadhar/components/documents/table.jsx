@@ -15,7 +15,7 @@ export const DocumentsTable = ({ user, handleclick }) => {
     setSuccess(null);
     try {
       const response = await axios.post(
-        `https://quikchek-backend.onrender.com/api/pdf/generate-pdf`,
+        `https://quikchek-backend.onrender.com/api/pdf/otp-generate-pdf`,
         { order_id: id },
         { responseType: "blob" }
       );

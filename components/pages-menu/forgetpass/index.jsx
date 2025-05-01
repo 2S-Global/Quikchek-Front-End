@@ -19,6 +19,11 @@ const Index = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const handleExternalLink = (url) => {
+    window.open(url, "_blank");
+  };
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -105,7 +110,47 @@ const Index = () => {
                 </button>
               </div>
             </form>
+
+            <div className="mt-5 text-center">
+                  <p className="text-muted small">
+                    Developed and maintained by{" "}
+                    <strong
+                      className="text-dark"
+                      onClick={handlecompanyclick}
+                      style={{ cursor: "pointer" }}
+                    >
+                      2S Global Technologies Ltd
+                    </strong>
+                  </p>
+                </div>
+          
+                <div className="d-flex justify-content-center gap-3 mt-3">
+                        <button
+                          onClick={() =>
+                            handleExternalLink(
+                              "https://www.facebook.com/profile.php?id=61575548305003"
+                            )
+                          }
+                          className="btn btn-outline-primary rounded-circle"
+                          aria-label="Facebook"
+                        >
+                          <FaFacebookF />
+                        </button>
+                        <button
+                          onClick={() =>
+                            handleExternalLink(
+                              "https://www.linkedin.com/company/global-employability-information-services-india-limited/"
+                            )
+                          }
+                          className="btn btn-outline-primary rounded-circle"
+                          aria-label="LinkedIn"
+                        >
+                          <FaLinkedinIn />
+                        </button>
+                      </div>
           </div>
+
+        
         </div>
 
         {/* Sticky Footer */}
@@ -141,7 +186,7 @@ const Index = () => {
                 <strong className="text-primary">Quikchek</strong>. All Rights
                 Reserved.
               </p>
-              <p className="mb-3 text-muted small">
+              {/* <p className="mb-3 text-muted small">
                 Developed and maintained by{" "}
                 <strong
                   className="text-dark"
@@ -150,9 +195,9 @@ const Index = () => {
                 >
                   2S Global Technologies Ltd
                 </strong>
-              </p>
+              </p> */}
             </div>
-            <div className="d-flex justify-content-center gap-3">
+            {/* <div className="d-flex justify-content-center gap-3">
               <button
                 onClick={() =>
                   handleExternalLink(
@@ -175,7 +220,7 @@ const Index = () => {
               >
                 <FaLinkedinIn />
               </button>
-            </div>
+            </div> */}
           </div>
         </footer>
       </div>

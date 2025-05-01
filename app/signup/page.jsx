@@ -80,7 +80,7 @@ const Index = () => {
                 <strong className="text-primary">Quikchek</strong>. All Rights
                 Reserved.
               </p>
-              <p className="mb-3 text-muted small">
+              {/* <p className="mb-3 text-muted small">
                 Developed and maintained by{" "}
                 <strong
                   className="text-dark"
@@ -89,9 +89,9 @@ const Index = () => {
                 >
                   2S Global Technologies Ltd
                 </strong>
-              </p>
+              </p> */}
             </div>
-            <div className="d-flex justify-content-center gap-3">
+            {/* <div className="d-flex justify-content-center gap-3">
               <button
                 onClick={() =>
                   handleExternalLink(
@@ -114,7 +114,7 @@ const Index = () => {
               >
                 <FaLinkedinIn />
               </button>
-            </div>
+            </div> */}
           </div>
         </footer>
       </div>

@@ -6,7 +6,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import MessageComponent from "../../ResponseMsg";
 import { Eye, EyeOff } from "lucide-react";
-
+import { FaFacebookF, FaLinkedinIn } from "react-icons/fa";
 
 
 
@@ -30,6 +30,15 @@ const FormContent2 = () => {
   const [success, setSuccess] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
   const apiurl = process.env.NEXT_PUBLIC_API_URL;
+
+  
+  const handlecompanyclick = () => {
+    handleExternalLink("https://2sglobal.co/");
+  };
+  const handleExternalLink = (url) => {
+    window.open(url, "_blank");
+  };
+
 
   const validateField = (name, value) => {
     let message = "";
@@ -356,6 +365,45 @@ const FormContent2 = () => {
   <a href="/" className="pwd">Returning User? Click Here to Login...</a>
 </div>
       </form>
+
+   <div className="mt-5 text-center">
+        <p className="text-muted small">
+          Developed and maintained by{" "}
+          <strong
+            className="text-dark"
+            onClick={handlecompanyclick}
+            style={{ cursor: "pointer" }}
+          >
+            2S Global Technologies Ltd
+          </strong>
+        </p>
+      </div>
+
+      <div className="d-flex justify-content-center gap-3 mt-3">
+              <button
+                onClick={() =>
+                  handleExternalLink(
+                    "https://www.facebook.com/profile.php?id=61575548305003"
+                  )
+                }
+                className="btn btn-outline-primary rounded-circle"
+                aria-label="Facebook"
+              >
+                <FaFacebookF />
+              </button>
+              <button
+                onClick={() =>
+                  handleExternalLink(
+                    "https://www.linkedin.com/company/global-employability-information-services-india-limited/"
+                  )
+                }
+                className="btn btn-outline-primary rounded-circle"
+                aria-label="LinkedIn"
+              >
+                <FaLinkedinIn />
+              </button>
+            </div>
+      
     </div>
   );
 };

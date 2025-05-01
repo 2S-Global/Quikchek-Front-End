@@ -226,11 +226,19 @@ useEffect(() => {
       name: "Action",
       cell: (row) => (
         <div className="d-flex gap-2">
-          <Link href={`/list-verified-employee/details?id=${row._id}`} passHref>
-            <button className="btn btn-sm" title="View Details">
-              <Eye size={16} className="me-1 text-primary" />
-            </button>
-          </Link>
+           {row.aadhat_otp === "yes" ? (
+        <Link href={`/list-verified-employee/detailsaadhar?id=${row._id}`} passHref>
+          <button className="btn btn-sm" title="View Details">
+            <Eye size={16} className="me-1 text-primary" />
+          </button>
+        </Link>
+      ) : (
+        <Link href={`/list-verified-employee/details?id=${row._id}`} passHref>
+          <button className="btn btn-sm" title="View Details">
+            <Eye size={16} className="me-1 text-primary" />
+          </button>
+        </Link>
+      )}
           <button
             onClick={() => handleDownload(row.file_url)}
             className="btn btn-link p-0"

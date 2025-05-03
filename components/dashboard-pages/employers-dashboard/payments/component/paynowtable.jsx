@@ -47,7 +47,7 @@ const PaymentDetails = () => {
         if (response.data.success) {
           setPayments(response.data.data);
         } else {
-          setError("No Data available.");
+          setError("No data available.");
         }
       } catch (err) {
         console.error("Error fetching data:", err); // Debugging

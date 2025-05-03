@@ -309,6 +309,11 @@ const WidgetContentBox = () => {
           },
         }
       );
+      if (!response.data.success) {
+        setError(response.data.message);
+        setErrorId(Date.now());
+        return;
+      }
 
       if (response.status === 201) {
         setSuccess(response.data.message);

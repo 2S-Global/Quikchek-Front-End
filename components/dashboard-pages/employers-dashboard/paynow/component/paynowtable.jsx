@@ -33,6 +33,7 @@ const PaymentDetails = () => {
 
   const [walletBalance, setWalletBalance] = useState(0);
   const [fund_status, setFundStatus] = useState("");
+  const [overall_billing, setOverallBilling] = useState({});
 
   //razor pay
   const razorpayKey = process.env.NEXT_PUBLIC_RAZORPAY_KEY;
@@ -59,6 +60,7 @@ const PaymentDetails = () => {
 
         if (response.data.success) {
           setPayments(response.data.data);
+          setOverallBilling(response.data.overall_billing);
           setSubTotal(parseFloat(response.data.overall_billing.subtotal) || 0);
           setGst(parseFloat(response.data.overall_billing.gst) || 0);
           setTotal(parseFloat(response.data.overall_billing.total) || 0);
@@ -111,6 +113,7 @@ const PaymentDetails = () => {
       console.log("Delete response:", Dlt_response.data);
       if (Dlt_response.data.success) {
         setPayments(Dlt_response.data.data);
+        setOverallBilling(Dlt_response.data.overall_billing);
         setSubTotal(
           parseFloat(Dlt_response.data.overall_billing.subtotal) || 0
         );
@@ -155,6 +158,7 @@ const PaymentDetails = () => {
           amount: pay,
           paymentIds: pids,
           payment_method: paymentmethod,
+          overall_billing: overall_billing,
         },
         {
           headers: {

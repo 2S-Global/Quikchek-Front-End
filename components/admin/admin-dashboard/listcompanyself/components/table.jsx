@@ -12,6 +12,7 @@ import {
   Send,
   FilePen,
   Mailbox,
+  ShoppingCart 
 } from "lucide-react";
 import EditfieldModal from "./modals/editfield";
 import EditplanModal from "./modals/planmodal";
@@ -99,6 +100,10 @@ const Companytable = () => {
 
     fetchCompanies();
   }, [apiurl]);
+
+  const handlecart = (company) => {
+    router.push(`/admin/cart?id=${company._id}`);
+  };
 
   const handleDelete = async (id) => {
     const token = localStorage.getItem("Super_token");
@@ -456,7 +461,16 @@ const Companytable = () => {
                                     style={{ cursor: "pointer" }}
                                     onClick={() => handleplanmail(company)}
                                   />
+                                  </span>
+                                  <span title="Cart">
+                                  <ShoppingCart
+                                    size={20}
+                                    className="text-info"
+                                    style={{ cursor: "pointer" }}
+                                    onClick={() => handlecart(company)}
+                                  />
                                 </span>
+                       
                               </div>
                             )}
                           </div>

@@ -3,6 +3,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import DataTable from "react-data-table-component";
+import MessageComponent from "@/components/common/ResponseMsg";
+
 import {
   CheckCircle,
   XCircle,
@@ -19,54 +21,102 @@ const Applicants = () => {
   const [candidates, setCandidates] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [errorId, setErrorId] = useState(null);
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
+  const [success, setSuccess] = useState(null);
+  const [rowLoading, setRowLoading] = useState({});
 
-useEffect(() => {
-  const fetchCandidates = async () => {
+  useEffect(() => {
+    const fetchCandidates = async () => {
+      try {
+        const token = localStorage.getItem("Admin_token");
+        if (!token) {
+          console.error("Error: No token found in localStorage");
+          setError("Unauthorized: No token found");
+          setLoading(false);
+          return;
+        }
+
+        const response = await axios.post(
+          `${API_URL}/api/usercart/getPaidUserVerificationCartByEmployer`,
+          {},
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        setCandidates(response.data.data);
+      } catch (error) {
+        console.error(
+          "Error fetching candidates:",
+          error.response?.data || error
+        );
+        setError(error.response?.data?.message || "Internal Server Error");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    // Call immediately when component mounts
+    fetchCandidates();
+
+    // Then run every 60 seconds
+    const interval = setInterval(() => {
+      fetchCandidates();
+    }, 30000);
+
+    // Clear interval when component unmounts
+    return () => clearInterval(interval);
+  }, [API_URL]);
+
+  // const handleDownload = async (fileUrl) => {
+  //   if (!fileUrl) {
+  //     alert("No file available for download");
+  //     return;
+  //   }
+  // };
+
+  const handleDownload = async (url, data, rowId, name) => {
+    // Set loading state for the specific row to true
+    setRowLoading((prev) => ({ ...prev, [rowId]: true }));
+  
     try {
       const token = localStorage.getItem("Admin_token");
       if (!token) {
-        console.error("Error: No token found in localStorage");
-        setError("Unauthorized: No token found");
-        setLoading(false);
+        setError("No token found");
         return;
       }
-
-      const response = await axios.post(
-        `${API_URL}/api/usercart/getPaidUserVerificationCartByEmployer`,
-        {},
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      setCandidates(response.data.data);
-    } catch (error) {
-      console.error("Error fetching candidates:", error.response?.data || error);
-      setError(error.response?.data?.message || "Internal Server Error");
+  
+      // Make the request to the backend with the correct URL and data
+      const response = await axios.post(url, data, {
+        responseType: "blob",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+  
+      const blob = new Blob([response.data], {
+        type: response.headers["content-type"],
+      });
+      const link = document.createElement("a");
+      link.href = window.URL.createObjectURL(blob);
+      link.setAttribute("download", `${name}.pdf`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+  
+      // Set success message
+      setSuccess("PDF downloaded successfully!");
+      setErrorId(null); // Clear any previous error messages
+    } catch (err) {
+     
+      setErrorId("Failed to download PDF. Please try again.");
     } finally {
-      setLoading(false);
+      // Set loading state for the specific row to false
+      setRowLoading((prev) => ({ ...prev, [rowId]: false }));
     }
   };
-
-  // Call immediately when component mounts
-  fetchCandidates();
-
-  // Then run every 60 seconds
-  const interval = setInterval(() => {
-    fetchCandidates();
-  }, 30000);
-
-  // Clear interval when component unmounts
-  return () => clearInterval(interval);
-}, [API_URL]);
-
-  const handleDownload = async (fileUrl) => {
-    if (!fileUrl) {
-      alert("No file available for download");
-      return;
-    }
-  };
-
+  
   const renderProcessingIcon = (docNumber, docName, response) => {
     if (docNumber || docName) {
       if (response) {
@@ -208,7 +258,7 @@ useEffect(() => {
       cell: (row) =>
         renderProcessingIcon(row.epic_number, row.epic_name, row.epic_response),
     },
-        {
+    {
       name: "UAN",
       selector: (row) =>
         renderProcessingIcon(row.uan_number, row.uan_name, row.uan_response),
@@ -226,33 +276,66 @@ useEffect(() => {
       name: "Action",
       cell: (row) => (
         <div className="d-flex gap-2">
-           {row.aadhat_otp === "yes" ? (
-        <Link href={`/list-verified-employee/detailsaadhar?id=${row._id}`} passHref>
-          <button className="btn btn-sm" title="View Details">
-            <Eye size={16} className="me-1 text-primary" />
-          </button>
-        </Link>
-      ) : (
-        <Link href={`/list-verified-employee/details?id=${row._id}`} passHref>
-          <button className="btn btn-sm" title="View Details">
-            <Eye size={16} className="me-1 text-primary" />
-          </button>
-        </Link>
-      )}
+          {row.aadhat_otp === "yes" ? (
+            <Link
+              href={`/list-verified-employee/detailsaadhar?id=${row._id}`}
+              passHref
+            >
+              <button className="btn btn-sm" title="View Details">
+                <Eye size={16} className="me-1 text-primary" />
+              </button>
+            </Link>
+          ) : (
+            <Link
+              href={`/list-verified-employee/details?id=${row._id}`}
+              passHref
+            >
+              <button className="btn btn-sm" title="View Details">
+                <Eye size={16} className="me-1 text-primary" />
+              </button>
+            </Link>
+          )}
           <button
-            onClick={() => handleDownload(row.file_url)}
+            onClick={() => {
+              // Dynamically set the URL based on the `aadhat_otp` field
+              const url =
+                row.aadhat_otp === "yes"
+                  ? `https://quikchek-backend.onrender.com/api/pdf/otp-generate-pdf`
+                  : `https://quikchek-backend.onrender.com/api/pdf/generate-pdf`;
+
+              // Pass the URL, data (order_id and file_url), and rowId (row._id) to handleDownload
+              handleDownload(
+                url,
+                {
+                  order_id: row._id,
+                  file_url: row.file_url,
+        
+                },
+                row._id,
+                row.candidate_name
+              );
+            }}
             className="btn btn-link p-0"
             title="Download File"
-            disabled={row.all_verified === 0} // Disable when all_verified = 0
+            disabled={row.all_verified === 0 || rowLoading[row._id]} // Disable when all_verified = 0 or the row is loading
             style={{
-              opacity: row.all_verified === 0 ? 0.5 : 1,
-              cursor: row.all_verified === 0 ? "not-allowed" : "pointer",
+              opacity: row.all_verified === 0 || rowLoading[row._id] ? 0.5 : 1,
+              cursor:
+                row.all_verified === 0 || rowLoading[row._id]
+                  ? "not-allowed"
+                  : "pointer",
             }}
           >
-            <Download
-              size={20}
-              className={row.all_verified === 0 ? "text-muted" : "text-success"}
-            />
+            {rowLoading[row._id] ? (
+              <Loader size={20} className="text-success spin-loader" />
+            ) : (
+              <Download
+                size={20}
+                className={
+                  row.all_verified === 0 ? "text-muted" : "text-success"
+                }
+              />
+            )}
           </button>
         </div>
       ),
@@ -293,6 +376,7 @@ useEffect(() => {
 
   return (
     <div className="container mt-4">
+      <MessageComponent error={errorId} success={success} />
       <DataTable
         title=""
         columns={columns}

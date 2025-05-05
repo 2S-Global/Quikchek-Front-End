@@ -66,7 +66,7 @@ export const DocumentsTable = ({ user, handleclick }) => {
             <th style={{ minWidth: "200px" }}>Candidate Name</th>
             <th style={{ minWidth: "100px" }}>PAN</th>
             <th style={{ minWidth: "100px" }}>Passport</th>
-            <th style={{ minWidth: "100px" }}>Aadhar With Otp</th>
+            <th style={{ minWidth: "100px" }}>Aadhar With OTP</th>
             <th style={{ minWidth: "100px" }}>DL</th>
             <th style={{ minWidth: "100px" }}>EPIC</th>
             <th style={{ minWidth: "100px" }}>Action</th>

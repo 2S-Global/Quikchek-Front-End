@@ -7,7 +7,7 @@ const AdharDetails = ({ user }) => {
         {" "}
         {/* Simple box with padding and background */}
         <div className="d-flex align-items-center mb-3">
-          <h5 className="fw-bold text-dark mb-0 me-2">Aadhaar</h5>
+          <h5 className="fw-bold text-dark mb-0 me-2">Aadhaar With Otp</h5>
         </div>
         <div className="mt-2">
           <div className="col-md-6 text-center mb-3">

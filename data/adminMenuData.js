@@ -35,6 +35,13 @@ module.exports = [
     routePath: "/admin/listverified",
     active: "",
   },
+  {
+    id: 6,
+    name: "Search Transaction",
+    icon: "la-wallet",
+    routePath: "/admin/payments",
+    active: "",
+  },
 
   /*  {
     id: 15,

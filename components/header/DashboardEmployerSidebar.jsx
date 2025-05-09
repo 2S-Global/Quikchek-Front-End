@@ -16,6 +16,7 @@ const DashboardEmployerSidebar = () => {
   const dispatch = useDispatch();
   const pathname = usePathname();
   const [aadhar_otp, setAadhar_otp] = useState("disable");
+  const [module, setModule] = useState("disable");
   const token = localStorage.getItem("Admin_token");
 
   useEffect(() => {
@@ -32,13 +33,14 @@ const DashboardEmployerSidebar = () => {
         );
         if (response.data.success) {
           setAadhar_otp(response.data.aadhar_otp);
+          setModule(response.data);
         }
       } catch (error) {
         console.error("Error fetching Aadhar OTP:", error);
       }
     };
     fetchAadharOtp();
-  });
+  }, []);
 
   // menu toggle handler
   const menuToggleHandler = () => {
@@ -82,6 +84,33 @@ const DashboardEmployerSidebar = () => {
             </li>
           )}
 
+          {module.hoteltatus == "enable" && (
+            <li
+              className={`${
+                isActiveLink("/verify-hotel", pathname) ? "active" : ""
+              } mb-1`}
+              key={199}
+              onClick={menuToggleHandler}
+            >
+              <Link href="/verify-hotel">
+                <i className={`la la-hotel`}></i> Hotel Module
+              </Link>
+            </li>
+          )}
+
+          {module.housingStatus == "enable" && (
+            <li
+              className={`${
+                isActiveLink("/verify-housing", pathname) ? "active" : ""
+              } mb-1`}
+              key={999}
+              onClick={menuToggleHandler}
+            >
+              <Link href="/verify-housing">
+                <i className={`la la-building`}></i> House Module
+              </Link>
+            </li>
+          )}
           {employerMenuData.map((item) => (
             <li
               className={`${

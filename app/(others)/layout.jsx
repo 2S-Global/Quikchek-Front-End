@@ -7,10 +7,6 @@ export default function Layout({ children }) {
   const handlecompanyclick = () => {
     handleExternalLink("https://2sglobal.co/");
   };
-
-  const handleExternalLink = (url) => {
-    window.open(url, "_blank");
-  };
   return (
     <>
       <div

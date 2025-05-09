@@ -17,6 +17,8 @@ const EditplanModal = ({ show, onClose, field }) => {
     companyId: "",
     aadhar_otp: "disable", // default
     aadhar_price: "",
+    hotel_module:"disable",
+    housing_module:"disable"
   });
 
   const [loading, setLoading] = useState(false);
@@ -66,6 +68,9 @@ const EditplanModal = ({ show, onClose, field }) => {
             discount_percent: response.data.data.discount_percent || "",
             aadhar_otp: response.data.data.aadhar_otp || "disable",
             aadhar_price: response.data.data.aadhar_price || "",
+            hotel_module: response.data.data.hotel_module || "disable",
+            housing_module: response.data.data.housing_module || "disable",
+
           }));
         }
       } catch (err) {
@@ -180,7 +185,10 @@ const EditplanModal = ({ show, onClose, field }) => {
             ></button>
           </div>
 
-          <div className="modal-body px-4 py-3">
+          <div
+            className="modal-body px-4 py-3"
+            style={{ maxHeight: "75vh", overflowY: "auto" }}
+          >
             <MessageComponent error={error} success={success} />
 
             {loading ? (
@@ -202,7 +210,7 @@ const EditplanModal = ({ show, onClose, field }) => {
                     </label>
                     <div
                       className="border rounded p-2"
-                      style={{ maxHeight: "220px", overflowY: "auto" }}
+                      style={{ maxHeight: "270px", overflowY: "auto" }}
                     >
                       {plans.length === 0 ? (
                         <p className="text-muted">No plans available.</p>
@@ -252,49 +260,50 @@ const EditplanModal = ({ show, onClose, field }) => {
                       min="0"
                       max="99"
                     />
-
-                    <div className="col-md-12">
-                      <label className="form-label fw-semibold">
+                    <div className="row align-items-center mt-3">
+                      <label className="col-auto form-label fw-semibold mb-0">
                         Aadhaar with OTP
                       </label>
-                      <div className="form-check">
-                        <input
-                          className="form-check-input"
-                          type="radio"
-                          name="aadhar_otp"
-                          id="aadhar_enable"
-                          value="enable"
-                          checked={formData.aadhar_otp === "enable"}
-                          onChange={handleChange}
-                        />
-                        <label
-                          className="form-check-label"
-                          htmlFor="aadhar_enable"
-                        >
-                          Enable
-                        </label>
-                      </div>
-                      <div className="form-check">
-                        <input
-                          className="form-check-input"
-                          type="radio"
-                          name="aadhar_otp"
-                          id="aadhar_disable"
-                          value="disable"
-                          checked={formData.aadhar_otp === "disable"}
-                          onChange={handleChange}
-                        />
-                        <label
-                          className="form-check-label"
-                          htmlFor="aadhar_disable"
-                        >
-                          Disable
-                        </label>
+                      <div className="col d-flex">
+                        <div className="form-check me-3">
+                          <input
+                            className="form-check-input"
+                            type="radio"
+                            name="aadhar_otp"
+                            id="aadhar_enable"
+                            value="enable"
+                            checked={formData.aadhar_otp === "enable"}
+                            onChange={handleChange}
+                          />
+                          <label
+                            className="form-check-label"
+                            htmlFor="aadhar_enable"
+                          >
+                            Enable
+                          </label>
+                        </div>
+                        <div className="form-check">
+                          <input
+                            className="form-check-input"
+                            type="radio"
+                            name="aadhar_otp"
+                            id="aadhar_disable"
+                            value="disable"
+                            checked={formData.aadhar_otp === "disable"}
+                            onChange={handleChange}
+                          />
+                          <label
+                            className="form-check-label"
+                            htmlFor="aadhar_disable"
+                          >
+                            Disable
+                          </label>
+                        </div>
                       </div>
                     </div>
 
                     {formData.aadhar_otp === "enable" && (
-                      <div className="col-md-12">
+                      <div className="col-md-12 mt-3">
                         <label
                           htmlFor="aadhar_price"
                           className="form-label fw-semibold"
@@ -332,6 +341,96 @@ const EditplanModal = ({ show, onClose, field }) => {
                         />
                       </div>
                     )}
+
+                    <div className="col-md-12 mt-3">
+                      <div className="d-flex align-items-center">
+                        <label className="form-label fw-semibold me-4 mb-0">
+                          Hotel Module
+                        </label>
+                        <div className="d-flex" style={{ marginLeft:"34px" }}>
+                          <div className="form-check me-3">
+                            <input
+                              className="form-check-input"
+                              type="radio"
+                              name="hotel_module"
+                              id="hotel_enable"
+                              value="enable"
+                              checked={formData.hotel_module === "enable"}
+                              onChange={handleChange}
+                            />
+                            <label
+                              className="form-check-label"
+                              htmlFor="hotel_enable"
+                            >
+                              Enable
+                            </label>
+                          </div>
+                          <div className="form-check">
+                            <input
+                              className="form-check-input"
+                              type="radio"
+                              name="hotel_module"
+                              id="hotel_disable"
+                              value="disable"
+                              checked={formData.hotel_module === "disable"}
+                              onChange={handleChange}
+                            />
+                            <label
+                              className="form-check-label"
+                              htmlFor="hotel_disable"
+                            >
+                              Disable
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+                    <div className="col-md-12 mt-3">
+                      <div className="d-flex align-items-center">
+                        <label className="form-label fw-semibold me-4 mb-0">
+                          House Module
+                        </label>
+                        <div className="d-flex" style={{ marginLeft:"29px" }}>
+                          <div className="form-check me-3">
+                            <input
+                              className="form-check-input"
+                              type="radio"
+                              name="housing_module"
+                              id="house_enable"
+                              value="enable"
+                              checked={formData.housing_module === "enable"}
+                              onChange={handleChange}
+                            />
+                            <label
+                              className="form-check-label"
+                              htmlFor="house_enable"
+                            >
+                              Enable
+                            </label>
+                          </div>
+                          <div className="form-check">
+                            <input
+                              className="form-check-input"
+                              type="radio"
+                              name="housing_module"
+                              id="house_disable"
+                              value="disable"
+                              checked={formData.housing_module === "disable"}
+                              onChange={handleChange}
+                            />
+                            <label
+                              className="form-check-label"
+                              htmlFor="house_disable"
+                            >
+                              Disable
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
                   </div>
                 </div>
 

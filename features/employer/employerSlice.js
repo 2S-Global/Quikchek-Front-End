@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   category: [
-    {
+    { 
       id: 1,
       name: "Residential",
       value: "residential",

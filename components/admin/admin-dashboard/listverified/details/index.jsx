@@ -1,3 +1,5 @@
+import MobileMenu from "../../../../header/AdminMobileMenu";
+
 import DashboardHeader from "../../../../header/DashboardAdminheader";
 import DashboardEmployerSidebar from "../../../../header/DashboardAdminsidebar";
 import CopyrightFooter from "../../../CopyrightFooter";
@@ -10,6 +12,8 @@ const index = () => {
       <DashboardHeader />
       {/* End Header */}
 
+      <MobileMenu />
+      {/* End MobileMenu */}
       <DashboardEmployerSidebar />
       {/* <!-- End User Sidebar Menu --> */}
 

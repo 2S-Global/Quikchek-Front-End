@@ -1,6 +1,6 @@
 "use client";
 
-import MobileMenu from "../../../../header/MobileMenu";
+import MobileMenu from "../../../../header/AdminMobileMenu";
 import DashboardHeader from "../../../../header/DashboardAdminheader";
 import DashboardEmployerSidebar from "../../../../header/DashboardAdminsidebar";
 import CopyrightFooter from "../../../CopyrightFooter";
@@ -26,11 +26,11 @@ const Index = () => {
   // Billing info based on the API response
   const [subTotal, setSubTotal] = useState(0);
   const [discount, setDiscount] = useState(0);
-  const [discountPercentage, setDiscountPercentage] = useState(48);  // From the response
+  const [discountPercentage, setDiscountPercentage] = useState(48); // From the response
   const [sgst, setSgst] = useState(0);
-  const [sgstPercentage, setSgstPercentage] = useState(9);  // From the response
+  const [sgstPercentage, setSgstPercentage] = useState(9); // From the response
   const [cgst, setCgst] = useState(0);
-  const [cgstPercentage, setCgstPercentage] = useState(9);  // From the response
+  const [cgstPercentage, setCgstPercentage] = useState(9); // From the response
   const [total, setTotal] = useState(0);
 
   // Get token from localStorage
@@ -65,7 +65,7 @@ const Index = () => {
       const { data, overall_billing, company_name } = response.data;
       setPayments(data);
       setCompanyName(company_name || "N/A");
-  
+
       // Use API values directly (no calculation needed)
       setSubTotal(parseFloat(overall_billing.subtotal || 0));
       setDiscount(parseFloat(overall_billing.discount || 0));
@@ -82,7 +82,6 @@ const Index = () => {
       setLoading(false);
     }
   };
-
 
   const closeModalRH = () => {
     setIsModalOpen(false);
@@ -101,16 +100,17 @@ const Index = () => {
             <div className="col-lg-12">
               <div className="applicants-widget ls-widget">
                 <div className="widget-title">
-                <h4>Cart List ({companyName})</h4>
-
-
+                  <h4>Cart List ({companyName})</h4>
                 </div>
 
                 <div className="container">
                   {loading ? (
                     <div className="text-center py-5">
                       {/* Bootstrap Loader */}
-                      <div className="spinner-border text-primary" role="status">
+                      <div
+                        className="spinner-border text-primary"
+                        role="status"
+                      >
                         <span className="visually-hidden">Loading...</span>
                       </div>
                     </div>
@@ -121,22 +121,32 @@ const Index = () => {
                           <tr>
                             <th style={{ textAlign: "center" }}>#</th>
                             <th style={{ textAlign: "center" }}>Name</th>
-                            <th style={{ textAlign: "center" }}>Mobile Number</th>
+                            <th style={{ textAlign: "center" }}>
+                              Mobile Number
+                            </th>
                             <th style={{ textAlign: "center" }}>Pay For</th>
                             <th style={{ textAlign: "center" }}>Amount</th>
-                       
                           </tr>
                         </thead>
                         <tbody>
                           {payments.length > 0 ? (
                             payments.map((payment, index) => (
                               <tr key={payment.id}>
-                                <td style={{ textAlign: "center" }}>{index + 1}</td>
-                                <td style={{ textAlign: "center" }}>{payment.name}</td>
-                                <td style={{ textAlign: "center" }}>{payment.mobile || "N/A"}</td>
-                                <td style={{ textAlign: "center" }}>{payment.payFor || "N/A"}</td>
-                                <td style={{ textAlign: "center" }}>{payment.amount} INR</td>
-                          
+                                <td style={{ textAlign: "center" }}>
+                                  {index + 1}
+                                </td>
+                                <td style={{ textAlign: "center" }}>
+                                  {payment.name}
+                                </td>
+                                <td style={{ textAlign: "center" }}>
+                                  {payment.mobile || "N/A"}
+                                </td>
+                                <td style={{ textAlign: "center" }}>
+                                  {payment.payFor || "N/A"}
+                                </td>
+                                <td style={{ textAlign: "center" }}>
+                                  {payment.amount} INR
+                                </td>
                               </tr>
                             ))
                           ) : (
@@ -152,19 +162,24 @@ const Index = () => {
                       {payments.length > 0 && (
                         <div className="p-3 bg-light rounded">
                           <p className="d-flex justify-content-between mb-1">
-                            <span>Sub-Total :</span> <span>{subTotal.toFixed(2)} INR</span>
+                            <span>Sub-Total :</span>{" "}
+                            <span>{subTotal.toFixed(2)} INR</span>
                           </p>
                           <p className="d-flex justify-content-between mb-1">
-                            <span>Discount ({discountPercentage}%) :</span> <span>- {discount.toFixed(2)} INR</span>
+                            <span>Discount ({discountPercentage}%) :</span>{" "}
+                            <span>- {discount.toFixed(2)} INR</span>
                           </p>
                           <p className="d-flex justify-content-between mb-1">
-                            <span>SGST ({sgstPercentage}%) :</span> <span>{sgst.toFixed(2)} INR</span>
+                            <span>SGST ({sgstPercentage}%) :</span>{" "}
+                            <span>{sgst.toFixed(2)} INR</span>
                           </p>
                           <p className="d-flex justify-content-between mb-1">
-                            <span>CGST ({cgstPercentage}%) :</span> <span>{cgst.toFixed(2)} INR</span>
+                            <span>CGST ({cgstPercentage}%) :</span>{" "}
+                            <span>{cgst.toFixed(2)} INR</span>
                           </p>
                           <p className="d-flex justify-content-between fw-bold fs-5">
-                            <span>Total :</span> <span>{total.toFixed(2)} INR</span>
+                            <span>Total :</span>{" "}
+                            <span>{total.toFixed(2)} INR</span>
                           </p>
                         </div>
                       )}
@@ -179,7 +194,9 @@ const Index = () => {
 
       <CopyrightFooter />
 
-      {isModalOpen && <AddCompanyModal show={isModalOpen} onClose={closeModalRH} />}
+      {isModalOpen && (
+        <AddCompanyModal show={isModalOpen} onClose={closeModalRH} />
+      )}
     </div>
   );
 };

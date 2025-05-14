@@ -1,4 +1,4 @@
-import MobileMenu from "../../../header/MobileMenu";
+import MobileMenu from "../../../header/AdminMobileMenu";
 import DashboardHeader from "../../../header/DashboardAdminheader";
 import DashboardEmployerSidebar from "../../../header/DashboardAdminsidebar";
 
@@ -11,8 +11,8 @@ const Index = () => {
         <span className="header-span"></span>
         <DashboardHeader />
         {/* End Header */}
-        {/* 
-        <MobileMenu /> */}
+
+        <MobileMenu />
         {/* End MobileMenu */}
 
         <DashboardEmployerSidebar />

@@ -1,4 +1,4 @@
-import MobileMenu from "../../../header/MobileMenu";
+import MobileMenu from "../../../header/AdminMobileMenu";
 import DashboardHeader from "../../../header/DashboardAdminheader";
 import DashboardEmployerSidebar from "../../../header/DashboardAdminsidebar";
 
@@ -43,7 +43,7 @@ const Index = () => {
                   <div className="widget-title">
                     <h4>Company List</h4>
 
-{/*                     <span
+                    {/*                     <span
                       onClick={openModalRH}
                       style={{
                         cursor: "pointer",

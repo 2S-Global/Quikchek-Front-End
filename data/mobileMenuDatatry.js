@@ -6,12 +6,12 @@ module.exports = [
   },
   {
     id: 2,
-    label: "Verify Employee",
+    label: "Verify Candidate",
     routePath: "/verify-employee",
   },
   {
     id: 3,
-    label: "Payments",
+    label: "History",
     routePath: "/payments",
   },
 
@@ -22,14 +22,10 @@ module.exports = [
   },
   {
     id: 5,
-    label: "Search Employee",
+    label: "Search Candidate",
     routePath: "/search-employee",
   },
-  {
-    id: 6,
-    label: "List Verified Employee",
-    routePath: "/list-verified-employee",
-  },
+
   {
     id: 7,
     label: "Download Center",

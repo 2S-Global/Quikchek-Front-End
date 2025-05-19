@@ -5,26 +5,18 @@ import axios from "axios";
 import { format } from "date-fns";
 import MessageComponent from "@/components/common/ResponseMsg";
 
-const Form = () => {
-  const today = new Date();
-  // 1st of current month
-  const firstDayOfThisMonth = new Date(
-    today.getFullYear(),
-    today.getMonth(),
-    1
-  );
-  // 1st of next month
-  const firstDayOfNextMonth = new Date(
-    today.getFullYear(),
-    today.getMonth() + 1,
-    1
-  );
-
-  const [startDate, setStartDate] = useState(firstDayOfThisMonth);
-  const [endDate, setEndDate] = useState(firstDayOfNextMonth);
-
+const Form = ({
+  showtable,
+  setShowtable,
+  startDate,
+  setStartDate,
+  endDate,
+  setEndDate,
+  loading,
+  setLoading,
+}) => {
   const [response, setResponse] = useState(null);
-  const [loading, setLoading] = useState(false);
+
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const apiurl = process.env.NEXT_PUBLIC_API_URL;
@@ -117,49 +109,88 @@ const Form = () => {
         <div className="">
           <div className="">
             <div className="card-body">
-              <div className="row g-4">
-                <div className="col-md-4">
-                  <label htmlFor="startDate" className="form-label">
-                    Start Date:
-                  </label>
-                  <DatePicker
-                    selected={startDate}
-                    onChange={(date) => setStartDate(date)}
-                    dateFormat="dd-MM-yyyy"
-                    className="form-control"
-                  />
+              <div className="row g-4 p-4  rounded ">
+                {/* Start Date */}
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <label
+                      htmlFor="startDate"
+                      className="form-label fw-semibold p-2"
+                    >
+                      Start Date:
+                    </label>
+                    <DatePicker
+                      selected={startDate}
+                      onChange={(date) => setStartDate(date)}
+                      dateFormat="dd-MM-yyyy"
+                      className="form-control border-primary shadow-sm"
+                      placeholderText="Select start date"
+                    />
+                  </div>
                 </div>
 
-                <div className="col-md-4">
-                  <label htmlFor="endDate" className="form-label">
-                    End Date:
-                  </label>
-                  <DatePicker
-                    selected={endDate}
-                    onChange={(date) => setEndDate(date)}
-                    dateFormat="dd-MM-yyyy"
-                    className="form-control"
-                  />
+                {/* End Date */}
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <label
+                      htmlFor="endDate"
+                      className="form-label fw-semibold p-2"
+                    >
+                      End Date:
+                    </label>
+                    <DatePicker
+                      selected={endDate}
+                      onChange={(date) => setEndDate(date)}
+                      dateFormat="dd-MM-yyyy"
+                      className="form-control border-primary shadow-sm"
+                      placeholderText="Select end date"
+                    />
+                  </div>
                 </div>
 
-                <div className="col-md-4">
-                  <div className="btn-group" role="group">
-                    <button
-                      type="button"
-                      className="btn btn-outline-primary"
-                      onClick={() => handleGenerateReport("pdf")}
-                    >
-                      <i className="bi bi-file-earmark-pdf me-1"></i> Generate
-                      PDF
-                    </button>
-                    <button
-                      type="button"
-                      className="btn btn-outline-success"
-                      onClick={() => handleGenerateReport("csv")}
-                    >
-                      <i className="bi bi-file-earmark-excel me-1"></i> Generate
-                      CSV
-                    </button>
+                {/* Button Group */}
+                <div className="col-12">
+                  <div className="d-flex justify-content-center">
+                    <div className="btn-group flex-wrap gap-3" role="group">
+                      {/* View / Cancel Button */}
+                      {!showtable ? (
+                        <button
+                          type="button"
+                          className="btn btn-outline-info px-4 py-2 shadow-sm"
+                          onClick={() => setShowtable(true)}
+                        >
+                          <i className="bi bi-eye me-2"></i> View
+                        </button>
+                      ) : (
+                        <button
+                          type="button"
+                          className="btn btn-outline-danger px-4 py-2 shadow-sm"
+                          onClick={() => setShowtable(false)}
+                        >
+                          <i className="bi bi-x-circle me-2"></i> Cancel
+                        </button>
+                      )}
+
+                      {/* PDF Button */}
+                      <button
+                        type="button"
+                        className="btn btn-outline-primary px-4 py-2 shadow-sm"
+                        onClick={() => handleGenerateReport("pdf")}
+                      >
+                        <i className="bi bi-file-earmark-pdf me-2"></i> Generate
+                        PDF
+                      </button>
+
+                      {/* CSV Button */}
+                      <button
+                        type="button"
+                        className="btn btn-outline-success px-4 py-2 shadow-sm"
+                        onClick={() => handleGenerateReport("csv")}
+                      >
+                        <i className="bi bi-file-earmark-excel me-2"></i>{" "}
+                        Generate CSV
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>

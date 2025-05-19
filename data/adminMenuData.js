@@ -14,7 +14,7 @@ module.exports = [
     active: "",
   },
 
-      {
+  {
     id: 3,
     name: "List Company Self",
     icon: "la-file-alt",
@@ -40,6 +40,13 @@ module.exports = [
     name: "Search Transaction",
     icon: "la-wallet",
     routePath: "/admin/payments",
+    active: "",
+  },
+  {
+    id: 7,
+    name: "Report",
+    icon: "la-file-alt",
+    routePath: "/admin/report",
     active: "",
   },
 

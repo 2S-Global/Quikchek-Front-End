@@ -2,8 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 
 export const metadata = {
-  title: "Page Not Found || Superio - Job Board React NextJS Template",
-  description: "Superio - Job Board React NextJS Template",
+  title: "Page Not Found ",
+  description: "",
 };
 
 export default function NotFound() {
@@ -18,7 +18,7 @@ export default function NotFound() {
       <div className="content">
         <div className="logo">
           <Link href="/">
-            <Image width={154} height={50} src="/images/logo.svg" alt="brand" />
+            <Image width={154} height={50} src="/images/logo.png" alt="brand" />
           </Link>
         </div>
         {/* End logo */}

@@ -98,6 +98,24 @@ const DashboardHeader = () => {
                     </Link>
                   </li>
                 ))}
+                {/*    {
+    id: 3,
+    name: "Logout",
+    icon: "la-sign-out",
+    routePath: "/",
+    active: false,
+  },*/}
+                <li
+                  className={`${
+                    isActiveLink("/", usePathname()) ? "active" : ""
+                  } mb-1`}
+                  key={3}
+                >
+                  <Link href="/" onClick={() => localStorage.clear()}>
+                    <i className="la la-sign-out" aria-hidden="true"></i>
+                    Logout
+                  </Link>
+                </li>
               </ul>
             </div>
             {/* End dropdown */}

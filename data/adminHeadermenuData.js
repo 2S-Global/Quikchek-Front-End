@@ -13,11 +13,5 @@ module.exports = [
     routePath: "#",
     active: false,
   },
-  {
-    id: 3,
-    name: "Logout",
-    icon: "la-sign-out",
-    routePath: "/",
-    active: false,
-  },
+  /* skip id 3 always */
 ];

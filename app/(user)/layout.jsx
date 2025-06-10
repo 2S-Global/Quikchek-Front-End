@@ -3,6 +3,8 @@ export const metadata = {
   description: "Quikchek Dashboard",
 };
 
+import AuthWrapper from "./AuthWrapper";
+
 export default function Layout({ children }) {
-  return <>{children}</>;
+  return <AuthWrapper>{children}</AuthWrapper>;
 }

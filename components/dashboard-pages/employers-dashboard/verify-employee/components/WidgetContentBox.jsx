@@ -436,15 +436,6 @@ const WidgetContentBox = () => {
               errorId={errorId}
             />
             <div className="row">
-              {/* <div className="col-lg-12 col-md-12">
-                <h5
-                  className="text-center mb-2"
-                  style={{ textDecoration: "underline" }}
-                >
-                  Personal Details
-                </h5>
-              </div> */}
-
               {/* Full Name */}
               <div className="form-group col-lg-4 col-md-4 d-flex flex-column">
                 <label>

@@ -52,7 +52,14 @@ const Index = () => {
               </SubMenu>
             ) : (
               <MenuItem
-                onClick={() => router.push(item.routePath)}
+                onClick={() => {
+                  if (item.id === 9) {
+                    localStorage.clear();
+                    router.push("/");
+                  } else {
+                    router.push(item.routePath);
+                  }
+                }}
                 className={
                   isActiveLink(item.routePath, pathname)
                     ? "menu-active-link"

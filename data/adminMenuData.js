@@ -49,6 +49,13 @@ module.exports = [
     routePath: "/admin/report",
     active: "",
   },
+  {
+    id: 8,
+    name: "List Slider",
+    icon: "la-images",
+    routePath: "/admin/listslider",
+    active: "",
+  },
 
   /*  {
     id: 15,

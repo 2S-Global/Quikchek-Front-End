@@ -84,6 +84,46 @@ const AadharOtp = () => {
     }
   };
 
+  const handlefree = async (pay, pids) => {
+    setLoading(true);
+    console.log("From handlePaymentSuccess pay", pay);
+    console.log("From handlePaymentSuccess pids", pids);
+
+    try {
+      const paymentResponse = await axios.post(
+        `${apiurl}/api/verify/paynowaadharotpfree`,
+        {
+          amount: pay,
+          payment_method: "Free",
+          paymentIds: pids,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log("From handlePaymentSuccess paymentResponse", paymentResponse);
+
+      /* if code 200 */
+      if (paymentResponse.status === 200) {
+        setSuccess(
+          "Your payment has been successfully processed. An invoice will be sent to your registered email shortly.Kindly Enter Your Aadhar OTP."
+        );
+        setNewId(paymentResponse.data.newId);
+        setPayments([]);
+        setRequest_id(paymentResponse.data.aadhar_response.request_id);
+        setRenderBill(false);
+        setRenderForm(false);
+        setRenderotp(true);
+        setLoading(false);
+      }
+    } catch (err) {
+      setError("Error processing payment. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
   useEffect(() => {
     const fetchPayments = async () => {
       setLoading(true);
@@ -364,36 +404,62 @@ const AadharOtp = () => {
 
               <div className="mt-3">
                 <div className="d-flex justify-content-end gap-2 mt-3">
-                  {paymentmethod === "Wallet" && (
+                  {total === 0 ? (
                     <>
-                      {fund_status == 0 ? (
-                        <button
-                          className="btn btn-warning px-4"
-                          disabled={payments.length === 0}
-                        >
-                          Add Balance to Wallet
-                        </button>
-                      ) : (
+                      <div className="d-flex align-items-stretch gap-3 mt-3">
+                        <div className="alert alert-light d-flex align-items-center flex-grow-1 border rounded shadow-sm mb-0 px-4 py-0">
+                          <span
+                            className="text-secondary py-3"
+                            style={{ fontSize: "15px" }}
+                          >
+                            <strong>You're on our completely free plan</strong>{" "}
+                            — no payment is needed. Please continue to complete
+                            the verification.
+                          </span>
+                        </div>
                         <button
                           className="btn btn-primary px-4"
-                          disabled={payments.length === 0}
-                          onClick={() =>
-                            handlePaywallet(total, paymentIdsString)
-                          }
+                          style={{ height: "100%" }}
+                          onClick={() => handlefree(total, paymentIdsString)}
                         >
-                          Pay with Wallet ({total?.toFixed(2)} INR)
+                          Continue
                         </button>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      {paymentmethod === "Wallet" && (
+                        <>
+                          {fund_status == 0 ? (
+                            <button
+                              className="btn btn-warning px-4"
+                              disabled={payments.length === 0}
+                            >
+                              Add Balance to Wallet
+                            </button>
+                          ) : (
+                            <button
+                              className="btn btn-primary px-4"
+                              disabled={payments.length === 0}
+                              onClick={() =>
+                                handlePaywallet(total, paymentIdsString)
+                              }
+                            >
+                              Pay with Wallet ({total?.toFixed(2)} INR)
+                            </button>
+                          )}
+                        </>
+                      )}
+
+                      {paymentmethod === "online" && (
+                        <RazorpayPayment
+                          amount={total}
+                          razorpayKey={razorpayKey}
+                          onSuccess={handlePaymentSuccess}
+                          paymentIds={paymentIdsString}
+                        />
                       )}
                     </>
-                  )}
-
-                  {paymentmethod === "online" && (
-                    <RazorpayPayment
-                      amount={total}
-                      razorpayKey={razorpayKey}
-                      onSuccess={handlePaymentSuccess}
-                      paymentIds={paymentIdsString}
-                    />
                   )}
                 </div>
               </div>

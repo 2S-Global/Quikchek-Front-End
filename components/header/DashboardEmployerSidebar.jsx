@@ -19,7 +19,7 @@ const DashboardEmployerSidebar = () => {
   const [module, setModule] = useState("disable");
   const token = localStorage.getItem("Admin_token");
 
-  useEffect(() => {
+  /* useEffect(() => {
     const fetchAadharOtp = async () => {
       try {
         const response = await axios.post(
@@ -40,7 +40,7 @@ const DashboardEmployerSidebar = () => {
       }
     };
     fetchAadharOtp();
-  }, []);
+  }, []); */
 
   // menu toggle handler
   const menuToggleHandler = () => {

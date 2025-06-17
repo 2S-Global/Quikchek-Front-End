@@ -38,9 +38,9 @@ const Index = () => {
             <FormContent2 />
           </div>
         </div>
-        {/* <div className="mb-2">
+        <div className="mb-2">
           <MyCarousel />
-        </div> */}
+        </div>
         {/* Footer */}
         <footer className="bg-light text-center text-dark py-4 mt-5 border-top mt-auto">
           <div className="container">

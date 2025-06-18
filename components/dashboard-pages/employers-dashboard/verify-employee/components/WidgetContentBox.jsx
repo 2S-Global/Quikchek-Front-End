@@ -749,7 +749,7 @@ const WidgetContentBox = () => {
               </div>
             )} */}
 
-                <DocumentUpload
+                {/* <DocumentUpload
                   label="Aadhaar"
                   name="aadhaar"
                   fileId="upload-aadhaar"
@@ -760,7 +760,7 @@ const WidgetContentBox = () => {
                   numberError={validationErrors.aadhaarnumber}
                   onfieldValidation={handleValidation}
                   disabled={!approvedFields.AADHAAR}
-                />
+                /> */}
 
                 <DocumentUpload
                   label="Driving License"

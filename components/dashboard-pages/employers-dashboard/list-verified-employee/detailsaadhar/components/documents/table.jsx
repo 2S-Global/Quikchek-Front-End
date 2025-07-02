@@ -42,7 +42,7 @@ export const DocumentsTable = ({ user, handleclick }) => {
     if (!user?.[key]) {
       return <OctagonAlert className="text-danger" size={20} />;
     }
-    return user[key]?.response_code == 100 ? (
+    return user[key]?.response_code == 100 || user[key]?.status_code == 200 ? (
       <BadgeCheck
         className="text-success cursor-pointer"
         size={20}

@@ -22,10 +22,14 @@ module.exports = [
   },
   {
     id: 5,
-    label: "Search Candidate",
+    label: "Search By Details",
     routePath: "/search-employee",
   },
-
+  {
+    id: 6,
+    label: "Search By ID",
+    routePath: "/search-order",
+  },
   {
     id: 7,
     label: "Download Center",

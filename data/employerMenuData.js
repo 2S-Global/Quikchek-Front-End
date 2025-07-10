@@ -30,11 +30,19 @@ module.exports = [
   },
   {
     id: 9,
-    name: "Search Candidate",
+    name: "Search By Details",
     icon: "la-search",
     routePath: "/search-employee",
     active: "",
   },
+  {
+    id: 10,
+    name: "Search By ID",
+    icon: "la-search",
+    routePath: "/search-order",
+    active: "",
+  },
+
   /*   {
     id: 10,
     name: "Verified Employee",

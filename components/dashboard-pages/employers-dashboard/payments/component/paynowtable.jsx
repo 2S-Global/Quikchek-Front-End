@@ -97,15 +97,14 @@ const PaymentDetails = () => {
     });
   };
 
-
   const handleReset = () => {
     setStartDate(null);
     setEndDate(null);
     setError(null);
-    setShowSearch(false); 
+    setShowSearch(false);
     fetchPayments();
   };
-  
+
   const handledownload = async (id, name) => {
     console.log("Downloading invoice for payment ID:", id);
     setLoadingRowId(id);
@@ -114,7 +113,7 @@ const PaymentDetails = () => {
 
     try {
       const response = await axios.post(
-        `https://quikchek-backend.onrender.com/api/pdf/invoice-pdf`,
+        `${apiurl}/api/pdf/invoice-pdf`,
         { order_id: id },
         { responseType: "blob" }
       );
@@ -139,7 +138,10 @@ const PaymentDetails = () => {
 
   if (loading)
     return (
-      <div className="d-flex justify-content-center align-items-center" style={{ height: "200px" }}>
+      <div
+        className="d-flex justify-content-center align-items-center"
+        style={{ height: "200px" }}
+      >
         <div className="spinner-border text-primary" role="status">
           <span className="visually-hidden">Loading...</span>
         </div>

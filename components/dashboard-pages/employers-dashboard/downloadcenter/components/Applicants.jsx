@@ -78,14 +78,14 @@ const Applicants = () => {
   const handleDownload = async (url, data, rowId, name) => {
     // Set loading state for the specific row to true
     setRowLoading((prev) => ({ ...prev, [rowId]: true }));
-  
+
     try {
       const token = localStorage.getItem("Admin_token");
       if (!token) {
         setError("No token found");
         return;
       }
-  
+
       // Make the request to the backend with the correct URL and data
       const response = await axios.post(url, data, {
         responseType: "blob",
@@ -94,7 +94,7 @@ const Applicants = () => {
           "Content-Type": "application/json",
         },
       });
-  
+
       const blob = new Blob([response.data], {
         type: response.headers["content-type"],
       });
@@ -104,19 +104,18 @@ const Applicants = () => {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-  
+
       // Set success message
       setSuccess("PDF downloaded successfully!");
       setErrorId(null); // Clear any previous error messages
     } catch (err) {
-     
       setErrorId("Failed to download PDF. Please try again.");
     } finally {
       // Set loading state for the specific row to false
       setRowLoading((prev) => ({ ...prev, [rowId]: false }));
     }
   };
-  
+
   const renderProcessingIcon = (docNumber, docName, response) => {
     if (docNumber || docName) {
       if (response) {
@@ -134,6 +133,14 @@ const Applicants = () => {
               </span>
             );
           default:
+            if (response?.status === "success") {
+              return (
+                <span title="Valid Authentication">
+                  <CheckCircle size={14} className="text-success" />
+                </span>
+              );
+            }
+
             return (
               <span title="Not Applied">
                 <MinusCircle size={14} className="text-warning" />
@@ -300,8 +307,8 @@ const Applicants = () => {
               // Dynamically set the URL based on the `aadhat_otp` field
               const url =
                 row.aadhat_otp === "yes"
-                  ? `https://quikchek-backend.onrender.com/api/pdf/otp-generate-pdf`
-                  : `https://quikchek-backend.onrender.com/api/pdf/generate-pdf`;
+                  ? `${API_URL}/api/pdf/otp-generate-pdf`
+                  : `${API_URL}/api/pdf/generate-pdf`;
 
               // Pass the URL, data (order_id and file_url), and rowId (row._id) to handleDownload
               handleDownload(
@@ -309,7 +316,6 @@ const Applicants = () => {
                 {
                   order_id: row._id,
                   file_url: row.file_url,
-        
                 },
                 row._id,
                 row.candidate_name

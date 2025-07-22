@@ -33,7 +33,7 @@ const Form = ({
     if (type === "pdf") {
       try {
         const response = await axios.post(
-          `https://quikchek-backend.onrender.com/api/pdf/report-pdf`,
+          `${apiurl}/api/pdf/report-pdf`,
           {
             start_date: formattedStartDate,
             end_date: formattedEndDate,

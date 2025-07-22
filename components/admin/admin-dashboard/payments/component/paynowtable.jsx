@@ -129,7 +129,7 @@ const PaymentDetails = () => {
 
     try {
       const response = await axios.post(
-        `https://quikchek-backend.onrender.com/api/pdf/invoice-pdf`,
+        `${apiurl}/api/pdf/invoice-pdf`,
         { order_id: id },
         { responseType: "blob" }
       );
@@ -190,7 +190,11 @@ const PaymentDetails = () => {
       </div>
 
       <div className="text-center mb-4 mt-5">
-        <button className="btn btn-primary me-2" onClick={handleSearch}    disabled={!selectedCompany || !startDate || !endDate}>
+        <button
+          className="btn btn-primary me-2"
+          onClick={handleSearch}
+          disabled={!selectedCompany || !startDate || !endDate}
+        >
           Search
         </button>
         <button className="btn btn-secondary" onClick={handleReset}>

@@ -252,6 +252,7 @@ const AadharOtp = () => {
           router.push("/download-center");
         }, 5000);
       } else {
+        console.log("Error submitting OTP:", response.data.message);
         setError(response.data.message || "Invalid OTP. Please try again.");
       }
     } catch (err) {

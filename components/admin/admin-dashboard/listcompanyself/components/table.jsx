@@ -12,7 +12,8 @@ import {
   Send,
   FilePen,
   Mailbox,
-  ShoppingCart 
+  ShoppingCart,
+  UserCheck,
 } from "lucide-react";
 import EditfieldModal from "./modals/editfield";
 import EditplanModal from "./modals/planmodal";
@@ -297,6 +298,76 @@ const Companytable = () => {
       setEmailloading(false);
     }
   };
+
+  const handleverifymail = async (company) => {
+    setEmailloading(true);
+
+    const token = localStorage.getItem("Super_token");
+    console.log("Inviting company:", company.name);
+    console.log("Inviting company id:", company._id);
+
+    try {
+      const response = await axios.post(
+        `${apiurl}/api/auth/send_user_mail`,
+        { userId: company._id },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.data.success) {
+        const time = Date.now();
+        setMessage_id(time);
+        setSuccess(response.data.message);
+      }
+    } catch (err) {
+      setError(
+        err.response?.data?.message || "Failed to send mail. Try again."
+      );
+      const time = Date.now();
+      setErrorId(time);
+    } finally {
+      setEmailloading(false);
+    }
+  };
+  const toggleStatus2 = async (id, currentStatus) => {
+    const token = localStorage.getItem("Super_token");
+
+    if (!token) {
+      setError("Token not found. Please log in again.");
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        `${apiurl}/api/auth/toggle_user_deletion_status`,
+        { userId: id, currentStatus: currentStatus },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.data.success) {
+        setCompanies((prev) =>
+          prev.map((comp) =>
+            comp._id === id ? { ...comp, isVerified: !currentStatus } : comp
+          )
+        );
+
+        const time = Date.now();
+        setMessage_id(time);
+        setSuccess(response.data.message);
+      }
+    } catch (err) {
+      setError(err.invite?.data?.message || "FAILED TO UPDATE. Try again.");
+      const time = Date.now();
+      setErrorId(time);
+    }
+  };
   return (
     <>
       <MessageComponent error={error} success={success} />
@@ -338,28 +409,74 @@ const Companytable = () => {
                         <td style={{ textAlign: "center" }}>
                           {company.required_services}
                         </td>
-                        <td style={{ textAlign: "center" }}>
-                          <div className="form-check form-switch d-flex justify-content-center align-items-center">
-                            <input
-                              className="form-check-input"
-                              type="checkbox"
-                              role="switch"
-                              id={`switch-${company._id}`}
-                              checked={company.is_active}
-                              onChange={() =>
-                                toggleStatus(company._id, company.is_active)
-                              }
-                            />
-                            <label
-                              className={`form-check-label ms-2 fw-semibold ${
-                                company.is_active
-                                  ? "text-success"
-                                  : "text-danger"
-                              }`}
-                              htmlFor={`switch-${company._id}`}
-                            >
-                              {company.is_active ? "Active" : "Inactive"}
-                            </label>
+                        <td
+                          style={{
+                            textAlign: "center",
+                          }}
+                        >
+                          <div className="d-flex flex-column align-items-center">
+                            {/* Active Status */}
+                            <div className="d-flex flex-column align-items-center">
+                              <span className="fw-bold text-secondary mb-1">
+                                Activity
+                              </span>
+                              <div className="form-check form-switch d-flex align-items-center">
+                                <input
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  role="switch"
+                                  id={`active-switch-${company._id}`}
+                                  checked={company.is_active}
+                                  onChange={() =>
+                                    toggleStatus(company._id, company.is_active)
+                                  }
+                                />
+                                <label
+                                  className={`form-check-label ms-2 fw-semibold ${
+                                    company.is_active
+                                      ? "text-success"
+                                      : "text-danger"
+                                  }`}
+                                  htmlFor={`active-switch-${company._id}`}
+                                >
+                                  {company.is_active ? "Active" : "Inactive"}
+                                </label>
+                              </div>
+                            </div>
+
+                            {/* Verification Status */}
+                            <div className="d-flex flex-column align-items-center">
+                              <span className="fw-bold text-secondary mb-1">
+                                Verification
+                              </span>
+                              <div className="form-check form-switch d-flex align-items-center">
+                                <input
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  role="switch"
+                                  id={`verify-switch-${company._id}`}
+                                  checked={company.isVerified}
+                                  onChange={() =>
+                                    toggleStatus2(
+                                      company._id,
+                                      company.isVerified
+                                    )
+                                  }
+                                />
+                                <label
+                                  className={`form-check-label ms-2 fw-semibold ${
+                                    company.isVerified
+                                      ? "text-success"
+                                      : "text-danger"
+                                  }`}
+                                  htmlFor={`verify-switch-${company._id}`}
+                                >
+                                  {company.isVerified
+                                    ? "Verified"
+                                    : "Unverified"}
+                                </label>
+                              </div>
+                            </div>
                           </div>
                         </td>
                         <td
@@ -424,6 +541,14 @@ const Companytable = () => {
                                   onClick={() => handleDelete(company._id)}
                                 />
                               </span>
+                              <span title="Cart">
+                                <ShoppingCart
+                                  size={20}
+                                  className="text-info"
+                                  style={{ cursor: "pointer" }}
+                                  onClick={() => handlecart(company)}
+                                />
+                              </span>
                             </div>
                             {emailloading ? (
                               <div className="d-flex justify-content-center align-items-center">
@@ -461,16 +586,15 @@ const Companytable = () => {
                                     style={{ cursor: "pointer" }}
                                     onClick={() => handleplanmail(company)}
                                   />
-                                  </span>
-                                  <span title="Cart">
-                                  <ShoppingCart
+                                </span>
+                                <span title="Verfication Email">
+                                  <UserCheck
                                     size={20}
-                                    className="text-info"
+                                    className="text-success"
                                     style={{ cursor: "pointer" }}
-                                    onClick={() => handlecart(company)}
+                                    onClick={() => handleverifymail(company)}
                                   />
                                 </span>
-                       
                               </div>
                             )}
                           </div>

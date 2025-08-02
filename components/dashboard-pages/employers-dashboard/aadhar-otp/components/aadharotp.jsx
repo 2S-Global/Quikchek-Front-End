@@ -10,6 +10,7 @@ import RazorpayPayment from "@/components/common/payments/RazorpayPayment";
 import DatePicker from "react-datepicker";
 import axios from "axios";
 import AadharForm from "./adharform";
+import { ca } from "date-fns/locale";
 
 const AadharOtp = () => {
   //razor pay
@@ -76,6 +77,7 @@ const AadharOtp = () => {
         setRenderForm(false);
         setRenderotp(true);
         setLoading(false);
+        setResendTimer(60);
       }
     } catch (err) {
       setError("Error processing payment. Please try again.");
@@ -117,6 +119,7 @@ const AadharOtp = () => {
         setRenderForm(false);
         setRenderotp(true);
         setLoading(false);
+        setResendTimer(60);
       }
     } catch (err) {
       setError("Error processing payment. Please try again.");
@@ -304,7 +307,51 @@ const AadharOtp = () => {
   };
   const paymentIdsString = payments.map((payment) => payment._id).join(", ");
   //console.log("Payment IDs:", paymentIdsString);
+  const [resendTimer, setResendTimer] = useState(60);
 
+  // Countdown for resend button
+  useEffect(() => {
+    let timer;
+    if (resendTimer > 0) {
+      timer = setTimeout(() => setResendTimer(resendTimer - 1), 1000);
+    }
+    return () => clearTimeout(timer);
+  }, [resendTimer]);
+
+  const handleResendOTP = async () => {
+    console.log("OTP resent");
+
+    setLoading(true);
+    try {
+      const response = await axios.post(
+        `${apiurl}/api/verify/resendAadharOTP`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.log("From handleResendOTP response", response);
+
+      if (response.data.success) {
+        setSuccess(response.data.message);
+        setOtp(""); // Clear the OTP input
+        setNewId(response.data.newId);
+        setPayments([]);
+        setRequest_id(response.data.aadhar_response.request_id);
+      } else {
+        setError(response.data.message || "Failed to resend OTP.");
+      }
+    } catch (err) {
+      console.error("Error resending OTP:", err);
+      setError("Error resending OTP. Please try again.");
+    } finally {
+      setLoading(false);
+      setResendTimer(60);
+    }
+  };
   return (
     <>
       <MessageComponent error={error} success={success} />
@@ -468,6 +515,10 @@ const AadharOtp = () => {
           ) : null}
           {renderotp && (
             <form onSubmit={handleOTPSubmit}>
+              <div className="alert alert-warning p-2 mb-3">
+                ⚠️ Do not refresh this page.
+              </div>
+
               <div className="form-group">
                 <label htmlFor="otp" className="form-label">
                   Enter OTP
@@ -485,6 +536,19 @@ const AadharOtp = () => {
 
               <button type="submit" className="btn btn-primary mt-3">
                 Verify OTP
+              </button>
+
+              <button
+                type="button"
+                className={`btn mt-3 ms-2 ${
+                  resendTimer > 0 ? "btn-secondary" : "btn-success"
+                }`}
+                onClick={handleResendOTP}
+                disabled={resendTimer > 0}
+              >
+                {resendTimer > 0
+                  ? `Resend OTP in ${resendTimer}s`
+                  : "Resend OTP"}
               </button>
             </form>
           )}

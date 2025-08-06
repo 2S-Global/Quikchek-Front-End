@@ -194,6 +194,7 @@ const PaymentDetails = () => {
           amount: total,
           paymentIds: paymentIdsString,
           payment_method: paymentmethod,
+          overall_billing: overall_billing,
         },
         {
           headers: {
@@ -333,24 +334,24 @@ const PaymentDetails = () => {
                 </div>
 
                 <div className="mt-3">
-                  {/*  <div className="d-flex justify-content-end align-items-center gap-2">
-                <label htmlFor="paymentmethod" className="mb-0">
-                  Payment Method:
-                </label>
-                <select
-                  className="form-select w-auto"
-                  id="paymentmethod"
-                  value={paymentmethod}
-                  onChange={(e) => setPaymentmethod(e.target.value)}
-                  required
-                >
-                  <option value="">Select Payment Method</option>
-                  <option value="online">Online</option>
-                  <option value="Wallet">
-                    Wallet (Balance: ₹{walletBalance.toFixed(2)})
-                  </option>
-                </select>
-              </div> */}
+                  <div className="d-flex justify-content-end align-items-center gap-2">
+                    <label htmlFor="paymentmethod" className="mb-0">
+                      Payment Method:
+                    </label>
+                    <select
+                      className="form-select w-auto"
+                      id="paymentmethod"
+                      value={paymentmethod}
+                      onChange={(e) => setPaymentmethod(e.target.value)}
+                      required
+                    >
+                      <option value="">Select Payment Method</option>
+                      <option value="online">Online</option>
+                      <option value="Wallet">
+                        Wallet (Balance: ₹{walletBalance.toFixed(2)})
+                      </option>
+                    </select>
+                  </div>
 
                   <div className="d-flex justify-content-end gap-2 mt-3">
                     {total === 0 ? (
@@ -381,13 +382,13 @@ const PaymentDetails = () => {
                       <>
                         {paymentmethod === "Wallet" && (
                           <>
-                            {fund_status == 0 ? (
-                              <button
-                                className="btn btn-warning px-4"
-                                disabled={payments.length === 0}
-                              >
-                                Add Balance to Wallet
-                              </button>
+                            {total > walletBalance ? (
+                              <>
+                                <span className="text-danger">
+                                  Insufficient wallet balance. Please add funds
+                                  to your wallet.
+                                </span>
+                              </>
                             ) : (
                               <button
                                 className="btn btn-primary px-4"

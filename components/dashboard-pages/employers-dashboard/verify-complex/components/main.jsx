@@ -572,6 +572,7 @@ const Mainbox = () => {
                   onChange={handleChange}
                   required
                 >
+                  <option value="">Select Owner</option>
                   {owners?.map((owner) => (
                     <option key={owner._id} value={owner._id}>
                       {owner.name}

@@ -15,9 +15,12 @@ const Mainbox = () => {
 
   const company_name = localStorage.getItem("Admin_name");
   const [owners, setOwners] = useState([
-    { _id: 1, name: "Owner 1" },
-    { _id: 2, name: "Owner 2" },
-    { _id: 3, name: "Owner 3" },
+    {
+      _id: "689326e25782a77d8217aabd",
+      name: "Owner 1(T1 1A)(Select this option only )",
+    },
+    { _id: "689326e25782a77d8217aabe", name: "Owner 2(T1 1B)" },
+    { _id: "689326e25782a77d8217aabf", name: "Owner 3(T1 1C)" },
   ]);
   const [formData, setFormData] = useState({
     name: "",
@@ -422,8 +425,8 @@ const Mainbox = () => {
   return (
     <>
       <div className="widget-content">
-        <div className="col-lg-12 col-md-12 py-2">
-          <h5>
+        <div className="col-lg-12 col-md-12 py-2 mt-2">
+          <h5 className=" mt-2 mb-2">
             <strong>Add Details</strong>
           </h5>
         </div>
@@ -686,12 +689,16 @@ const Mainbox = () => {
               <button
                 className="theme-btn btn-style-one"
                 type="submit"
-                disabled={loading || !isChecked || !isFormValid} // 👈 Button only enabled when all are valid
+                disabled={
+                  loading || !isChecked || !isFormValid || !formData.owner_id
+                } // 👈 Button only enabled when all are valid
                 style={{
                   backgroundColor:
-                    loading || !isChecked || !isFormValid ? "red" : "", // Red when disabled
+                    loading || !isChecked || !isFormValid || !formData.owner_id
+                      ? "red"
+                      : "", // Red when disabled
                   cursor:
-                    loading || !isChecked || !isFormValid
+                    loading || !isChecked || !isFormValid || !formData.owner_id
                       ? "not-allowed"
                       : "pointer", // Better UX
                 }}

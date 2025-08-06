@@ -76,10 +76,11 @@ const FormContent2 = () => {
       setSuccess("Log In successful!");
       const token = response.data.token;
       const role = response.data.role;
-
-      if (role == "1") {
+      localStorage.setItem("Role", role);
+      if (role == "1" || role == "2") {
         localStorage.setItem("Admin_token", token);
         localStorage.setItem("Admin_name", response.data.data.name);
+        localStorage.setItem("Role", role);
         router.push("/dashboard");
       } else if (role == "0") {
         localStorage.setItem("Super_token", token);
@@ -205,29 +206,29 @@ const FormContent2 = () => {
       </div>
 
       <div className="d-flex justify-content-center gap-3 mt-3">
-              <button
-                onClick={() =>
-                  handleExternalLink(
-                    "https://www.facebook.com/profile.php?id=61575548305003"
-                  )
-                }
-                className="btn btn-outline-primary rounded-circle"
-                aria-label="Facebook"
-              >
-                <FaFacebookF />
-              </button>
-              <button
-                onClick={() =>
-                  handleExternalLink(
-                    "https://www.linkedin.com/company/global-employability-information-services-india-limited/"
-                  )
-                }
-                className="btn btn-outline-primary rounded-circle"
-                aria-label="LinkedIn"
-              >
-                <FaLinkedinIn />
-              </button>
-            </div>
+        <button
+          onClick={() =>
+            handleExternalLink(
+              "https://www.facebook.com/profile.php?id=61575548305003"
+            )
+          }
+          className="btn btn-outline-primary rounded-circle"
+          aria-label="Facebook"
+        >
+          <FaFacebookF />
+        </button>
+        <button
+          onClick={() =>
+            handleExternalLink(
+              "https://www.linkedin.com/company/global-employability-information-services-india-limited/"
+            )
+          }
+          className="btn btn-outline-primary rounded-circle"
+          aria-label="LinkedIn"
+        >
+          <FaLinkedinIn />
+        </button>
+      </div>
     </div>
   );
 };

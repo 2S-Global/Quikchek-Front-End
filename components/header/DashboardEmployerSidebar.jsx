@@ -18,6 +18,7 @@ const DashboardEmployerSidebar = () => {
   const [aadhar_otp, setAadhar_otp] = useState("disable");
   const [module, setModule] = useState("disable");
   const token = localStorage.getItem("Admin_token");
+  const role = localStorage.getItem("Role");
 
   useEffect(() => {
     const fetchAadharOtp = async () => {
@@ -69,6 +70,20 @@ const DashboardEmployerSidebar = () => {
               <i className={`la la-home`}></i> Dashboard
             </Link>
           </li>
+          {role == "2" && (
+            <li
+              className={`${
+                isActiveLink("/verify-complex", pathname) ? "active" : ""
+              } mb-1`}
+              key={99}
+              onClick={menuToggleHandler}
+            >
+              <Link href="/verify-complex">
+                <i className={`la la-building`}></i>NEED Route Name
+              </Link>
+            </li>
+          )}
+
           {/* if  aadhar_otp == "enable"*/}
           {aadhar_otp == "enable" && (
             <li

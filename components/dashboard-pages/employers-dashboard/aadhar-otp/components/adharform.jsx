@@ -23,6 +23,14 @@ const AadharForm = ({
   formsubmitted,
   setPaymentvalues,
 }) => {
+  const [owners, setOwners] = useState([
+    {
+      _id: "689326e25782a77d8217aabd",
+      name: "Owner 1(T1 1A)(Select this option only )",
+    },
+    { _id: "689326e25782a77d8217aabe", name: "Owner 2(T1 1B)" },
+    { _id: "689326e25782a77d8217aabf", name: "Owner 3(T1 1C)" },
+  ]);
   const company_name = localStorage.getItem("Admin_name");
   const [formData, setFormData] = useState({
     name: "",
@@ -34,9 +42,11 @@ const AadharForm = ({
     aadhar_number: "",
     aadhar_name: "",
     aadhaardoc: null,
+    owner_id: null,
   });
   const apiurl = process.env.NEXT_PUBLIC_API_URL;
   const token = localStorage.getItem("Admin_token");
+  const role = localStorage.getItem("Role");
   const [validationErrors, setValidationErrors] = useState({});
   const [formErrors, setFormErrors] = useState({});
   const [touched, setTouched] = useState({});
@@ -279,6 +289,28 @@ const AadharForm = ({
               onChange={handleChange}
             />
           </div>
+          {role == 2 && (
+            <div className="form-group col-lg-4 col-md-4 d-flex flex-column">
+              <label htmlFor="owner_id">
+                For Owner {""}
+                <span style={{ color: "red" }}>*</span>
+              </label>
+              <select
+                className="form-control"
+                name="owner_id"
+                value={formData.owner_id}
+                onChange={handleChange}
+                required
+              >
+                <option value="">Select Owner</option>
+                {owners?.map((owner) => (
+                  <option key={owner._id} value={owner._id}>
+                    {owner.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
         </div>
         <div className="row">
           {/* Aadhar Number */}

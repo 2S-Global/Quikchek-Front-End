@@ -40,8 +40,10 @@ const AadharOtp = () => {
   const [cgst, setCgst] = useState(0);
   const [cgstPercentage, setCgstPercentage] = useState(0);
   const [payments, setPayments] = useState([]);
+
   const [total, setTotal] = useState(0);
 
+  const [walletBalance, setWalletBalance] = useState(0);
   const handlePaymentSuccess = async (response, pay, pids) => {
     setLoading(true);
     console.log("From handlePaymentSuccess response", response);
@@ -54,7 +56,7 @@ const AadharOtp = () => {
         {
           razorpay_response: response,
           amount: pay,
-          payment_method: "online",
+          payment_method: paymentmethod,
           paymentIds: pids,
         },
         {
@@ -155,7 +157,7 @@ const AadharOtp = () => {
           setSgstPercentage(parseFloat(billing.sgst_percent) || 0);
           setCgst(parseFloat(billing.cgst) || 0);
           setCgstPercentage(parseFloat(billing.cgst_percent) || 0);
-
+          setWalletBalance(parseFloat(billing.wallet_amount) || 0);
           if (paymentData.length !== 0) {
             setRenderForm(false);
             setRenderBill(true);
@@ -451,6 +453,24 @@ const AadharOtp = () => {
               </div>
 
               <div className="mt-3">
+                <div className="d-flex justify-content-end align-items-center gap-2">
+                  <label htmlFor="paymentmethod" className="mb-0">
+                    Payment Method:
+                  </label>
+                  <select
+                    className="form-select w-auto"
+                    id="paymentmethod"
+                    value={paymentmethod}
+                    onChange={(e) => setPaymentmethod(e.target.value)}
+                    required
+                  >
+                    <option value="">Select Payment Method</option>
+                    <option value="online">Online</option>
+                    <option value="Wallet">
+                      Wallet (Balance: ₹{walletBalance.toFixed(2)})
+                    </option>
+                  </select>
+                </div>
                 <div className="d-flex justify-content-end gap-2 mt-3">
                   {total === 0 ? (
                     <>
@@ -478,7 +498,7 @@ const AadharOtp = () => {
                     <>
                       {paymentmethod === "Wallet" && (
                         <>
-                          {fund_status == 0 ? (
+                          {total > walletBalance ? (
                             <button
                               className="btn btn-warning px-4"
                               disabled={payments.length === 0}
@@ -490,7 +510,11 @@ const AadharOtp = () => {
                               className="btn btn-primary px-4"
                               disabled={payments.length === 0}
                               onClick={() =>
-                                handlePaywallet(total, paymentIdsString)
+                                handlePaymentSuccess(
+                                  null,
+                                  total,
+                                  paymentIdsString
+                                )
                               }
                             >
                               Pay with Wallet ({total?.toFixed(2)} INR)

@@ -75,7 +75,7 @@ const DashboardEmployerSidebar = () => {
               className={`${
                 isActiveLink("/verify-complex", pathname) ? "active" : ""
               } mb-1`}
-              key={99}
+              key={98}
               onClick={menuToggleHandler}
             >
               <Link href="/verify-complex">

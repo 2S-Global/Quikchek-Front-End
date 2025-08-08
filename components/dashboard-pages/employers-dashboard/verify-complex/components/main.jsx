@@ -9,7 +9,7 @@ import MessageComponent from "@/components/common/ResponseMsg";
 import { validateDocuments } from "@/components/dashboard-pages/employers-dashboard/verify-employee/components/validateDocuments"; // adjust path as needed
 import Additionfield from "../../verify-employee/components/additionfield";
 import PassdocumentUpload from "../../verify-employee/components/pasdocument";
-import DocumentUpload from "../../verify-employee/components/bkdocument";
+import DocumentUpload from "../../verify-employee/components/document";
 const Mainbox = () => {
   const [showTermsModal, setShowTermsModal] = useState(false);
 

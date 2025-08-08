@@ -42,7 +42,7 @@ const AadharForm = ({
     aadhar_number: "",
     aadhar_name: "",
     aadhaardoc: null,
-    owner_id: null,
+    owner_id: "",
   });
   const apiurl = process.env.NEXT_PUBLIC_API_URL;
   const token = localStorage.getItem("Admin_token");

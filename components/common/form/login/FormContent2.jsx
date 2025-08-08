@@ -86,6 +86,10 @@ const FormContent2 = () => {
         localStorage.setItem("Super_token", token);
         localStorage.setItem("Super_name", response.data.data.name);
         router.push("/admin/dashboard");
+      } else if (role == "5") {
+        localStorage.setItem("Owner_token", token);
+        localStorage.setItem("Owner_name", response.data.data.name);
+        router.push("/owner/listowner");
       }
     } catch (err) {
       setError(err.response?.data?.message || "Login failed. Try again.");

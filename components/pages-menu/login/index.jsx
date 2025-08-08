@@ -13,11 +13,14 @@ const Index = () => {
   useEffect(() => {
     const token1 = localStorage.getItem("Admin_token");
     const token2 = localStorage.getItem("Super_token");
+    const token3 = localStorage.getItem("Owner_token");
 
     if (token1) {
       window.location.href = "/dashboard";
     } else if (token2) {
       window.location.href = "/admin/dashboard";
+    } else if (token3) {
+      window.location.href = "/owner/listowner";
     }
   }, []);
 

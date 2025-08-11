@@ -94,12 +94,28 @@ const Companytable = () => {
           }
         );
 
+        // if (response.data.success) {
+        //   setCompanies(response.data.data);
+        //   setSuccess(response.data.message);
+        // } else {
+        //   setError(response.data.message);
+        // }
+
         if (response.data.success) {
-          setCompanies(response.data.data);
-          setSuccess(response.data.message);
+          if (response.data.data && response.data.data.length > 0) {
+            setCompanies(response.data.data);
+            setSuccess(response.data.message);
+          } else {
+            // Data is empty – just set empty list without error
+            setCompanies([]);
+            setSuccess("No owners found");
+          }
         } else {
-          setError(response.data.message);
+          // API responded but success is false – handle gracefully
+          setCompanies([]);
+          setSuccess(response.data.message || "No owners found");
         }
+
       } catch (err) {
         setError("Error fetching companies. Please try again.");
       } finally {
@@ -466,8 +482,8 @@ const Companytable = () => {
                                 />
                                 <label
                                   className={`form-check-label ms-2 fw-semibold ${company.isVerified
-                                      ? "text-success"
-                                      : "text-danger"
+                                    ? "text-success"
+                                    : "text-danger"
                                     }`}
                                   htmlFor={`verify-switch-${company._id}`}
                                 >

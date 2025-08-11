@@ -96,7 +96,7 @@ const AddCsvModal = ({ show, onClose, field }) => {
   <div className="d-flex align-items-center gap-3">
     <h5 className="modal-title mb-0">Import New Owner</h5>
     <a
-      href="/demo-company.csv"
+      href="/owner_list.csv"
       download
       className="btn btn-sm btn-outline-primary"
     >

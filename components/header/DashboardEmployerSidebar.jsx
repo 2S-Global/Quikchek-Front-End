@@ -126,19 +126,21 @@ const DashboardEmployerSidebar = () => {
               </Link>
             </li>
           )}
-          {employerMenuData.map((item) => (
-            <li
-              className={`${
-                isActiveLink(item.routePath, pathname) ? "active" : ""
-              } mb-1`}
-              key={item.id}
-              onClick={menuToggleHandler}
-            >
-              <Link href={item.routePath}>
-                <i className={`la ${item.icon}`}></i> {item.name}
-              </Link>
-            </li>
-          ))}
+          {employerMenuData.map((item) =>
+            item.is_rolebased && role != 2 ? null : (
+              <li
+                className={`${
+                  isActiveLink(item.routePath, pathname) ? "active" : ""
+                } mb-1`}
+                key={item.id}
+                onClick={menuToggleHandler}
+              >
+                <Link href={item.routePath}>
+                  <i className={`la ${item.icon}`}></i> {item.name}
+                </Link>
+              </li>
+            )
+          )}
         </ul>
       </div>
     </div>

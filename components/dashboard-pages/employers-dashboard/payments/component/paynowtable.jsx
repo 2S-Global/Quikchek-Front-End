@@ -25,7 +25,7 @@ const PaymentDetails = () => {
   const [startDate, setStartDate] = useState(null); // Initialize as null
   const [endDate, setEndDate] = useState(null); // Initialize as null
   const [errorId, setErrorId] = useState(null);
-
+  const role = localStorage.getItem("Role");
   useEffect(() => {
     const storedToken = localStorage.getItem("Admin_token");
     setToken(storedToken);
@@ -208,6 +208,9 @@ const PaymentDetails = () => {
               <th style={{ textAlign: "center" }}>Date</th>
               <th style={{ textAlign: "center" }}>Total</th>
               <th style={{ textAlign: "center" }}>Total User</th>
+              {role == 2 && payments.length > 0 && (
+                <th style={{ textAlign: "center" }}>Owner Name</th>
+              )}
               <th style={{ textAlign: "center" }}>Action</th>
             </tr>
           </thead>
@@ -231,6 +234,11 @@ const PaymentDetails = () => {
                   <td style={{ textAlign: "center" }}>
                     {payment.total_users || "N/A"}
                   </td>
+                  {role == 2 && (
+                    <td style={{ textAlign: "center" }}>
+                      {payment.owner_name || "N/A"}
+                    </td>
+                  )}
                   <td style={{ textAlign: "center" }}>
                     {loadingRowId === payment.id ? (
                       <div

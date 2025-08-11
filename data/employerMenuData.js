@@ -57,6 +57,14 @@ module.exports = [
     routePath: "/download-center",
     active: "",
   },
+
+  {
+    id: 12,
+    name: "Report",
+    icon: "la-file-text",
+    routePath: "/report",
+    active: "",
+  },
   /*  {
     id: 12,
     name: "Messages",

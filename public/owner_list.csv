@@ -1,4 +1,4 @@
-name,email,phone,address,gst
-Owner 2S 1,owner2s1@example.com,1234567890,"123 Main Street, City, State",19AAVCS5999N1ZR
-Owner 2S 2,owner2s2@example.com,9876543210,"456 Market Road, City, State",19AAVCS5999N1ZR
-Owner 2S 3,owner2s3@example.com,5556667777,"789 Park Avenue, City, State",19AAVCS5999N1ZR
+flat_no,name,email,phone_no
+1,Ron Weasley,ron@example.com,1234567890
+2,Hermione Granger,hermione@example.com,9876543210
+3,Harry Potter,harry@example.com,5556667777

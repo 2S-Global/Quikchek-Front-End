@@ -99,6 +99,20 @@ const DashboardEmployerSidebar = () => {
             </li>
           )}
 
+          {role == "2" && (
+            <li
+              className={`${
+                isActiveLink("/owner", pathname) ? "active" : ""
+              } mb-1`}
+              key={299}
+              onClick={menuToggleHandler}
+            >
+              <Link href="/owner">
+                <i className={`la la-file-alt`}></i>Owner List
+              </Link>
+            </li>
+          )}
+
           {module.hoteltatus == "enable" && (
             <li
               className={`${

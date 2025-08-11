@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import MessageComponent from "@/components/common/ResponseMsg";
-
+import WalletModal from "../../listcompany/components/modals/walletModal";
 import {
   Trash2,
   Settings,
@@ -21,7 +21,7 @@ import VerifiedlistModal from "../../listcompany/components/modals/verifiedlistM
 const Companytable = () => {
   const apiurl = process.env.NEXT_PUBLIC_API_URL;
   const router = useRouter();
-
+  const [refresh, setRefresh] = useState(false);
   const [loading, setLoading] = useState(false);
   const [companies, setCompanies] = useState([]);
   const [error, setError] = useState(null);
@@ -32,6 +32,8 @@ const Companytable = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalplanOpen, setIsModalplanOpen] = useState(false);
   const [isModalvlOpen, setIsModalvlOpen] = useState(false);
+  const [isModelWalletOpen, setIsModelWalletOpen] = useState(false);
+
   const openModalVL = (companydetails) => {
     setEditcompany(companydetails);
     setIsModalvlOpen(true);
@@ -65,7 +67,16 @@ const Companytable = () => {
     document.body.style.overflow = "auto"; // Re-enable background scrolling
     console.log("close modal plan");
   };
-
+  const openModalWallet = (companydetails) => {
+    setEditcompany(companydetails);
+    setIsModelWalletOpen(true);
+    document.body.style.overflow = "hidden"; // Disable background scrolling
+    console.log("open modal wallet");
+  };
+  const closeModalWallet = () => {
+    setIsModelWalletOpen(false);
+    document.body.style.overflow = "auto"; // Re-enable background scrolling
+  };
   useEffect(() => {
     const token = localStorage.getItem("Super_token");
     if (!token) {
@@ -105,6 +116,41 @@ const Companytable = () => {
   const handlecart = (company) => {
     router.push(`/admin/cart?id=${company._id}`);
   };
+
+  useEffect(() => {
+    const token = localStorage.getItem("Super_token");
+    if (!token) {
+      setError("Token not found. Please log in again.");
+      return;
+    }
+    const fetchCompanies = async () => {
+      try {
+        setLoading(true);
+        const response = await axios.post(
+          `${apiurl}/api/auth/list-companies`,
+          null,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (response.data.success) {
+          setCompanies(response.data.data);
+        } else {
+        }
+      } catch (err) {
+        setError("Error fetching companies. Please try again.");
+      } finally {
+        setLoading(false);
+      }
+    };
+    if (refresh) {
+      fetchCompanies();
+      setRefresh(false);
+    }
+  }, [refresh]);
 
   const handleDelete = async (id) => {
     const token = localStorage.getItem("Super_token");
@@ -385,8 +431,9 @@ const Companytable = () => {
                 <thead className="table-light">
                   <tr>
                     <th style={{ textAlign: "center" }}>S/N</th>
-                    <th style={{ textAlign: "center" }}>Company Name</th>
-                    <th style={{ textAlign: "center" }}>Company Email</th>
+                    <th style={{ textAlign: "center" }}>Company Details</th>
+                    <th style={{ textAlign: "center" }}>Company Wallet</th>
+
                     <th style={{ textAlign: "center" }}>Required Services</th>
                     <th style={{ textAlign: "center" }}>Company Status</th>
                     <th style={{ textAlign: "center" }}>Total Verification</th>
@@ -404,8 +451,21 @@ const Companytable = () => {
                     companies.map((company, index) => (
                       <tr key={company._id}>
                         <td style={{ textAlign: "center" }}>{index + 1}</td>
-                        <td style={{ textAlign: "center" }}>{company.name}</td>
-                        <td style={{ textAlign: "center" }}>{company.email}</td>
+                        <td style={{ textAlign: "center" }}>
+                          {company.name || "-"}
+                          <br />
+                          {company.email || "-"}
+                        </td>
+                        <td style={{ textAlign: "center" }}>
+                          {company.wallet_amount}
+                          <button
+                            type="button"
+                            className="btn btn-sm btn-success ms-2"
+                            onClick={() => openModalWallet(company)}
+                          >
+                            ADD
+                          </button>
+                        </td>
                         <td style={{ textAlign: "center" }}>
                           {company.required_services}
                         </td>
@@ -607,6 +667,15 @@ const Companytable = () => {
             </div>
           </div>
         </div>
+      )}
+
+      {isModelWalletOpen && (
+        <WalletModal
+          show={isModelWalletOpen}
+          onClose={closeModalWallet}
+          data={editcompany}
+          setRefresh={setRefresh}
+        />
       )}
 
       {isModalOpen && (

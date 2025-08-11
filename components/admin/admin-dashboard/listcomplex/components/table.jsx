@@ -100,7 +100,7 @@ const Companytable = () => {
       try {
         setLoading(true);
         const response = await axios.post(
-          `${apiurl}/api/auth/list-companies`,
+          `${apiurl}/api/auth/list-complex`,
           null,
           {
             headers: {
@@ -134,7 +134,7 @@ const Companytable = () => {
       try {
         setLoading(true);
         const response = await axios.post(
-          `${apiurl}/api/auth/list-companies`,
+          `${apiurl}/api/auth/list-complex`,
           null,
           {
             headers: {
@@ -438,9 +438,9 @@ const Companytable = () => {
                 <thead className="table-light">
                   <tr>
                     <th style={{ textAlign: "center" }}>S/N</th>
-                    <th style={{ textAlign: "center" }}>Company Details</th>
-                    <th style={{ textAlign: "center" }}>Company Wallet</th>
-                    <th style={{ textAlign: "center" }}>Company Status</th>
+                    <th style={{ textAlign: "center" }}>Complex Details</th>
+                    <th style={{ textAlign: "center" }}>Complex Wallet</th>
+                    <th style={{ textAlign: "center" }}>Complex Status</th>
                     <th style={{ textAlign: "center" }}>Total Verification</th>
                     <th style={{ textAlign: "center" }}>Created Date</th>
                     <th style={{ textAlign: "center" }}>Action</th>

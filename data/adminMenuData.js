@@ -13,6 +13,13 @@ module.exports = [
     routePath: "/admin/listcompany",
     active: "",
   },
+  {
+    id: 102,
+    name: "List Complex",
+    icon: "la-building",
+    routePath: "/admin/listcomplex",
+    active: "",
+  },
 
   {
     id: 3,
@@ -21,6 +28,7 @@ module.exports = [
     routePath: "/admin/listcompanyself",
     active: "",
   },
+
   {
     id: 4,
     name: "List Packages",

@@ -6201,6 +6201,11 @@ svg-pathdata@^6.0.3:
   resolved "https://registry.npmjs.org/svg-pathdata/-/svg-pathdata-6.0.3.tgz"
   integrity sha512-qsjeeq5YjBZ5eMdFuUa4ZosMLxgr5RZ+F+Y1OrDhuOCEInRMA3x74XdBtggJcj9kOeInz0WE+LgCPDkZFlBYJw==
 
+sweetalert2@^11.22.3:
+  version "11.22.3"
+  resolved "https://registry.npmjs.org/sweetalert2/-/sweetalert2-11.22.3.tgz"
+  integrity sha512-//WtZEvs9XRmyQVs77tz02ERu2JUTATQvrec+MjJYtKtnYSYDDgAmDdWzRWMkcxClj828EQgfHrpM+tI6qcMOg==
+
 swiper@^11.2.8:
   version "11.2.8"
   resolved "https://registry.npmjs.org/swiper/-/swiper-11.2.8.tgz"

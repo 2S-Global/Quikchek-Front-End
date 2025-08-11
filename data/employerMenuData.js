@@ -63,7 +63,7 @@ module.exports = [
     name: "Report",
     icon: "la-file-text",
     routePath: "/report",
-    active: "",
+    is_rolebased: true,
   },
   /*  {
     id: 12,

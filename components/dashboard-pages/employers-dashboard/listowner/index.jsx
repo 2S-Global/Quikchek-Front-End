@@ -1,8 +1,6 @@
 "use client";
 import MobileMenu from "../../../header/AdminMobileMenu";
-import DashboardHeader from "../../../header/DashboardAdminheader";
-// import DashboardEmployerSidebar from "../../../header/DashboardAdminsidebar";
-import DashboardOwnerSidebar from "@/components/header/DashboardOwnerSidebar";
+import DashboardHeader from "../../../header/DashboardHeader";
 import DashboardEmployerSidebar from "../../../header/DashboardEmployerSidebar";
 
 import CopyrightFooter from "../../CopyrightFooter";

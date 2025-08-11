@@ -405,11 +405,10 @@ const Companytable = () => {
                 <thead className="table-light">
                   <tr>
                     <th style={{ textAlign: "center" }}>S/N</th>
+                    <th style={{ textAlign: "center" }}>Flat No.</th>
                     <th style={{ textAlign: "center" }}>Owner Name</th>
                     <th style={{ textAlign: "center" }}>Owner Email</th>
-                    <th style={{ textAlign: "center" }}>Owner Status</th>
-                    <th style={{ textAlign: "center" }}>Owner Verification</th>
-                    <th style={{ textAlign: "center" }}>Owner Date</th>
+                    <th style={{ textAlign: "center" }}>Phone No.</th>
                     <th style={{ textAlign: "center" }}>Action</th>
                   </tr>
                 </thead>
@@ -424,111 +423,10 @@ const Companytable = () => {
                     companies.map((company, index) => (
                       <tr key={company._id}>
                         <td style={{ textAlign: "center" }}>{index + 1}</td>
+                        <td style={{ textAlign: "center" }}>{company.flat_no}</td>
                         <td style={{ textAlign: "center" }}>{company.name}</td>
                         <td style={{ textAlign: "center" }}>{company.email}</td>
-                        <td
-                          style={{
-                            textAlign: "center",
-                          }}
-                        >
-                          <div className="d-flex flex-column align-items-center">
-                            {/* Active Status */}
-                            {/* <div className="d-flex flex-column align-items-center">
-                              <span className="fw-bold text-secondary mb-1">
-                                Activity
-                              </span>
-                              <div className="form-check form-switch d-flex align-items-center">
-                                <input
-                                  className="form-check-input"
-                                  type="checkbox"
-                                  role="switch"
-                                  id={`active-switch-${company._id}`}
-                                  checked={company.is_active}
-                                  onChange={() =>
-                                    toggleStatus(company._id, company.is_active)
-                                  }
-                                  readOnly
-                                />
-                                <label
-                                  className={`form-check-label ms-2 fw-semibold ${company.is_active
-                                      ? "text-success"
-                                      : "text-danger"
-                                    }`}
-                                  htmlFor={`active-switch-${company._id}`}
-                                >
-                                  {company.is_active ? "Active" : "Inactive"}
-                                </label>
-                              </div>
-                            </div> */}
-
-                            {/* Verification Status */}
-                            <div className="d-flex flex-column align-items-center">
-                              <span className="fw-bold text-secondary mb-1">
-                                Verification
-                              </span>
-                              <div className="form-check form-switch d-flex align-items-center">
-                                <input
-                                  className="form-check-input"
-                                  type="checkbox"
-                                  role="switch"
-                                  id={`verify-switch-${company._id}`}
-                                  checked={company.isVerified}
-                                  onChange={() =>
-                                    toggleStatus2(
-                                      company._id,
-                                      company.isVerified
-                                    )
-                                  }
-                                />
-                                <label
-                                  className={`form-check-label ms-2 fw-semibold ${company.isVerified
-                                    ? "text-success"
-                                    : "text-danger"
-                                    }`}
-                                  htmlFor={`verify-switch-${company._id}`}
-                                >
-                                  {company.isVerified
-                                    ? "Verified"
-                                    : "Unverified"}
-                                </label>
-                              </div>
-                            </div>
-                          </div>
-                        </td>
-
-                        <td
-                          style={{
-                            textAlign: "center",
-                            cursor:
-                              company.orderCount > 0 ? "pointer" : "default",
-                            transition: "background-color 0.3s ease",
-                          }}
-                          onClick={() =>
-                            company.orderCount > 0 && openModalVL(company)
-                          }
-                          onMouseEnter={(e) => {
-                            if (company.orderCount > 0) {
-                              e.target.style.backgroundColor = "#c6f79a"; // Light gray on hover
-                            }
-                          }}
-                          onMouseLeave={(e) => {
-                            e.target.style.backgroundColor = ""; // Reset to default
-                          }}
-                        >
-                          {company.orderCount > 0 ? company.orderCount : 0}
-                        </td>
-                        <td style={{ textAlign: "center" }}>
-                          {new Date(company.createdAt).toLocaleString("en-IN", {
-                            day: "2-digit",
-                            month: "2-digit",
-                            year: "numeric",
-                            hour: "2-digit",
-                            minute: "2-digit",
-
-                            hour12: true,
-                            timeZone: "Asia/Kolkata",
-                          })}
-                        </td>
+                        <td style={{ textAlign: "center" }}>{company.phone_number}</td>
 
                         <td className="text-center">
                           <div className="d-flex justify-content-center gap-3">
@@ -537,14 +435,6 @@ const Companytable = () => {
                                 className="text-primary"
                                 style={{ cursor: "pointer" }}
                                 onClick={() => openModalRH(company)}
-                                size={20}
-                              />
-                            </span>
-                            <span title="Plan">
-                              <PackageOpen
-                                className="text-info"
-                                style={{ cursor: "pointer" }}
-                                // onClick={() => openModalPlanRH(company)}
                                 size={20}
                               />
                             </span>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -23,14 +23,7 @@ const AadharForm = ({
   formsubmitted,
   setPaymentvalues,
 }) => {
-  const [owners, setOwners] = useState([
-    {
-      _id: "689326e25782a77d8217aabd",
-      name: "Owner 1(T1 1A)(Select this option only )",
-    },
-    { _id: "689326e25782a77d8217aabe", name: "Owner 2(T1 1B)" },
-    { _id: "689326e25782a77d8217aabf", name: "Owner 3(T1 1C)" },
-  ]);
+  const [owners, setOwners] = useState([]);
   const company_name = localStorage.getItem("Admin_name");
   const [formData, setFormData] = useState({
     name: "",
@@ -64,6 +57,28 @@ const AadharForm = ({
     today.getMonth(),
     today.getDate()
   );
+  const fetchowners = async () => {
+    try {
+      //setLoading(true);
+      /* /api/complex/getallownerforcompany */
+      const res = await axios.get(
+        `${apiurl}/api/complex/getallownerforcompany`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      if (res.data.success) {
+        setOwners(res.data.data);
+      }
+    } catch (err) {
+      //  console.log("Error fetching plans. Please try again.", err);
+    } finally {
+      //setLoading(false);
+    }
+  };
+  useEffect(() => {
+    fetchowners();
+  }, [apiurl, token]); // ✅ include token too
 
   const handleChange = (e) => {
     const { name, value } = e.target;

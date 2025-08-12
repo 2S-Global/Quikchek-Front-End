@@ -14,14 +14,8 @@ const Mainbox = () => {
   const [showTermsModal, setShowTermsModal] = useState(false);
 
   const company_name = localStorage.getItem("Admin_name");
-  const [owners, setOwners] = useState([
-    {
-      _id: "689326e25782a77d8217aabd",
-      name: "Owner 1(T1 1A)(Select this option only )",
-    },
-    { _id: "689326e25782a77d8217aabe", name: "Owner 2(T1 1B)" },
-    { _id: "689326e25782a77d8217aabf", name: "Owner 3(T1 1C)" },
-  ]);
+  const [owners, setOwners] = useState([]);
+
   const [formData, setFormData] = useState({
     name: "",
     dob: null,
@@ -96,9 +90,29 @@ const Mainbox = () => {
     }
   };
 
+  const fetchowners = async () => {
+    try {
+      setLoading(true);
+      /* /api/complex/getallownerforcompany */
+      const res = await axios.get(
+        `${apiurl}/api/complex/getallownerforcompany`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      if (res.data.success) {
+        setOwners(res.data.data);
+      }
+    } catch (err) {
+      //  console.log("Error fetching plans. Please try again.", err);
+    } finally {
+      setLoading(false);
+    }
+  };
   useEffect(() => {
     /*   fetchApprovedFields(); */
     fetchAvailablePlans();
+    fetchowners();
   }, []);
 
   const handleChange = (e) => {
@@ -421,6 +435,8 @@ const Mainbox = () => {
     today.getMonth(),
     today.getDate()
   );
+
+  /* /api/complex/getallownerforcompany */
 
   return (
     <>

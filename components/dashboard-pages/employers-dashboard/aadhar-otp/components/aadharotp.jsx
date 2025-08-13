@@ -148,9 +148,9 @@ const AadharOtp = () => {
         //   console.log("From useEffect fetchPayments response", response);
 
         if (response.data.success) {
-          setOverallBilling(response.data.overall_billing || {});
+          setOverallBilling(response.data.billing || {});
           const paymentData = response.data.data;
-          const billing = response.data.overall_billing;
+          const billing = response.data.billing;
 
           setPayments(paymentData);
 
@@ -196,21 +196,21 @@ const AadharOtp = () => {
         );
 
         if (response.data.success) {
-          setOverallBilling(response.data.overall_billing || {});
+          setOverallBilling(response.data.billing || {});
           setPayments(response.data.data);
-          setSubTotal(parseFloat(response.data.overall_billing.subtotal) || 0);
-          setTotal(parseFloat(response.data.overall_billing.total) || 0);
-          setDiscount(parseFloat(response.data.overall_billing.discount) || 0);
+          setSubTotal(parseFloat(response.data.billing.subtotal) || 0);
+          setTotal(parseFloat(response.data.billing.total) || 0);
+          setDiscount(parseFloat(response.data.billing.discount) || 0);
           setDiscountPercentage(
-            parseFloat(response.data.overall_billing.discount_percent) || 0
+            parseFloat(response.data.billing.discount_percent) || 0
           );
-          setSgst(parseFloat(response.data.overall_billing.sgst) || 0);
+          setSgst(parseFloat(response.data.billing.sgst) || 0);
           setSgstPercentage(
-            parseFloat(response.data.overall_billing.sgst_percent) || 0
+            parseFloat(response.data.billing.sgst_percent) || 0
           );
-          setCgst(parseFloat(response.data.overall_billing.cgst) || 0);
+          setCgst(parseFloat(response.data.billing.cgst) || 0);
           setCgstPercentage(
-            parseFloat(response.data.overall_billing.cgst_percent) || 0
+            parseFloat(response.data.billing.cgst_percent) || 0
           );
         } else {
           setError("Failed to fetch data.");

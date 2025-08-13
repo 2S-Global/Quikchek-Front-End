@@ -40,6 +40,7 @@ const AadharOtp = () => {
   const [cgst, setCgst] = useState(0);
   const [cgstPercentage, setCgstPercentage] = useState(0);
   const [payments, setPayments] = useState([]);
+  const [overall_billing, setOverallBilling] = useState({});
 
   const [total, setTotal] = useState(0);
 
@@ -58,6 +59,7 @@ const AadharOtp = () => {
           amount: pay,
           payment_method: paymentmethod,
           paymentIds: pids,
+          overall_billing: overall_billing,
         },
         {
           headers: {
@@ -100,6 +102,7 @@ const AadharOtp = () => {
           amount: pay,
           payment_method: "Free",
           paymentIds: pids,
+          overall_billing: overall_billing,
         },
         {
           headers: {
@@ -145,10 +148,12 @@ const AadharOtp = () => {
         //   console.log("From useEffect fetchPayments response", response);
 
         if (response.data.success) {
+          setOverallBilling(response.data.overall_billing || {});
           const paymentData = response.data.data;
           const billing = response.data.billing;
 
           setPayments(paymentData);
+
           setSubTotal(parseFloat(billing.subtotal) || 0);
           setTotal(parseFloat(billing.total) || 0);
           setDiscount(parseFloat(billing.discount) || 0);

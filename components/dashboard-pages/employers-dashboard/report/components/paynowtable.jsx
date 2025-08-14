@@ -115,6 +115,7 @@ const ReportDetails = () => {
                   <th style={{ textAlign: "center" }}>Name</th>
                   <th style={{ textAlign: "center" }}>Owner Details</th>
                   <th style={{ textAlign: "center" }}>Date</th>
+                  <th style={{ textAlign: "center" }}>Document</th>
                   <th style={{ textAlign: "center" }}>Amount</th>
                   <th style={{ textAlign: "center" }}>Action</th>
                 </tr>
@@ -152,6 +153,7 @@ const ReportDetails = () => {
                             return `${day}-${month}-${year} ${hours}:${minutes}`;
                           })()}
                         </td>
+                        <td style={{ textAlign: "center" }}>Pan , Aadhar</td>
                         <td style={{ textAlign: "center" }}>
                           ₹ {payment.order_ref_id?.total_amount || "0"}
                         </td>
@@ -187,10 +189,10 @@ const ReportDetails = () => {
 
                     {/* Total Row */}
                     <tr>
-                      <td colSpan="4" style={{ textAlign: "center" }}>
+                      <td colSpan="5" style={{ textAlign: "center" }}>
                         Total
                       </td>
-                      <td colSpan="2" style={{ textAlign: "center" }}>
+                      <td colSpan="3" style={{ textAlign: "center" }}>
                         ₹{" "}
                         {filteredPayments
                           .reduce(

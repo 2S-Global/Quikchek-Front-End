@@ -66,6 +66,16 @@ const ReportDetails = () => {
   const offset = currentPage * rowsPerPage;
   const currentRows = filteredPayments.slice(offset, offset + rowsPerPage);
 
+  const handeldownload = async (startDate, endDate) => {
+    try {
+      setLoading(true);
+      console.log("date :", startDate, endDate);
+    } catch (err) {
+      console.error("Error fetching reports:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <>
       <MessageComponent error={error} success={success} />
@@ -94,7 +104,13 @@ const ReportDetails = () => {
           </div>
 
           <div className="col-md-4 d-flex">
-            <button className="btn btn-primary w-100">Download</button>
+            <button
+              type="button"
+              className="btn btn-primary w-100"
+              onClick={() => handeldownload(startDate, endDate)}
+            >
+              Download
+            </button>
           </div>
         </div>
       </div>
@@ -153,7 +169,9 @@ const ReportDetails = () => {
                             return `${day}-${month}-${year} ${hours}:${minutes}`;
                           })()}
                         </td>
-                        <td style={{ textAlign: "center" }}>Pan , Aadhar</td>
+                        <td style={{ textAlign: "center" }}>
+                          {payment.document}
+                        </td>
                         <td style={{ textAlign: "center" }}>
                           ₹ {payment.order_ref_id?.total_amount || "0"}
                         </td>

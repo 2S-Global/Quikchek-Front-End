@@ -6,13 +6,13 @@ module.exports = [
     routePath: "/dashboard",
     active: "active",
   }, */
-  {
+  /*  {
     id: 6,
     name: "Verify Candidate",
     icon: "la-id-badge",
     routePath: "/verify-employee",
     active: "",
-  },
+  }, */
   {
     id: 7,
     name: "History",

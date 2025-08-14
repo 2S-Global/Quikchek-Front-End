@@ -12,7 +12,7 @@ const DocumentUpload = ({
   onfieldValidation,
   disabled,
 }) => {
-    const [inputKey, setInputKey] = useState(Date.now());
+  const [inputKey, setInputKey] = useState(Date.now());
   const [documentData, setDocumentData] = useState({
     docName: "",
     docNumber: "",
@@ -54,8 +54,8 @@ const DocumentUpload = ({
           value={numbername}
           onChange={onfieldChange}
           onBlur={onfieldValidation}
-            disabled={disabled}
-            autoComplete="off"
+          disabled={disabled}
+          autoComplete="off"
         />
 
         {numberError && (
@@ -74,7 +74,7 @@ const DocumentUpload = ({
           className="form-control"
           value={valuename}
           onChange={onfieldChange}
-  autoComplete="off"
+          autoComplete="off"
         />
       </div>
 
@@ -83,14 +83,13 @@ const DocumentUpload = ({
         <label htmlFor={fileId}>Upload {label}</label>
         <div className="uploadButton d-flex align-items-center">
           <input
-             key={inputKey}
+            key={inputKey}
             className="uploadButton-input"
             type="file"
             name="file"
-            accept="image/*"
+            accept=".jpg, .jpeg"
             id={fileId}
             onChange={handleFileSelect}
-        
           />
           <label
             className="uploadButton-button ripple-effect"
@@ -117,7 +116,7 @@ const DocumentUpload = ({
                   file: null,
                   filePreview: null,
                 });
-                 setInputKey(Date.now());
+                setInputKey(Date.now());
                 if (onFileChange) {
                   onFileChange(name, null); // Notify parent
                 }

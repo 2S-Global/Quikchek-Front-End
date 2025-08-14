@@ -79,7 +79,20 @@ const DashboardEmployerSidebar = () => {
               onClick={menuToggleHandler}
             >
               <Link href="/verify-complex">
-                <i className={`la la-building`}></i>NEED Route Name
+                <i className={`la la-building`}></i>Verify Candidate
+              </Link>
+            </li>
+          )}
+          {role == "1" && (
+            <li
+              className={`${
+                isActiveLink("/verify-employee", pathname) ? "active" : ""
+              } mb-1`}
+              key={98}
+              onClick={menuToggleHandler}
+            >
+              <Link href="/verify-employee">
+                <i className={`la la-building`}></i>Verify Candidate
               </Link>
             </li>
           )}

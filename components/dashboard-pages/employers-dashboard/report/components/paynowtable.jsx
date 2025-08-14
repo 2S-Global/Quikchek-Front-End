@@ -9,6 +9,7 @@ import Link from "next/link";
 const ReportDetails = () => {
   const [payments, setPayments] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [downloading, setDownloading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(null);
 
@@ -67,15 +68,36 @@ const ReportDetails = () => {
   const currentRows = filteredPayments.slice(offset, offset + rowsPerPage);
 
   const handeldownload = async (startDate, endDate) => {
+    setDownloading(true);
     try {
-      setLoading(true);
-      console.log("date :", startDate, endDate);
+      const response = await axios.post(
+        `${apiurl}/api/complex/reportPDF`,
+        { startDate, endDate },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+          responseType: "blob",
+        }
+      );
+
+      const url = window.URL.createObjectURL(
+        new Blob([response.data], { type: "application/pdf" })
+      );
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "Report.pdf");
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+
+      setSuccess("PDF downloaded successfully!");
     } catch (err) {
       console.error("Error fetching reports:", err);
+      setError("Failed to download PDF. Please try again.");
     } finally {
-      setLoading(false);
+      setDownloading(false);
     }
   };
+
   return (
     <>
       <MessageComponent error={error} success={success} />
@@ -105,6 +127,8 @@ const ReportDetails = () => {
 
           <div className="col-md-4 d-flex">
             <button
+              disabled={downloading || currentRows.length === 0}
+              style={{ cursor: downloading ? "not-allowed" : "pointer" }}
               type="button"
               className="btn btn-primary w-100"
               onClick={() => handeldownload(startDate, endDate)}

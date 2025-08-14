@@ -20,6 +20,7 @@ const PaymentDetails = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [token, setToken] = useState(null);
   const [paymentmethod, setPaymentmethod] = useState("online");
+  const role = localStorage.getItem("Role");
   const apiurl = process.env.NEXT_PUBLIC_API_URL;
 
   /* Billing part */
@@ -334,24 +335,26 @@ const PaymentDetails = () => {
                 </div>
 
                 <div className="mt-3">
-                  <div className="d-flex justify-content-end align-items-center gap-2">
-                    <label htmlFor="paymentmethod" className="mb-0">
-                      Payment Method:
-                    </label>
-                    <select
-                      className="form-select w-auto"
-                      id="paymentmethod"
-                      value={paymentmethod}
-                      onChange={(e) => setPaymentmethod(e.target.value)}
-                      required
-                    >
-                      <option value="">Select Payment Method</option>
-                      <option value="online">Online</option>
-                      <option value="Wallet">
-                        Wallet (Balance: ₹{walletBalance.toFixed(2)})
-                      </option>
-                    </select>
-                  </div>
+                  {role == "2" && total > 0 && (
+                    <div className="d-flex justify-content-end align-items-center gap-2">
+                      <label htmlFor="paymentmethod" className="mb-0">
+                        Payment Method:
+                      </label>
+                      <select
+                        className="form-select w-auto"
+                        id="paymentmethod"
+                        value={paymentmethod}
+                        onChange={(e) => setPaymentmethod(e.target.value)}
+                        required
+                      >
+                        <option value="">Select Payment Method</option>
+                        <option value="online">Online</option>
+                        <option value="Wallet">
+                          Wallet (Balance: ₹{walletBalance.toFixed(2)})
+                        </option>
+                      </select>
+                    </div>
+                  )}
 
                   <div className="d-flex justify-content-end gap-2 mt-3">
                     {total === 0 ? (

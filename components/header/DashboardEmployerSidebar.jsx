@@ -70,18 +70,32 @@ const DashboardEmployerSidebar = () => {
               <i className={`la la-home`}></i> Dashboard
             </Link>
           </li>
+
           {role == "2" && (
-            <li
-              className={`${
-                isActiveLink("/verify-complex", pathname) ? "active" : ""
-              } mb-1`}
-              key={98}
-              onClick={menuToggleHandler}
-            >
-              <Link href="/verify-complex">
-                <i className={`la la-building`}></i>Verify Candidate
-              </Link>
-            </li>
+            <>
+              <li
+                className={`${
+                  isActiveLink("/owner", pathname) ? "active" : ""
+                } mb-1`}
+                key={299}
+                onClick={menuToggleHandler}
+              >
+                <Link href="/owner">
+                  <i className={`la la-file-alt`}></i>Owner List
+                </Link>
+              </li>
+              <li
+                className={`${
+                  isActiveLink("/verify-complex", pathname) ? "active" : ""
+                } mb-1`}
+                key={98}
+                onClick={menuToggleHandler}
+              >
+                <Link href="/verify-complex">
+                  <i className={`la la-building`}></i>Verify Candidate
+                </Link>
+              </li>
+            </>
           )}
           {role == "1" && (
             <li
@@ -108,20 +122,6 @@ const DashboardEmployerSidebar = () => {
             >
               <Link href="/aadhar-otp">
                 <i className={`la la-phone-volume`}></i> Aadhar OTP
-              </Link>
-            </li>
-          )}
-
-          {role == "2" && (
-            <li
-              className={`${
-                isActiveLink("/owner", pathname) ? "active" : ""
-              } mb-1`}
-              key={299}
-              onClick={menuToggleHandler}
-            >
-              <Link href="/owner">
-                <i className={`la la-file-alt`}></i>Owner List
               </Link>
             </li>
           )}

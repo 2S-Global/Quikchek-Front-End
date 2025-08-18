@@ -65,6 +65,14 @@ module.exports = [
     routePath: "/report",
     is_rolebased: true,
   },
+
+  {
+    id: 13,
+    name: "Help",
+    icon: "la-info-circle",
+    routePath: "/help",
+    active: "",
+  },
   /*  {
     id: 12,
     name: "Messages",

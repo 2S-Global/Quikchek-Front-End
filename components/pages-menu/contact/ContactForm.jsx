@@ -1,58 +1,93 @@
+import { useState } from "react";
+
 const ContactForm = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
+
+  // ✅ Handle input changes
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  // ✅ Handle form submit
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Form Submitted:", formData);
+
+    // TODO: send data to backend / API here
+  };
+
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <div className="row">
         <div className="form-group col-lg-12 col-md-12 col-sm-12">
           <div className="response"></div>
         </div>
-        {/* End .col */}
 
+        {/* Name */}
         <div className="col-lg-6 col-md-12 col-sm-12 form-group">
           <label>Your Name</label>
+          <span className="text-danger ms-1">*</span>
           <input
             type="text"
-            name="username"
-            className="username"
-            placeholder="Your Name*"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            placeholder="Your Name"
             required
           />
         </div>
-        {/* End .col */}
 
+        {/* Email */}
         <div className="col-lg-6 col-md-12 col-sm-12 form-group">
           <label>Your Email</label>
+          <span className="text-danger ms-1">*</span>
           <input
             type="email"
             name="email"
-            className="email"
-            placeholder="Your Email*"
+            value={formData.email}
+            onChange={handleChange}
+            placeholder="Your Email"
             required
           />
         </div>
-        {/* End .col */}
 
+        {/* Subject */}
         <div className="col-lg-12 col-md-12 col-sm-12 form-group">
           <label>Subject</label>
+          <span className="text-danger ms-1">*</span>
           <input
             type="text"
             name="subject"
-            className="subject"
-            placeholder="Subject *"
+            value={formData.subject}
+            onChange={handleChange}
+            placeholder="Subject "
             required
           />
         </div>
-        {/* End .col */}
 
+        {/* Message */}
         <div className="col-lg-12 col-md-12 col-sm-12 form-group">
           <label>Your Message</label>
+          <span className="text-danger ms-1">*</span>
           <textarea
             name="message"
+            value={formData.message}
+            onChange={handleChange}
             placeholder="Write your message..."
-            required=""
+            required
           ></textarea>
         </div>
-        {/* End .col */}
 
+        {/* Submit */}
         <div className="col-lg-12 col-md-12 col-sm-12 form-group">
           <button
             className="theme-btn btn-style-one"
@@ -60,10 +95,9 @@ const ContactForm = () => {
             id="submit"
             name="submit-form"
           >
-            Send Massage
+            Send Message
           </button>
         </div>
-        {/* End .col */}
       </div>
     </form>
   );

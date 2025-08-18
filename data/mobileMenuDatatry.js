@@ -1,5 +1,5 @@
 module.exports = [
-  {
+  /*   {
     id: 1,
     label: "Dashboard",
     routePath: "/dashboard",
@@ -8,7 +8,7 @@ module.exports = [
     id: 2,
     label: "Verify Candidate",
     routePath: "/verify-employee",
-  },
+  }, */
   {
     id: 3,
     label: "History",
@@ -36,12 +36,19 @@ module.exports = [
     routePath: "/download-center",
   },
   {
-    id: 8,
+    id: 13,
+    label: "Help",
+
+    routePath: "/help",
+    active: "",
+  },
+  {
+    id: 98,
     label: "Change Password",
     routePath: "/change-password",
   },
   {
-    id: 9,
+    id: 99,
     label: "Logout",
     routePath: "/logout",
   },

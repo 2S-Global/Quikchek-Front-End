@@ -35,7 +35,7 @@ const index = () => {
                     {/* End widget-title */}
 
                     <div className="widget-content contact-form default-form">
-                      <ContactForm />
+                      <ContactForm dispute={true} />
                     </div>
                     {/* End widget-content */}
                   </div>

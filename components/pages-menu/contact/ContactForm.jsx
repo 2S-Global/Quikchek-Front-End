@@ -2,12 +2,13 @@ import { useState } from "react";
 import axios from "axios";
 import MessageComponent from "@/components/common/ResponseMsg";
 
-const ContactForm = () => {
+const ContactForm = ({ dispute = false }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     subject: "",
     message: "",
+    dispute: dispute,
   });
   const apiurl = process.env.NEXT_PUBLIC_API_URL;
   const [Submiting, setSubmiting] = useState(false);
@@ -120,6 +121,17 @@ const ContactForm = () => {
             onChange={handleChange}
             placeholder="Write your message..."
             required
+            style={{
+              width: "100%",
+              minHeight: "120px", // initial height
+              maxHeight: "300px", // restricts too big expansion
+              overflowY: "auto", // adds scrollbar when needed
+              resize: "vertical", // allows vertical resizing only
+              padding: "10px",
+              borderRadius: "8px",
+              border: "1px solid #ccc",
+              fontSize: "14px",
+            }}
           ></textarea>
         </div>
 

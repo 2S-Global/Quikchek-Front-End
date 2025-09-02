@@ -17,6 +17,8 @@ const PaymentDetails = () => {
   const [testloading, setTestLoading] = useState(true);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(null);
+  const [errorId, setErrorId] = useState(null);
+  const [message_id, setMessage_id] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [token, setToken] = useState(null);
   const [paymentmethod, setPaymentmethod] = useState("online");
@@ -85,10 +87,12 @@ const PaymentDetails = () => {
           setFundStatus(response.data.overall_billing.fund_status);
         } else {
           setError("Failed to fetch data.");
+          setErrorId(Date.now());
         }
       } catch (err) {
         console.error("Error fetching data:", err); // Debugging
         setError("Error fetching data. Please try again.");
+        setErrorId(Date.now());
       } finally {
         setLoading(false);
       }
@@ -141,10 +145,12 @@ const PaymentDetails = () => {
         );
         setFundStatus(Dlt_response.data.overall_billing.fund_status);
         setSuccess(Dlt_response.data.message);
+        setMessage_id(Date.now());
       }
     } catch (err) {
       console.error("Error deleting payment:", err);
       setError("Error deleting payment. Please try again.");
+      setErrorId(Date.now());
     }
     setLoading(false);
   };
@@ -174,6 +180,7 @@ const PaymentDetails = () => {
         setSuccess(
           "Your payment has been successfully processed. An invoice will be sent to your registered email shortly."
         );
+        setMessage_id(Date.now());
         setPayments([]);
         setLoading(false);
 
@@ -184,6 +191,7 @@ const PaymentDetails = () => {
       }
     } catch (err) {
       setError("Error processing payment. Please try again.");
+      setErrorId(Date.now());
     }
   };
 
@@ -207,10 +215,12 @@ const PaymentDetails = () => {
       /* if code 200 */
       if (paymentResponse.status === 200) {
         setSuccess(paymentResponse.data.message);
+        setMessage_id(Date.now());
         router.push("/download-center");
       }
     } catch (err) {
       setError("Error processing payment. Please try again.");
+      setErrorId(Date.now());
     }
   };
 
@@ -237,6 +247,7 @@ const PaymentDetails = () => {
         setSuccess(
           "Your payment has been successfully processed. An invoice will be sent to your registered email shortly."
         );
+        setMessage_id(Date.now());
         setPayments([]);
         setLoading(false);
 
@@ -247,6 +258,7 @@ const PaymentDetails = () => {
       }
     } catch (err) {
       setError("Error processing payment. Please try again.");
+      setErrorId(Date.now());
     }
   };
 
@@ -255,7 +267,12 @@ const PaymentDetails = () => {
 
   return (
     <>
-      <MessageComponent error={error} success={success} />
+      <MessageComponent
+        error={error}
+        success={success}
+        errorId={errorId}
+        message_id={message_id}
+      />
       {loading ? (
         <div className="d-flex justify-content-center align-items-center vh-100">
           <div className="spinner-border text-primary" role="status">

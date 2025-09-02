@@ -38,6 +38,8 @@ const WidgetContentBox = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+  const [errorId, setErrorId] = useState(null);
+  const [message_id, setMessage_id] = useState(null);
   const router = useRouter();
 
   const handleChange = (e) => {
@@ -88,13 +90,16 @@ const WidgetContentBox = () => {
 
       if (response.status === 201) {
         setSuccess(response.data.message);
+        setMessage_id(Date.now());
         router.push("/employers-dashboard/paynow");
       } else {
         setError(response.data.error);
+        setErrorId(Date.now());
       }
     } catch (err) {
       console.error("Error submitting form:", err);
       setError(err.response?.data?.message || "Failed. Try again.");
+      setErrorId(Date.now());
     } finally {
       setLoading(false);
     }
@@ -134,7 +139,12 @@ const WidgetContentBox = () => {
 
       <div className="row">
         <form className="default-form" onSubmit={handleSubmit}>
-          <MessageComponent error={error} success={success} />
+          <MessageComponent
+            error={error}
+            success={success}
+            errorId={errorId}
+            message_id={message_id}
+          />
           <div className="row">
             <div className="col-lg-12 col-md-12">
               <h5

@@ -12,6 +12,8 @@ const ReportDetails = () => {
   const [downloading, setDownloading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(null);
+  const [errorId, setErrorId] = useState(null);
+  const [message_id, setMessage_id] = useState(null);
 
   const apiurl = process.env.NEXT_PUBLIC_API_URL;
   const token = localStorage.getItem("Admin_token");
@@ -90,9 +92,11 @@ const ReportDetails = () => {
       link.remove();
 
       setSuccess("PDF downloaded successfully!");
+      setMessage_id(Date.now());
     } catch (err) {
       console.error("Error fetching reports:", err);
       setError("Failed to download PDF. Please try again.");
+      setErrorId(Date.now());
     } finally {
       setDownloading(false);
     }
@@ -100,7 +104,12 @@ const ReportDetails = () => {
 
   return (
     <>
-      <MessageComponent error={error} success={success} />
+      <MessageComponent
+        error={error}
+        success={success}
+        errorId={errorId}
+        message_id={message_id}
+      />
 
       {/* Filters */}
       <div className="container my-3">

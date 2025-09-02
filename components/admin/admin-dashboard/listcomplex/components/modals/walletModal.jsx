@@ -13,11 +13,15 @@ const WalletModal = ({ onClose, data, show, setRefresh }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+
+  const [errorId, setErrorId] = useState(null);
+  const [message_id, setMessage_id] = useState(null);
   const [company, setCompany] = useState(data);
 
   const handleAddWallet = async () => {
     if (!amount || isNaN(amount) || Number(amount) <= 0) {
       setError("Please enter a valid amount.");
+      setErrorId(Date.now());
       return;
     }
 
@@ -50,6 +54,7 @@ const WalletModal = ({ onClose, data, show, setRefresh }) => {
           );
 
           setSuccess(res.data.message || "Wallet updated successfully.");
+          setMessage_id(Date.now());
           setAmount("");
           setRefresh(true);
           Swal.fire("Added!", "Wallet balance has been updated.", "success");
@@ -58,6 +63,7 @@ const WalletModal = ({ onClose, data, show, setRefresh }) => {
             err.response?.data?.message ||
               "Something went wrong while adding wallet balance."
           );
+          setErrorId(Date.now());
         } finally {
           setLoading(false);
         }
@@ -92,7 +98,12 @@ const WalletModal = ({ onClose, data, show, setRefresh }) => {
             </div>
 
             <div className="modal-body px-4 py-3">
-              <MessageComponent error={error} success={success} />
+              <MessageComponent
+                error={error}
+                success={success}
+                errorId={errorId}
+                message_id={message_id}
+              />
 
               {loading ? (
                 <div className="d-flex justify-content-center align-items-center py-5">

@@ -18,6 +18,9 @@ const AddCompanyModal = ({ show, onClose, item = {}, setReload }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+
+  const [errorId, setErrorId] = useState(null);
+  const [message_id, setMessage_id] = useState(null);
   const apiurl = process.env.NEXT_PUBLIC_API_URL;
 
   const handleImageChange = (e) => {
@@ -27,6 +30,7 @@ const AddCompanyModal = ({ show, onClose, item = {}, setReload }) => {
     const validTypes = ["image/jpeg", "image/png"];
     if (!validTypes.includes(file.type)) {
       setError("Only JPEG and PNG files are allowed.");
+      setErrorId(Date.now());
       return;
     }
 
@@ -83,8 +87,10 @@ const AddCompanyModal = ({ show, onClose, item = {}, setReload }) => {
       }
 
       setSuccess(response.data.message);
+      setMessage_id(Date.now());
     } catch (err) {
       setError(err.response?.data?.message || "Request failed. Try again.");
+      setErrorId(Date.now());
     } finally {
       setLoading(false);
       onClose();
@@ -115,7 +121,12 @@ const AddCompanyModal = ({ show, onClose, item = {}, setReload }) => {
 
             <div className="modal-body row">
               <form onSubmit={handleSubmit}>
-                <MessageComponent error={error} success={success} />
+                <MessageComponent
+                  error={error}
+                  success={success}
+                  errorId={errorId}
+                  message_id={message_id}
+                />
 
                 <div className="row">
                   <div className="mb-3 col-md-6">

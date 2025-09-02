@@ -24,6 +24,8 @@ const AadharOtp = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(null);
+  const [errorId, setErrorId] = useState(null);
+  const [message_id, setMessage_id] = useState(null);
   const [formsubmitted, setFormsubmitted] = useState(false);
   const router = useRouter();
   //rendering
@@ -75,6 +77,7 @@ const AadharOtp = () => {
         setSuccess(
           "Your payment has been successfully processed. An invoice will be sent to your registered email shortly.Kindly Enter Your Aadhar OTP."
         );
+        setMessage_id(Date.now());
         setNewId(paymentResponse.data.newId);
         setPayments([]);
         setRequest_id(paymentResponse.data.aadhar_response.request_id);
@@ -86,6 +89,7 @@ const AadharOtp = () => {
       }
     } catch (err) {
       setError("Error processing payment. Please try again.");
+      setErrorId(Date.now());
     } finally {
       setLoading(false);
     }
@@ -118,6 +122,7 @@ const AadharOtp = () => {
         setSuccess(
           "Your payment has been successfully processed. An invoice will be sent to your registered email shortly.Kindly Enter Your Aadhar OTP."
         );
+        setMessage_id(Date.now());
         setNewId(paymentResponse.data.newId);
         setPayments([]);
         setRequest_id(paymentResponse.data.aadhar_response.request_id);
@@ -129,6 +134,7 @@ const AadharOtp = () => {
       }
     } catch (err) {
       setError("Error processing payment. Please try again.");
+      setErrorId(Date.now());
     } finally {
       setLoading(false);
     }
@@ -254,6 +260,7 @@ const AadharOtp = () => {
 
       if (response.data.success) {
         setSuccess(response.data.message);
+        setMessage_id(Date.now());
         setRenderotp(false);
         setRenderForm(false);
         setRenderBill(false);
@@ -266,10 +273,12 @@ const AadharOtp = () => {
       } else {
         console.log("Error submitting OTP:", response.data.message);
         setError(response.data.message || "Invalid OTP. Please try again.");
+        setErrorId(Date.now());
       }
     } catch (err) {
       console.error("Error submitting OTP:", err);
       setError("Error submitting OTP. Please try again.");
+      setErrorId(Date.now());
     } finally {
       setLoading(false);
     }
@@ -303,6 +312,7 @@ const AadharOtp = () => {
         setCgstPercentage(0);
 
         setSuccess(Dlt_response.data.message);
+        setMessage_id(Date.now());
       }
 
       setRenderForm(true);
@@ -311,6 +321,7 @@ const AadharOtp = () => {
     } catch (err) {
       console.error("Error deleting payment:", err);
       setError("Error deleting payment. Please try again.");
+      setErrorId(Date.now());
     }
     setLoading(false);
   };
@@ -346,16 +357,19 @@ const AadharOtp = () => {
 
       if (response.data.success) {
         setSuccess(response.data.message);
+        setMessage_id(Date.now());
         setOtp(""); // Clear the OTP input
         setNewId(response.data.newId);
         setPayments([]);
         setRequest_id(response.data.aadhar_response.request_id);
       } else {
         setError(response.data.message || "Failed to resend OTP.");
+        setErrorId(Date.now());
       }
     } catch (err) {
       console.error("Error resending OTP:", err);
       setError("Error resending OTP. Please try again.");
+      setErrorId(Date.now());
     } finally {
       setLoading(false);
       setResendTimer(60);
@@ -363,7 +377,12 @@ const AadharOtp = () => {
   };
   return (
     <>
-      <MessageComponent error={error} success={success} />
+      <MessageComponent
+        error={error}
+        success={success}
+        errorId={errorId}
+        message_id={message_id}
+      />
       {loading ? (
         <div className="d-flex justify-content-center align-items-center vh-100">
           <div className="spinner-border text-primary" role="status">

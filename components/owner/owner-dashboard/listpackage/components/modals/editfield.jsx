@@ -22,6 +22,8 @@ const EditfieldModal = ({ show, onClose, field }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+  const [errorId, setErrorId] = useState(null);
+  const [message_id, setMessage_id] = useState(null);
 
   useEffect(() => {
     if (field) {
@@ -83,6 +85,7 @@ const EditfieldModal = ({ show, onClose, field }) => {
     const token = localStorage.getItem("Owner_token");
     if (!token) {
       setError("Token not found. Please log in again.");
+      setErrorId(Date.now());
       setLoading(false);
       return;
     }
@@ -98,12 +101,14 @@ const EditfieldModal = ({ show, onClose, field }) => {
         }
       );
       setSuccess(response.data.message);
+      setMessage_id(Date.now());
       window.location.reload();
       router.push("/owner/listcompany");
     } catch (err) {
       setError(
         err.response?.data?.message || "Something went wrong. Try again."
       );
+      setErrorId(Date.now());
     } finally {
       setLoading(false);
     }
@@ -144,7 +149,12 @@ const EditfieldModal = ({ show, onClose, field }) => {
 
           <div className="modal-body">
             <form onSubmit={handleSubmit}>
-              <MessageComponent error={error} success={success} />
+              <MessageComponent
+                error={error}
+                success={success}
+                errorId={errorId}
+                message_id={message_id}
+              />
 
               <div className="row">
                 <div className="mb-3 col-md-6">

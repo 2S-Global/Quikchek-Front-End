@@ -18,6 +18,8 @@ const FormContent = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+  const [errorId, setErrorId] = useState(null);
+  const [message_id, setMessage_id] = useState(null);
   const apiurl = process.env.NEXT_PUBLIC_API_URL;
 
   // Handle input changes
@@ -39,6 +41,7 @@ const FormContent = () => {
         throw new Error(response.data.message || "An error occurred");
       }
       setSuccess("Log In successful!");
+      setMessage_id(Date.now());
       const token = response.data.token;
       const role = response.data.role;
 
@@ -54,6 +57,7 @@ const FormContent = () => {
       setError(
         err.response?.data?.message || "Registration failed. Try again."
       );
+      setErrorId(Date.now());
     } finally {
       setLoading(false);
     }
@@ -63,7 +67,12 @@ const FormContent = () => {
     <div className="form-inner">
       <h3>Login to Quikchek</h3>
       {/* display error */}
-      <MessageComponent error={error} success={success} />
+      <MessageComponent
+        error={error}
+        success={success}
+        errorId={errorId}
+        message_id={message_id}
+      />
 
       <form onSubmit={handleSubmit}>
         <div className="form-group">

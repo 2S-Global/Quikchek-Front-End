@@ -21,6 +21,8 @@ const EditplanModal = ({ show, onClose, field }) => {
   const [plans, setPlans] = useState([]);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+  const [errorId, setErrorId] = useState(null);
+  const [message_id, setMessage_id] = useState(null);
 
   useEffect(() => {
     if (!show || !field?._id || didFetch.current) return;
@@ -42,9 +44,11 @@ const EditplanModal = ({ show, onClose, field }) => {
           setPlans(response.data.data);
         } else {
           setError(response.data.message);
+          setErrorId(Date.now());
         }
       } catch {
         setError("Error fetching plans. Please try again.");
+        setErrorId(Date.now());
       } finally {
         setLoading(false);
       }
@@ -137,6 +141,7 @@ const EditplanModal = ({ show, onClose, field }) => {
       );
 
       setSuccess(response.data.message);
+      setMessage_id(Date.now());
       setTimeout(() => {
         window.location.reload();
         router.push("/admin/listcompany");
@@ -145,6 +150,7 @@ const EditplanModal = ({ show, onClose, field }) => {
       setError(
         err.response?.data?.message || "Something went wrong. Try again."
       );
+      setErrorId(Date.now());
     } finally {
       setLoading(false);
     }
@@ -177,7 +183,12 @@ const EditplanModal = ({ show, onClose, field }) => {
           </div>
 
           <div className="modal-body px-4 py-3">
-            <MessageComponent error={error} success={success} />
+            <MessageComponent
+              error={error}
+              success={success}
+              errorId={errorId}
+              message_id={message_id}
+            />
 
             {loading ? (
               <div className="d-flex justify-content-center align-items-center py-5">

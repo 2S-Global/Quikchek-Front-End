@@ -61,8 +61,6 @@ const TermsModal = ({ show, onClose }) => {
             </div>
 
             <div className="modal-body px-4 py-3">
-              <MessageComponent error={error} success={success} />
-
               {loading ? (
                 <div className="d-flex justify-content-center align-items-center py-5">
                   <div

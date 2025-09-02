@@ -21,6 +21,8 @@ const Form = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+  const [errorId, setErrorId] = useState(null);
+  const [message_id, setMessage_id] = useState(null);
 
   const apiurl = process.env.NEXT_PUBLIC_API_URL;
   const token =
@@ -44,11 +46,13 @@ const Form = () => {
 
     if (!oldPassword || !newPassword || !confirmPassword) {
       setError("Please fill all fields.");
+      setErrorId(Date.now());
       return;
     }
 
     if (newPassword !== confirmPassword) {
       setError("New passwords do not match.");
+      setErrorId(Date.now());
       return;
     }
 
@@ -70,12 +74,14 @@ const Form = () => {
 
       if (response.data.success) {
         setSuccess(response.data.message);
+        setMessage_id(Date.now());
         setFormData({ oldPassword: "", newPassword: "", confirmPassword: "" });
         setShowPassword({ old: false, new: false, confirm: false });
       }
     } catch (error) {
       const msg = error.response?.data?.message || "Something went wrong.";
       setError(msg);
+      setErrorId(Date.now());
     } finally {
       setLoading(false);
     }
@@ -117,7 +123,12 @@ const Form = () => {
 
   return (
     <form className="default-form" onSubmit={handleSubmit}>
-      <MessageComponent error={error} success={success} />
+      <MessageComponent
+        error={error}
+        success={success}
+        errorId={errorId}
+        message_id={message_id}
+      />
 
       <div className="row">
         {renderPasswordInput("Old Password", "oldPassword", "old")}

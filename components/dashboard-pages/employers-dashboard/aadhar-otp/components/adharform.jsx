@@ -60,7 +60,7 @@ const AadharForm = ({
   const fetchowners = async () => {
     try {
       //setLoading(true);
-      /* /api/complex/getallownerforcompany */
+
       const res = await axios.get(
         `${apiurl}/api/complex/getallownerforcompany`,
         {
@@ -77,7 +77,9 @@ const AadharForm = ({
     }
   };
   useEffect(() => {
-    fetchowners();
+    if (role == "2") {
+      fetchowners();
+    }
   }, [apiurl, token]); // ✅ include token too
 
   const handleChange = (e) => {
@@ -172,13 +174,18 @@ const AadharForm = ({
           },
         }
       );
-
-      setSuccess(response.data.message || "Submitted successfully");
-      /*    setRenderBill(true); */
-      setFormsubmitted(true);
-      /* call setPaymentvalues function */
-      setPaymentvalues();
-      setError("");
+      if (response.data.success) {
+        setSuccess(response.data.message || "Submitted successfully");
+        /*    setRenderBill(true); */
+        setFormsubmitted(true);
+        /* call setPaymentvalues function */
+        setPaymentvalues();
+        setError("");
+      } else {
+        setError(
+          response.data.message || "Submission failed. Please try again."
+        );
+      }
     } catch (err) {
       console.error(err);
       setError("Submission failed. Please try again.");

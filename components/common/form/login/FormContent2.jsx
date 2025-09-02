@@ -77,7 +77,7 @@ const FormContent2 = () => {
       const token = response.data.token;
       const role = response.data.role;
       localStorage.setItem("Role", role);
-      if (role == "1" || role == "2") {
+      if (role == "1" || role == "2" || role == "3") {
         localStorage.setItem("Admin_token", token);
         localStorage.setItem("Admin_name", response.data.data.name);
         localStorage.setItem("Role", role);
@@ -86,7 +86,7 @@ const FormContent2 = () => {
         localStorage.setItem("Super_token", token);
         localStorage.setItem("Super_name", response.data.data.name);
         router.push("/admin/dashboard");
-      } 
+      }
       // else if (role == "2") {
       //   localStorage.setItem("Owner_token", token);
       //   localStorage.setItem("Owner_name", response.data.data.name);

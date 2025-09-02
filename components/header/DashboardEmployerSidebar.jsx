@@ -4,7 +4,7 @@ import Link from "next/link";
 import employerMenuData from "../../data/employerMenuData";
 import { isActiveLink } from "../../utils/linkActiveChecker";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 import { menuToggle } from "../../features/toggle/toggleSlice.js";
@@ -42,6 +42,12 @@ const DashboardEmployerSidebar = () => {
     };
     fetchAadharOtp();
   }, []);
+
+  /* useEffect(() => {
+    if (role == 3) {
+      setAadhar_otp("enable");
+    }
+  }, [role]); */
 
   // menu toggle handler
   const menuToggleHandler = () => {
@@ -107,6 +113,19 @@ const DashboardEmployerSidebar = () => {
             >
               <Link href="/verify-employee">
                 <i className={`la la-building`}></i>Verify Candidate
+              </Link>
+            </li>
+          )}
+          {role == "3" && (
+            <li
+              className={`${
+                isActiveLink("/verify-employee-demo", pathname) ? "active" : ""
+              } mb-1`}
+              key={98}
+              onClick={menuToggleHandler}
+            >
+              <Link href="/verify-employee-demo">
+                <i className={`la la-building`}></i>Verify Candidate (Demo only)
               </Link>
             </li>
           )}

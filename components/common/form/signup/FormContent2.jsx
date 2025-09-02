@@ -151,11 +151,15 @@ const FormContent2 = () => {
       setError(err.invite?.data?.message || "Invite failed. Try again.");
     }
 
+    let fullurl = ``;
+    if (formData.user_type === "demo") {
+      fullurl = `${apiurl}/api/auth/register-demo-user`;
+    } else {
+      fullurl = `${apiurl}/api/auth/register-frontend-user`;
+    }
+
     try {
-      const response = await axios.post(
-        `${apiurl}/api/auth/register-frontend`,
-        formDataToSubmit
-      );
+      const response = await axios.post(fullurl, formDataToSubmit);
       setSuccess("Registration successful!");
       setError(null);
       setFormData({}); // Clear the form
@@ -221,13 +225,27 @@ const FormContent2 = () => {
                 Company
               </label>
             </div>
+            <div>
+              <input
+                type="radio"
+                id="demo"
+                name="user_type"
+                value="demo"
+                checked={formData.user_type === "demo"}
+                onChange={handleChange}
+              />
+              <label htmlFor="demo" className="ms-2">
+                Demo
+              </label>
+            </div>
           </div>
         </div>
 
         {/* Name */}
         <div className="form-group">
           <label>
-            {formData.user_type === "individual"
+            {formData.user_type === "individual" ||
+            formData.user_type === "demo"
               ? "Full Name "
               : "Company Name "}{" "}
             <span className="text-danger">*</span>
@@ -237,7 +255,8 @@ const FormContent2 = () => {
             name="name"
             value={formData.name || ""}
             placeholder={
-              formData.user_type === "individual"
+              formData.user_type === "individual" ||
+              formData.user_type === "demo"
                 ? "Enter your full name"
                 : "Enter company name"
             }

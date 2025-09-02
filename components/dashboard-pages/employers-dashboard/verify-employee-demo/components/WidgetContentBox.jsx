@@ -2,20 +2,22 @@ import React, { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
+import DocumentUpload from "./document";
 import { useRouter } from "next/navigation";
-import { format } from "date-fns"; // Import from date-fns
-import TermsModal from "../../footermodal/termsmodal";
+import { format, set } from "date-fns"; // Import from date-fns
+import { Trash2 } from "lucide-react";
 import MessageComponent from "@/components/common/ResponseMsg";
 import { validateDocuments } from "@/components/dashboard-pages/employers-dashboard/verify-employee/components/validateDocuments"; // adjust path as needed
-import Additionfield from "../../verify-employee/components/additionfield";
-import PassdocumentUpload from "../../verify-employee/components/pasdocument";
-import DocumentUpload from "../../verify-employee/components/document";
-const Mainbox = () => {
-  const [showTermsModal, setShowTermsModal] = useState(false);
+import Additionfield from "./additionfield";
+import PassdocumentUpload from "./pasdocument";
+import TermsModal from "../../footermodal/termsmodal";
+import { se } from "date-fns/locale/se";
 
+const WidgetContentBox = () => {
   const company_name = localStorage.getItem("Admin_name");
-  const [owners, setOwners] = useState([]);
+  const [selectedDoc, setSelectedDoc] = useState("PAN");
 
+  const [showTermsModal, setShowTermsModal] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     dob: null,
@@ -43,8 +45,39 @@ const Mainbox = () => {
     uanname: "",
     uannumber: "",
     plan: "",
-    owner_id: "",
   });
+
+  useEffect(() => {
+    setFormData((prevData) => ({
+      ...prevData,
+      panname: "",
+      aadhaarname: "",
+      votername: "",
+      licensename: "",
+      passportname: "",
+      pannumber: "",
+      aadhaarnumber: "",
+      voternumber: "",
+      licensenumber: "",
+      passportnumber: "",
+      pandoc: null,
+      aadhaardoc: null,
+      voterdoc: null,
+      licensenumdoc: null,
+      passportdoc: null,
+      uandoc: null,
+    }));
+  }, [selectedDoc]);
+  /* for build */
+  const handleShowTermsModal = () => {
+    setShowTermsModal(true);
+    document.body.style.overflow = "hidden";
+  };
+  const handleCloseTermsModal = () => {
+    setShowTermsModal(false);
+    document.body.style.overflow = "auto";
+    console.log("close modal");
+  };
   const [validationErrors, setValidationErrors] = useState({});
   const apiurl = process.env.NEXT_PUBLIC_API_URL;
   const token = localStorage.getItem("Admin_token");
@@ -57,17 +90,11 @@ const Mainbox = () => {
   const [errorId, setErrorId] = useState(0);
   const [approvedFields, setApprovedFields] = useState([]);
   const [availablePlans, setAvailablePlans] = useState([]);
+
+  //fetch approved fields list
+  /* /api/companyPackageRoute/getPackageByCompanyId */
   const [isChecked, setIsChecked] = useState(false); // new state for checkbox
 
-  const handleShowTermsModal = () => {
-    setShowTermsModal(true);
-    document.body.style.overflow = "hidden";
-  };
-  const handleCloseTermsModal = () => {
-    setShowTermsModal(false);
-    document.body.style.overflow = "auto";
-    console.log("close modal");
-  };
   const handleCheckboxChange = (e) => {
     setIsChecked(e.target.checked);
   };
@@ -90,31 +117,9 @@ const Mainbox = () => {
     }
   };
 
-  const fetchowners = async () => {
-    try {
-      setLoading(true);
-      /* /api/complex/getallownerforcompany */
-      const res = await axios.get(
-        `${apiurl}/api/complex/getallownerforcompany`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      if (res.data.success) {
-        setOwners(res.data.data);
-      }
-    } catch (err) {
-      //  console.log("Error fetching plans. Please try again.", err);
-    } finally {
-      setLoading(false);
-    }
-  };
   useEffect(() => {
     /*   fetchApprovedFields(); */
     fetchAvailablePlans();
-    if (role == "2") {
-      fetchowners();
-    }
   }, []);
 
   const handleChange = (e) => {
@@ -438,14 +443,12 @@ const Mainbox = () => {
     today.getDate()
   );
 
-  /* /api/complex/getallownerforcompany */
-
   return (
     <>
       <div className="widget-content">
-        <div className="col-lg-12 col-md-12 py-2 mt-2">
-          <h5 className=" mt-2 mb-2">
-            <strong>Add Details</strong>
+        <div className="col-lg-12 col-md-12 py-2">
+          <h5>
+            <strong>Add Candidate Details</strong>
           </h5>
         </div>
 
@@ -561,44 +564,17 @@ const Mainbox = () => {
               {/* plan  */}
               {console.log("plans for drop down", availablePlans)}
               <div className="form-group col-lg-4 col-md-4 d-flex flex-column">
-                <label htmlFor="plan">
-                  Plan {""}
-                  <span style={{ color: "red" }}>*</span>
-                </label>
+                <label>Select Document</label>
                 <select
+                  value={selectedDoc}
+                  onChange={(e) => setSelectedDoc(e.target.value)}
                   className="form-control"
-                  name="plan"
-                  value={formData.plan}
-                  onChange={handleChange}
-                  required
-                  onBlur={handlePlanChange}
                 >
-                  {availablePlans?.map((plan) => (
-                    <option key={plan._id} value={plan._id}>
-                      {plan.name} (₹ {plan.transaction_fee})
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div className="form-group col-lg-4 col-md-4 d-flex flex-column">
-                <label htmlFor="owner_id">
-                  For Owner {""}
-                  <span style={{ color: "red" }}>*</span>
-                </label>
-                <select
-                  className="form-control"
-                  name="owner_id"
-                  value={formData.owner_id}
-                  onChange={handleChange}
-                  required
-                >
-                  <option value="">Select Owner</option>
-                  {owners?.map((owner) => (
-                    <option key={owner._id} value={owner._id}>
-                      {owner.name}
-                    </option>
-                  ))}
+                  <option value="PAN">PAN</option>
+                  <option value="PASSPORT">Passport</option>
+                  <option value="DL">Driving License</option>
+                  <option value="EPIC">Epic (Voter)</option>
+                  {/*  <option value="UAN">UAN</option> */}
                 </select>
               </div>
 
@@ -606,15 +582,16 @@ const Mainbox = () => {
               <Additionfield formData={formData} setFormData={setFormData} />
             </div>
             {/* if form loading */}
-            {formloading ? (
+            {/*  {formloading ? (
               <div className="d-flex justify-content-center align-items-center">
                 <div className="spinner-border text-primary" role="status">
                   <span className="visually-hidden">Loading...</span>
                 </div>
               </div>
-            ) : (
-              <>
-                {/* Document Uploads */}
+            ) : ( */}
+            <>
+              {/* Conditional Rendering */}
+              {selectedDoc === "PAN" && (
                 <DocumentUpload
                   label="PAN"
                   name="pan"
@@ -625,8 +602,11 @@ const Mainbox = () => {
                   onFileChange={handleFileChange}
                   onfieldChange={handleChange}
                   onfieldValidation={handleValidation}
-                  disabled={!approvedFields.PAN}
+                  /*    disabled={!approvedFields.PAN} */
                 />
+              )}
+
+              {selectedDoc === "PASSPORT" && (
                 <PassdocumentUpload
                   label="Passport"
                   name="passport"
@@ -637,9 +617,11 @@ const Mainbox = () => {
                   onFileChange={handleFileChange}
                   onfieldChange={handleChange}
                   onfieldValidation={handleValidation}
-                  disabled={!approvedFields.PASSPORT}
+                  /*   disabled={!approvedFields.PASSPORT} */
                 />
+              )}
 
+              {selectedDoc === "DL" && (
                 <DocumentUpload
                   label="Driving License"
                   name="license"
@@ -650,9 +632,11 @@ const Mainbox = () => {
                   onfieldChange={handleChange}
                   numberError={validationErrors.licensenumber}
                   onfieldValidation={handleValidation}
-                  disabled={!approvedFields.DL}
+                  /*   disabled={!approvedFields.DL} */
                 />
-                {/* this works */}
+              )}
+
+              {selectedDoc === "EPIC" && (
                 <DocumentUpload
                   label="Epic (Voter)"
                   name="voter"
@@ -663,9 +647,11 @@ const Mainbox = () => {
                   onfieldChange={handleChange}
                   numberError={validationErrors.voternumber}
                   onfieldValidation={handleValidation}
-                  disabled={!approvedFields.EPIC}
+                  /*  disabled={!approvedFields.EPIC} */
                 />
-                {/* this doesnt */}
+              )}
+
+              {selectedDoc === "UAN" && (
                 <DocumentUpload
                   label="UAN"
                   name="uan"
@@ -678,8 +664,9 @@ const Mainbox = () => {
                   onfieldValidation={handleValidation}
                   disabled={!approvedFields.UAN}
                 />
-              </>
-            )}
+              )}
+            </>
+            {/*       )} */}
 
             {/* Submit Button */}
             <div className="form-group">
@@ -707,16 +694,12 @@ const Mainbox = () => {
               <button
                 className="theme-btn btn-style-one"
                 type="submit"
-                disabled={
-                  loading || !isChecked || !isFormValid || !formData.owner_id
-                } // 👈 Button only enabled when all are valid
+                disabled={loading || !isChecked || !isFormValid} // 👈 Button only enabled when all are valid
                 style={{
                   backgroundColor:
-                    loading || !isChecked || !isFormValid || !formData.owner_id
-                      ? "red"
-                      : "", // Red when disabled
+                    loading || !isChecked || !isFormValid ? "red" : "", // Red when disabled
                   cursor:
-                    loading || !isChecked || !isFormValid || !formData.owner_id
+                    loading || !isChecked || !isFormValid
                       ? "not-allowed"
                       : "pointer", // Better UX
                 }}
@@ -727,11 +710,11 @@ const Mainbox = () => {
           </form>
         </div>
       </div>
-
       {showTermsModal && (
         <TermsModal show={showTermsModal} onClose={handleCloseTermsModal} />
       )}
     </>
   );
 };
-export default Mainbox;
+
+export default WidgetContentBox;

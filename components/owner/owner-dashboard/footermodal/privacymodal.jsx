@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import MessageComponent from "@/components/common/ResponseMsg";
 
 const privacyModal = ({ show, onClose }) => {
   const router = useRouter();
@@ -10,8 +9,7 @@ const privacyModal = ({ show, onClose }) => {
     typeof window !== "undefined" ? localStorage.getItem("Super_token") : null;
 
   const [terms, setTerms] = useState("this is the terms and conditions");
-  const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(null);
+
   const [loading, setLoading] = useState(false);
 
   const fetchTerms = async () => {
@@ -29,7 +27,6 @@ const privacyModal = ({ show, onClose }) => {
       setTerms(response.data.privacy.content);
     } catch (error) {
       console.error(error);
-      setError("Failed to fetch terms and conditions.");
     } finally {
       setLoading(false);
     }
@@ -64,8 +61,6 @@ const privacyModal = ({ show, onClose }) => {
             </div>
 
             <div className="modal-body px-4 py-3">
-              <MessageComponent error={error} success={success} />
-
               {loading ? (
                 <div className="d-flex justify-content-center align-items-center py-5">
                   <div

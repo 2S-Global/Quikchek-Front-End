@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import MessageComponent from "@/components/common/ResponseMsg";
+import { se } from "date-fns/locale/se";
+import { set } from "date-fns/set";
 
 const EditfieldModal = ({ show, onClose, field }) => {
   const [formData, setFormData] = useState({
@@ -13,6 +15,9 @@ const EditfieldModal = ({ show, onClose, field }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+
+  const [errorId, setErrorId] = useState(null);
+  const [message_id, setMessage_id] = useState(null);
   const router = useRouter();
   const apiurl = process.env.NEXT_PUBLIC_API_URL;
 
@@ -44,11 +49,12 @@ const EditfieldModal = ({ show, onClose, field }) => {
       );
       console.log(response);
       setSuccess(response.data.message);
+      setMessage_id(Date.now());
 
       if (response.status == 200) {
         window.location.reload();
         console.log("200 st");
-        onClose;
+        onClose();
       }
 
       //router.push(`/admin/company-setting?id=${field.company_id}`);
@@ -56,6 +62,7 @@ const EditfieldModal = ({ show, onClose, field }) => {
       setError(
         err.response?.data?.message || "Something went wrong. Try again."
       );
+      setErrorId(Date.now());
     } finally {
       setLoading(false);
     }
@@ -88,7 +95,12 @@ const EditfieldModal = ({ show, onClose, field }) => {
             <div className="modal-body">
               <form onSubmit={handleSubmit}>
                 {/* Response Message */}
-                <MessageComponent error={error} success={success} />
+                <MessageComponent
+                  error={error}
+                  success={success}
+                  errorId={errorId}
+                  message_id={message_id}
+                />
 
                 <div className="mb-3">
                   <label htmlFor="name" className="form-label">

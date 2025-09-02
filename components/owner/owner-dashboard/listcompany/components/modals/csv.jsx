@@ -3,6 +3,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import MessageComponent from "@/components/common/ResponseMsg";
 import { Eye, EyeOff } from "lucide-react"; // Or any icon library you prefer
+import { se } from "date-fns/locale/se";
 
 const AddCsvModal = ({ show, onClose, field }) => {
   const [csvFile, setCsvFile] = useState(null);
@@ -10,6 +11,7 @@ const AddCsvModal = ({ show, onClose, field }) => {
   const [success, setSuccess] = useState(null);
   const [loading, setLoading] = useState(false);
   const [errorId, setErrorId] = useState(null);
+  const [message_id, setMessage_id] = useState(null);
   const router = useRouter();
   const apiurl = process.env.NEXT_PUBLIC_CSV_URL;
 
@@ -34,28 +36,24 @@ const AddCsvModal = ({ show, onClose, field }) => {
     }
 
     try {
-      const response = await axios.post(
-        `${apiurl}/import`,
-        formPayload,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const response = await axios.post(`${apiurl}/import`, formPayload, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
       if (!response.data.success) {
         throw new Error(response.data.message || "An error occurred");
       }
 
       setSuccess(response.data.message);
+      setMessage_id(Date.now());
       window.location.reload();
       router.push("/admin/listinstitute");
     } catch (err) {
-      setError(
-        err.response?.data?.message || "Import failed. Try again."
-      );
+      setError(err.response?.data?.message || "Import failed. Try again.");
+      setErrorId(Date.now());
     } finally {
       setLoading(false);
     }
@@ -92,30 +90,34 @@ const AddCsvModal = ({ show, onClose, field }) => {
         <div className="modal-dialog modal-dialog-centered" role="document">
           <div className="modal-content">
             {/* Modal Header */}
-      <div className="modal-header d-flex justify-content-between align-items-center">
-  <div className="d-flex align-items-center gap-3">
-    <h5 className="modal-title mb-0">Import New Company</h5>
-    <a
-      href="/demo-company.csv"
-      download
-      className="btn btn-sm btn-outline-primary"
-    >
-      Download Dummy CSV
-    </a>
-  </div>
-  <button
-    type="button"
-    className="btn-close"
-    onClick={onClose}
-  ></button>
-</div>
-
+            <div className="modal-header d-flex justify-content-between align-items-center">
+              <div className="d-flex align-items-center gap-3">
+                <h5 className="modal-title mb-0">Import New Company</h5>
+                <a
+                  href="/demo-company.csv"
+                  download
+                  className="btn btn-sm btn-outline-primary"
+                >
+                  Download Dummy CSV
+                </a>
+              </div>
+              <button
+                type="button"
+                className="btn-close"
+                onClick={onClose}
+              ></button>
+            </div>
 
             {/* Modal Body */}
             <div className="modal-body row">
               <form onSubmit={handleSubmit}>
                 {/* Response Message */}
-                <MessageComponent error={error} success={success} />
+                <MessageComponent
+                  error={error}
+                  success={success}
+                  errorId={errorId}
+                  message_id={message_id}
+                />
                 <div className="row">
                   <div className="mb-5 col-md-12 ">
                     <label htmlFor="csvUpload" className="form-label">

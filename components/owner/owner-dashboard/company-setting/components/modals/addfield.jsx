@@ -17,6 +17,9 @@ const AddfieldModal = ({ show, onClose }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+
+  const [errorId, setErrorId] = useState(null);
+  const [message_id, setMessage_id] = useState(null);
   const router = useRouter();
   const apiurl = process.env.NEXT_PUBLIC_API_URL;
 
@@ -52,11 +55,13 @@ const AddfieldModal = ({ show, onClose }) => {
       }
 
       setSuccess(response.data.message);
+      setMessage_id(Date.now());
       router.push(`/admin/company-setting?id=${id}`);
     } catch (err) {
       setError(
         err.response?.data?.message || "Registration failed. Try again."
       );
+      setErrorId(Date.now());
     } finally {
       setLoading(false);
     }
@@ -89,7 +94,12 @@ const AddfieldModal = ({ show, onClose }) => {
             <div className="modal-body">
               <form onSubmit={handleSubmit}>
                 {/* Response Message */}
-                <MessageComponent error={error} success={success} />
+                <MessageComponent
+                  error={error}
+                  success={success}
+                  message_id={message_id}
+                  errorId={errorId}
+                />
 
                 <div className="mb-3">
                   <label htmlFor="name" className="form-label">

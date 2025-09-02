@@ -17,6 +17,7 @@ const VerifiedlistModal = ({ show, onClose, company }) => {
   const [plans, setPlans] = useState([]);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+
   const [users, setUsers] = useState([]);
 
   //console.log("company from modal:", company);
@@ -24,7 +25,7 @@ const VerifiedlistModal = ({ show, onClose, company }) => {
   useEffect(() => {
     const token = localStorage.getItem("Owner_token");
     if (!token) {
-      setError("Token not found. Please log in again.");
+      // setError("Token not found. Please log in again.");
       return;
     }
 
@@ -43,7 +44,7 @@ const VerifiedlistModal = ({ show, onClose, company }) => {
         // console.log("response", response);
         setUsers(response.data.data);
       } catch (err) {
-        setError("Error fetching companies. Please try again.");
+        // setError("Error fetching companies. Please try again.");
       } finally {
         setLoading(false);
       }
@@ -79,8 +80,6 @@ const VerifiedlistModal = ({ show, onClose, company }) => {
             </div>
 
             <div className="modal-body px-4 py-3">
-              <MessageComponent error={error} success={success} />
-
               {loading ? (
                 <div className="d-flex justify-content-center align-items-center py-5">
                   <div

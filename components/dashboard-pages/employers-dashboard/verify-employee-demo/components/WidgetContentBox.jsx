@@ -5,17 +5,17 @@ import axios from "axios";
 import DocumentUpload from "./document";
 import { useRouter } from "next/navigation";
 import { format, set } from "date-fns"; // Import from date-fns
-import { Trash2 } from "lucide-react";
+
 import MessageComponent from "@/components/common/ResponseMsg";
 import { validateDocuments } from "@/components/dashboard-pages/employers-dashboard/verify-employee/components/validateDocuments"; // adjust path as needed
 import Additionfield from "./additionfield";
 import PassdocumentUpload from "./pasdocument";
 import TermsModal from "../../footermodal/termsmodal";
-import { se } from "date-fns/locale/se";
 
 const WidgetContentBox = () => {
   const company_name = localStorage.getItem("Admin_name");
   const [selectedDoc, setSelectedDoc] = useState("PAN");
+  const [ShowAll, setShowAll] = useState(false);
 
   const [showTermsModal, setShowTermsModal] = useState(false);
   const [formData, setFormData] = useState({
@@ -562,21 +562,24 @@ const WidgetContentBox = () => {
                 />
               </div>
               {/* plan  */}
-              {console.log("plans for drop down", availablePlans)}
-              <div className="form-group col-lg-4 col-md-4 d-flex flex-column">
-                <label>Select Document</label>
-                <select
-                  value={selectedDoc}
-                  onChange={(e) => setSelectedDoc(e.target.value)}
-                  className="form-control"
-                >
-                  <option value="PAN">PAN</option>
-                  <option value="PASSPORT">Passport</option>
-                  <option value="DL">Driving License</option>
-                  <option value="EPIC">Epic (Voter)</option>
-                  {/*  <option value="UAN">UAN</option> */}
-                </select>
-              </div>
+              {/* {console.log("plans for drop down", availablePlans)} */}
+
+              {!ShowAll && (
+                <div className="form-group col-lg-4 col-md-4 d-flex flex-column">
+                  <label>Select Document</label>
+                  <select
+                    value={selectedDoc}
+                    onChange={(e) => setSelectedDoc(e.target.value)}
+                    className="form-control"
+                  >
+                    <option value="PAN">PAN</option>
+                    <option value="PASSPORT">Passport</option>
+                    <option value="DL">Driving License</option>
+                    <option value="EPIC">Epic (Voter)</option>
+                    {/* <option value="UAN">UAN</option> */}
+                  </select>
+                </div>
+              )}
 
               {/* from anaother */}
               <Additionfield formData={formData} setFormData={setFormData} />
@@ -591,7 +594,7 @@ const WidgetContentBox = () => {
             ) : ( */}
             <>
               {/* Conditional Rendering */}
-              {selectedDoc === "PAN" && (
+              {(selectedDoc === "PAN" || ShowAll) && (
                 <DocumentUpload
                   label="PAN"
                   name="pan"
@@ -606,7 +609,7 @@ const WidgetContentBox = () => {
                 />
               )}
 
-              {selectedDoc === "PASSPORT" && (
+              {(selectedDoc === "PASSPORT" || ShowAll) && (
                 <PassdocumentUpload
                   label="Passport"
                   name="passport"
@@ -621,7 +624,7 @@ const WidgetContentBox = () => {
                 />
               )}
 
-              {selectedDoc === "DL" && (
+              {(selectedDoc === "DL" || ShowAll) && (
                 <DocumentUpload
                   label="Driving License"
                   name="license"
@@ -636,7 +639,7 @@ const WidgetContentBox = () => {
                 />
               )}
 
-              {selectedDoc === "EPIC" && (
+              {(selectedDoc === "EPIC" || ShowAll) && (
                 <DocumentUpload
                   label="Epic (Voter)"
                   name="voter"

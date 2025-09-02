@@ -14,6 +14,8 @@ const Companytable = () => {
   const [companies, setCompanies] = useState([]);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+  const [errorId, setErrorId] = useState(null);
+  const [message_id, setMessage_id] = useState(null);
 
   const [editcompany, setEditcompany] = useState(null);
 
@@ -87,8 +89,10 @@ const Companytable = () => {
       if (response.data.success) {
         setCompanies((prev) => prev.filter((company) => company._id !== id));
         setSuccess(response.data.message);
+        setMessage_id(Date.now());
       } else {
         setError(response.data.message);
+        setErrorId(Date.now());
       }
     } catch (err) {
       setError("Error deleting company. Please try again.");
@@ -128,17 +132,25 @@ const Companytable = () => {
           )
         );
         setSuccess(response.data.message);
+        setMessage_id(Date.now());
       } else {
         setError("Failed to toggle status.");
+        setErrorId(Date.now());
       }
     } catch (error) {
       setError("Something went wrong while toggling status.");
+      setErrorId(Date.now());
     }
   };
 
   return (
     <>
-      <MessageComponent error={error} success={success} />
+      <MessageComponent
+        error={error}
+        success={success}
+        errorId={errorId}
+        message_id={message_id}
+      />
       {loading ? (
         <div className="d-flex justify-content-center align-items-center vh-100">
           <div className="spinner-border text-primary" role="status">

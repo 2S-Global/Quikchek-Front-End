@@ -11,12 +11,15 @@ const Table = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+  const [errorId, setErrorId] = useState(null);
+  const [message_id, setMessage_id] = useState(null);
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
     const token = localStorage.getItem("Super_token");
     if (!token) {
       setError("Token not found. Please log in again.");
+      setErrorId(Date.now());
       return;
     }
 
@@ -36,6 +39,7 @@ const Table = () => {
         setUsers(response.data.data);
       } catch (err) {
         setError("Error fetching companies. Please try again.");
+        setErrorId(Date.now());
       } finally {
         setLoading(false);
       }
@@ -46,7 +50,12 @@ const Table = () => {
   console.log("users", users);
   return (
     <>
-      <MessageComponent error={error} success={success} />
+      <MessageComponent
+        error={error}
+        success={success}
+        errorId={errorId}
+        message_id={message_id}
+      />
       {loading ? (
         <div className="d-flex justify-content-center align-items-center vh-100">
           <div className="spinner-border text-primary" role="status">

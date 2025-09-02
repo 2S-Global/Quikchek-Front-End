@@ -15,6 +15,9 @@ const Companytable = () => {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
 
+  const [errorId, setErrorId] = useState(null);
+  const [message_id, setMessage_id] = useState(null);
+
   const [editcompany, setEditcompany] = useState(null);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -34,6 +37,7 @@ const Companytable = () => {
     const token = localStorage.getItem("Super_token");
     if (!token) {
       setError("Token not found. Please log in again.");
+      setErrorId(Date.now());
       return;
     }
 
@@ -53,11 +57,14 @@ const Companytable = () => {
         if (response.status === 200) {
           setCompanies(response.data.data);
           setSuccess(response.data.message);
+          setMessage_id(Date.now());
         } else {
           setError(response.data.message);
+          setErrorId(Date.now());
         }
       } catch (err) {
         setError("Error fetching companies. Please try again.");
+        setErrorId(Date.now());
       } finally {
         setLoading(false);
       }
@@ -87,11 +94,14 @@ const Companytable = () => {
       if (response.data.success) {
         setCompanies((prev) => prev.filter((company) => company._id !== id));
         setSuccess(response.data.message);
+        setMessage_id(Date.now());
       } else {
         setError(response.data.message);
+        setErrorId(Date.now());
       }
     } catch (err) {
       setError("Error deleting company. Please try again.");
+      setErrorId(Date.now());
     }
   };
 
@@ -128,8 +138,10 @@ const Companytable = () => {
           )
         );
         setSuccess(response.data.message);
+        setMessage_id(Date.now());
       } else {
         setError("Failed to toggle status.");
+        setErrorId(Date.now());
       }
     } catch (error) {
       setError("Something went wrong while toggling status.");
@@ -138,7 +150,12 @@ const Companytable = () => {
 
   return (
     <>
-      <MessageComponent error={error} success={success} />
+      <MessageComponent
+        error={error}
+        success={success}
+        errorId={errorId}
+        message_id={message_id}
+      />
       {loading ? (
         <div className="d-flex justify-content-center align-items-center vh-100">
           <div className="spinner-border text-primary" role="status">

@@ -26,6 +26,8 @@ const FormContent2 = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+  const [errorId, setErrorId] = useState(null);
+  const [message_id, setMessage_id] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
   const apiurl = process.env.NEXT_PUBLIC_API_URL;
 
@@ -149,6 +151,7 @@ const FormContent2 = () => {
       console.log("invite response", invite);
     } catch (err) {
       setError(err.invite?.data?.message || "Invite failed. Try again.");
+      setErrorId(Date.now());
     }
 
     let fullurl = ``;
@@ -190,7 +193,12 @@ const FormContent2 = () => {
       </div>
 
       <h3>Register to Quikchek</h3>
-      <MessageComponent error={error} success={success} />
+      <MessageComponent
+        error={error}
+        success={success}
+        errorId={errorId}
+        message_id={message_id}
+      />
 
       <form onSubmit={handleSubmit}>
         {/* Account Type */}

@@ -13,6 +13,8 @@ const FormContentcom = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+  const [errorId, setErrorId] = useState(null);
+  const [message_id, setMessage_id] = useState(null);
   const router = useRouter();
   const apiurl = process.env.NEXT_PUBLIC_API_URL;
 
@@ -38,6 +40,7 @@ const FormContentcom = () => {
         throw new Error(response.data.message || "An error occurred");
       }
       setSuccess("Registration successful!");
+      setMessage_id(Date.now());
       const token = response.data.token;
       localStorage.setItem("Admin_token", token);
       router.push("/employers-dashboard/dashboard");
@@ -45,6 +48,7 @@ const FormContentcom = () => {
       setError(
         err.response?.data?.message || "Registration failed. Try again."
       );
+      setErrorId(Date.now());
     } finally {
       setLoading(false);
     }
@@ -53,7 +57,12 @@ const FormContentcom = () => {
   return (
     <form onSubmit={handleSubmit}>
       {/* display error */}
-      <MessageComponent error={error} success={success} />
+      <MessageComponent
+        error={error}
+        success={success}
+        errorId={errorId}
+        message_id={message_id}
+      />
 
       <div className="form-group">
         <label>Company Name</label>

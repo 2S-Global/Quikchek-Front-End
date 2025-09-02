@@ -12,6 +12,8 @@ const Companytable = ({ startDate, endDate }) => {
   const [companies, setCompanies] = useState([]);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+  const [errorId, setErrorId] = useState(null);
+  const [message_id, setMessage_id] = useState(null);
 
   useEffect(() => {
     const token = localStorage.getItem("Super_token");
@@ -39,11 +41,14 @@ const Companytable = ({ startDate, endDate }) => {
         if (response.status === 201) {
           setCompanies(response.data.table_data || []);
           setSuccess("Report data loaded successfully.");
+          setMessage_id(Date.now());
         } else {
           setError(response.data.message || "Failed to load data.");
+          setErrorId(Date.now());
         }
       } catch (err) {
         setError("Error fetching report data. Please try again.");
+        setErrorId(Date.now());
       } finally {
         setLoading(false);
       }
@@ -54,7 +59,12 @@ const Companytable = ({ startDate, endDate }) => {
 
   return (
     <>
-      <MessageComponent error={error} success={success} />
+      <MessageComponent
+        error={error}
+        success={success}
+        errorId={errorId}
+        message_id={message_id}
+      />
       {loading ? (
         <div className="d-flex justify-content-center align-items-center vh-100">
           <div className="spinner-border text-primary" role="status">

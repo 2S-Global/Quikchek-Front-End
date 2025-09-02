@@ -7,6 +7,7 @@ import React, { useEffect, useState } from "react";
 import MessageComponent from "../../ResponseMsg";
 import { Eye, EyeOff } from "lucide-react"; // Or any icon library you prefer
 import { FaFacebookF, FaLinkedinIn } from "react-icons/fa";
+import { se } from "date-fns/locale/se";
 const FormContent2 = () => {
   const router = useRouter();
   const [formData, setFormData] = useState({
@@ -17,6 +18,8 @@ const FormContent2 = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+  const [errorId, setErrorId] = useState(null);
+  const [message_id, setMessage_id] = useState(null);
   const apiurl = process.env.NEXT_PUBLIC_API_URL;
 
   // Load saved credentials on mount
@@ -74,6 +77,7 @@ const FormContent2 = () => {
       }
 
       setSuccess("Log In successful!");
+      setMessage_id(Date.now());
       const token = response.data.token;
       const role = response.data.role;
       localStorage.setItem("Role", role);
@@ -94,6 +98,7 @@ const FormContent2 = () => {
       // }
     } catch (err) {
       setError(err.response?.data?.message || "Login failed. Try again.");
+      setErrorId(Date.now());
     } finally {
       setLoading(false);
     }
@@ -116,7 +121,12 @@ const FormContent2 = () => {
       </div>
 
       <h3>Login to Quikchek</h3>
-      <MessageComponent error={error} success={success} />
+      <MessageComponent
+        error={error}
+        success={success}
+        errorId={errorId}
+        message_id={message_id}
+      />
 
       <form onSubmit={handleSubmit}>
         <div className="form-group">

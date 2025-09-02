@@ -18,6 +18,8 @@ const AddCompanyModal = ({ show, onClose }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+  const [errorId, setErrorId] = useState(null);
+  const [message_id, setMessage_id] = useState(null);
   const router = useRouter();
   const apiurl = process.env.NEXT_PUBLIC_API_URL;
 
@@ -65,6 +67,7 @@ const AddCompanyModal = ({ show, onClose }) => {
     const token = localStorage.getItem("Super_token");
     if (!token) {
       setError("Token not found. Please log in again.");
+      setErrorId(Date.now());
       return;
     }
 
@@ -80,12 +83,14 @@ const AddCompanyModal = ({ show, onClose }) => {
       );
 
       setSuccess(response.data.message);
+      setMessage_id(Date.now());
       window.location.reload();
       router.push("/admin/listpackage");
     } catch (err) {
       setError(
         err.response?.data?.message || "Something went wrong. Try again."
       );
+      setErrorId(Date.now());
     } finally {
       setLoading(false);
     }
@@ -118,7 +123,12 @@ const AddCompanyModal = ({ show, onClose }) => {
             <div className="modal-body row">
               <form onSubmit={handleSubmit}>
                 {/* Response Message */}
-                <MessageComponent error={error} success={success} />
+                <MessageComponent
+                  error={error}
+                  success={success}
+                  errorId={errorId}
+                  message_id={message_id}
+                />
                 <div className="row">
                   <div className="mb-3 col-md-6">
                     <div>

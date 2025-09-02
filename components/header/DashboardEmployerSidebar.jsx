@@ -125,7 +125,7 @@ const DashboardEmployerSidebar = () => {
               onClick={menuToggleHandler}
             >
               <Link href="/verify-employee-demo">
-                <i className={`la la-building`}></i>Verify Candidate (Demo only)
+                <i className={`la la-building`}></i>Verify Candidate
               </Link>
             </li>
           )}

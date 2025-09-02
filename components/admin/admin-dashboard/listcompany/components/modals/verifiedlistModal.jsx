@@ -17,6 +17,9 @@ const VerifiedlistModal = ({ show, onClose, company }) => {
   const [plans, setPlans] = useState([]);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+
+  const [errorId, setErrorId] = useState(null);
+  const [message_id, setMessage_id] = useState(null);
   const [users, setUsers] = useState([]);
 
   //console.log("company from modal:", company);
@@ -44,6 +47,7 @@ const VerifiedlistModal = ({ show, onClose, company }) => {
         setUsers(response.data.data);
       } catch (err) {
         setError("Error fetching companies. Please try again.");
+        setErrorId(Date.now());
       } finally {
         setLoading(false);
       }
@@ -79,7 +83,12 @@ const VerifiedlistModal = ({ show, onClose, company }) => {
             </div>
 
             <div className="modal-body px-4 py-3">
-              <MessageComponent error={error} success={success} />
+              <MessageComponent
+                error={error}
+                success={success}
+                errorId={errorId}
+                message_id={message_id}
+              />
 
               {loading ? (
                 <div className="d-flex justify-content-center align-items-center py-5">

@@ -222,8 +222,8 @@ const Companytable = () => {
     }
   };
 
-  const [message_id, setMessage_id] = useState(null);
   const [errorId, setErrorId] = useState(null);
+  const [message_id, setMessage_id] = useState(null);
 
   const [emailloading, setEmailloading] = useState(false);
   const handleInvite = async (company) => {
@@ -416,7 +416,12 @@ const Companytable = () => {
   };
   return (
     <>
-      <MessageComponent error={error} success={success} />
+      <MessageComponent
+        error={error}
+        success={success}
+        errorId={errorId}
+        message_id={message_id}
+      />
       {loading ? (
         <div className="d-flex justify-content-center align-items-center vh-100">
           <div className="spinner-border text-primary" role="status">

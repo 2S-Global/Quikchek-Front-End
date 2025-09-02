@@ -13,6 +13,8 @@ const privacyModal = ({ show, onClose }) => {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [errorId, setErrorId] = useState(null);
+  const [message_id, setMessage_id] = useState(null);
 
   const fetchTerms = async () => {
     setLoading(true);
@@ -64,7 +66,12 @@ const privacyModal = ({ show, onClose }) => {
             </div>
 
             <div className="modal-body px-4 py-3">
-              <MessageComponent error={error} success={success} />
+              <MessageComponent
+                error={error}
+                success={success}
+                message_id={message_id}
+                errorId={errorId}
+              />
 
               {loading ? (
                 <div className="d-flex justify-content-center align-items-center py-5">

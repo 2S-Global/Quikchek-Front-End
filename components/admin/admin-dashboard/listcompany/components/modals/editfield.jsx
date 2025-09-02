@@ -52,6 +52,8 @@ const EditfieldModal = ({ show, onClose, field }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+  const [errorId, setErrorId] = useState(null);
+  const [message_id, setMessage_id] = useState(null);
 
   // Populate form when `field` changes
   useEffect(() => {
@@ -182,12 +184,14 @@ const EditfieldModal = ({ show, onClose, field }) => {
       );
 
       setSuccess(response.data.message);
+      setMessage_id(Date.now());
       window.location.reload();
       router.push("/admin/listcompany");
     } catch (err) {
       setError(
         err.response?.data?.message || "Something went wrong. Try again."
       );
+      setErrorId(Date.now());
     } finally {
       setLoading(false);
     }
@@ -222,7 +226,12 @@ const EditfieldModal = ({ show, onClose, field }) => {
           <div className="modal-body">
             <form onSubmit={handleSubmit}>
               {/* Response Message */}
-              <MessageComponent error={error} success={success} />
+              <MessageComponent
+                error={error}
+                success={success}
+                errorId={errorId}
+                message_id={message_id}
+              />
               <div className="row">
                 <div className="mb-3 col-md-6">
                   <label htmlFor="name" className="form-label">

@@ -21,12 +21,16 @@ const Additionfield = ({ formData, setFormData }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+
+  const [errorId, setErrorId] = useState(null);
+  const [message_id, setMessage_id] = useState(null);
   const [fieldlist, setFieldlist] = useState([]);
 
   useEffect(() => {
     const token = localStorage.getItem("Admin_token");
     if (!token) {
       setError("Token not found. Please log in again.");
+      setErrorId(Date.now());
       return;
     }
 
@@ -44,6 +48,7 @@ const Additionfield = ({ formData, setFormData }) => {
         console.log("Fieldlist updated:", res.data.data);
       } catch (err) {
         setError("Error fetching fields. Please try again.");
+        setErrorId(Date.now());
       } finally {
         setLoading(false);
       }
@@ -65,7 +70,12 @@ const Additionfield = ({ formData, setFormData }) => {
   return (
     <>
       {loading && <p>Loading fields...</p>}
-      <MessageComponent error={error} success={success} />
+      <MessageComponent
+        error={error}
+        success={success}
+        errorId={errorId}
+        message_id={message_id}
+      />
 
       <div className="row">
         {fieldlist.map((field) => (

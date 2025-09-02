@@ -18,8 +18,6 @@ const SearchBox = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError(null);
-    setSuccess(null);
 
     alert("Form submitted successfully!");
   };
@@ -28,7 +26,6 @@ const SearchBox = () => {
     <div className="widget-content">
       <div className="row">
         <form className="default-form" onSubmit={handleSubmit}>
-          <MessageComponent error={error} success={success} />
           <div className="row d-flex justify-content-center align-items-center">
             <div className="form-group col-md-4 text-center">
               <input

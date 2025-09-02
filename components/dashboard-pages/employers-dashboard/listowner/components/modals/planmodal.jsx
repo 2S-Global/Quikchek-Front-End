@@ -17,14 +17,16 @@ const EditplanModal = ({ show, onClose, field }) => {
     companyId: "",
     aadhar_otp: "disable", // default
     aadhar_price: "",
-    hotel_module:"disable",
-    housing_module:"disable"
+    hotel_module: "disable",
+    housing_module: "disable",
   });
 
   const [loading, setLoading] = useState(false);
   const [plans, setPlans] = useState([]);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+  const [errorId, setErrorId] = useState(null);
+  const [message_id, setMessage_id] = useState(null);
 
   useEffect(() => {
     if (!show || !field?._id || didFetch.current) return;
@@ -46,9 +48,11 @@ const EditplanModal = ({ show, onClose, field }) => {
           setPlans(response.data.data);
         } else {
           setError(response.data.message);
+          setErrorId(Date.now());
         }
       } catch {
         setError("Error fetching plans. Please try again.");
+        setErrorId(Date.now());
       } finally {
         setLoading(false);
       }
@@ -70,7 +74,6 @@ const EditplanModal = ({ show, onClose, field }) => {
             aadhar_price: response.data.data.aadhar_price || "",
             hotel_module: response.data.data.hotel_module || "disable",
             housing_module: response.data.data.housing_module || "disable",
-
           }));
         }
       } catch (err) {
@@ -146,6 +149,7 @@ const EditplanModal = ({ show, onClose, field }) => {
       );
 
       setSuccess(response.data.message);
+      setMessage_id(Date.now());
       setTimeout(() => {
         // window.location.reload();
         // router.push("/admin/listcompany");
@@ -154,6 +158,7 @@ const EditplanModal = ({ show, onClose, field }) => {
       setError(
         err.response?.data?.message || "Something went wrong. Try again."
       );
+      setErrorId(Date.now());
     } finally {
       setLoading(false);
     }
@@ -189,7 +194,12 @@ const EditplanModal = ({ show, onClose, field }) => {
             className="modal-body px-4 py-3"
             style={{ maxHeight: "75vh", overflowY: "auto" }}
           >
-            <MessageComponent error={error} success={success} />
+            <MessageComponent
+              error={error}
+              success={success}
+              errorId={errorId}
+              message_id={message_id}
+            />
 
             {loading ? (
               <div className="d-flex justify-content-center align-items-center py-5">
@@ -347,7 +357,7 @@ const EditplanModal = ({ show, onClose, field }) => {
                         <label className="form-label fw-semibold me-4 mb-0">
                           Hotel Module
                         </label>
-                        <div className="d-flex" style={{ marginLeft:"34px" }}>
+                        <div className="d-flex" style={{ marginLeft: "34px" }}>
                           <div className="form-check me-3">
                             <input
                               className="form-check-input"
@@ -386,13 +396,12 @@ const EditplanModal = ({ show, onClose, field }) => {
                       </div>
                     </div>
 
-
                     <div className="col-md-12 mt-3">
                       <div className="d-flex align-items-center">
                         <label className="form-label fw-semibold me-4 mb-0">
                           House Module
                         </label>
-                        <div className="d-flex" style={{ marginLeft:"29px" }}>
+                        <div className="d-flex" style={{ marginLeft: "29px" }}>
                           <div className="form-check me-3">
                             <input
                               className="form-check-input"
@@ -430,7 +439,6 @@ const EditplanModal = ({ show, onClose, field }) => {
                         </div>
                       </div>
                     </div>
-                    
                   </div>
                 </div>
 

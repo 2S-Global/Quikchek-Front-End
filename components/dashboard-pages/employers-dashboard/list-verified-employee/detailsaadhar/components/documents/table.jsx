@@ -9,6 +9,8 @@ export const DocumentsTable = ({ user, handleclick }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+  const [errorId, setErrorId] = useState(null);
+  const [message_id, setMessage_id] = useState(null);
   const handleDownload = async (id, name) => {
     setLoading(true);
     setError(null);
@@ -30,9 +32,11 @@ export const DocumentsTable = ({ user, handleclick }) => {
       link.click();
       link.remove();
       setSuccess("PDF downloaded successfully!");
+      setMessage_id(Date.now());
     } catch (err) {
       console.error("Error downloading PDF:", err);
       setError("Failed to download PDF. Please try again.");
+      setErrorId(Date.now());
     } finally {
       setLoading(false);
     }
@@ -59,7 +63,12 @@ export const DocumentsTable = ({ user, handleclick }) => {
 
   return (
     <div className="table-responsive">
-      <MessageComponent error={error} success={success} />
+      <MessageComponent
+        error={error}
+        success={success}
+        errorId={errorId}
+        message_id={message_id}
+      />
       <table className="table table-bordered text-center align-middle">
         <thead className="table-light">
           <tr>

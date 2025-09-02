@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import MessageComponent from "@/components/common/ResponseMsg";
-import { Eye, EyeOff } from "lucide-react"; // Or any icon library you prefer
 
 const AddCsvModal = ({ show, onClose, field }) => {
   const [csvFile, setCsvFile] = useState(null);
@@ -10,6 +9,7 @@ const AddCsvModal = ({ show, onClose, field }) => {
   const [success, setSuccess] = useState(null);
   const [loading, setLoading] = useState(false);
   const [errorId, setErrorId] = useState(null);
+  const [message_id, setMessage_id] = useState(null);
   const router = useRouter();
   const apiurl = process.env.NEXT_PUBLIC_API_URL;
 
@@ -50,12 +50,12 @@ const AddCsvModal = ({ show, onClose, field }) => {
       }
 
       setSuccess(response.data.message);
+      setMessage_id(Date.now());
       window.location.reload();
       router.push("/owner");
     } catch (err) {
-      setError(
-        err.response?.data?.message || "Import failed. Try again."
-      );
+      setError(err.response?.data?.message || "Import failed. Try again.");
+      setErrorId(Date.now());
     } finally {
       setLoading(false);
     }
@@ -92,30 +92,34 @@ const AddCsvModal = ({ show, onClose, field }) => {
         <div className="modal-dialog modal-dialog-centered" role="document">
           <div className="modal-content">
             {/* Modal Header */}
-      <div className="modal-header d-flex justify-content-between align-items-center">
-  <div className="d-flex align-items-center gap-3">
-    <h5 className="modal-title mb-0">Import New Owner</h5>
-    <a
-      href="/owner_list.csv"
-      download
-      className="btn btn-sm btn-outline-primary"
-    >
-      Download Dummy CSV
-    </a>
-  </div>
-  <button
-    type="button"
-    className="btn-close"
-    onClick={onClose}
-  ></button>
-</div>
-
+            <div className="modal-header d-flex justify-content-between align-items-center">
+              <div className="d-flex align-items-center gap-3">
+                <h5 className="modal-title mb-0">Import New Owner</h5>
+                <a
+                  href="/owner_list.csv"
+                  download
+                  className="btn btn-sm btn-outline-primary"
+                >
+                  Download Dummy CSV
+                </a>
+              </div>
+              <button
+                type="button"
+                className="btn-close"
+                onClick={onClose}
+              ></button>
+            </div>
 
             {/* Modal Body */}
             <div className="modal-body row">
               <form onSubmit={handleSubmit}>
                 {/* Response Message */}
-                <MessageComponent error={error} success={success} />
+                <MessageComponent
+                  error={error}
+                  success={success}
+                  errorId={errorId}
+                  message_id={message_id}
+                />
                 <div className="row">
                   <div className="mb-5 col-md-12 ">
                     <label htmlFor="csvUpload" className="form-label">

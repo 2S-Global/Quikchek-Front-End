@@ -9,26 +9,28 @@ const AddCompanyModal = ({ show, onClose }) => {
     flat_number: "",
     name: "",
     email: "",
-    phone_number: ""
+    phone_number: "",
   });
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+  const [errorId, setErrorId] = useState(null);
+  const [message_id, setMessage_id] = useState(null);
   const router = useRouter();
   const apiurl = process.env.NEXT_PUBLIC_API_URL;
   const [formErrors, setFormErrors] = useState({
     flat_number: "",
     name: "",
     email: "",
-    phone_number: ""
+    phone_number: "",
   });
 
   const [touched, setTouched] = useState({
     flat_number: false,
     name: false,
     email: false,
-    phone_number: false
+    phone_number: false,
   });
 
   const [showPassword, setShowPassword] = useState(false);
@@ -152,6 +154,7 @@ const AddCompanyModal = ({ show, onClose }) => {
       console.log("invite response", invite);
     } catch (err) {
       setError(err.invite?.data?.message || "Invite failed. Try again.");
+      setErrorId(Date.now());
     }
 
     try {
@@ -170,12 +173,14 @@ const AddCompanyModal = ({ show, onClose }) => {
       }
 
       setSuccess(response.data.message);
+      setMessage_id(Date.now());
       window.location.reload();
       router.push("/owner");
     } catch (err) {
       setError(
         err.response?.data?.message || "Registration failed. Try again."
       );
+      setErrorId(Date.now());
     } finally {
       setLoading(false);
     }
@@ -208,9 +213,13 @@ const AddCompanyModal = ({ show, onClose }) => {
             <div className="modal-body row">
               <form onSubmit={handleSubmit}>
                 {/* Response Message */}
-                <MessageComponent error={error} success={success} />
+                <MessageComponent
+                  error={error}
+                  success={success}
+                  errorId={errorId}
+                  message_id={message_id}
+                />
                 <div className="row">
-
                   <div className="mb-3 col-md-6">
                     <label htmlFor="flat_number" className="form-label">
                       Flat No.
@@ -225,7 +234,9 @@ const AddCompanyModal = ({ show, onClose }) => {
                       onChange={handleChange}
                     />
                     {formErrors.flat_number && (
-                      <div className="invalid-feedback">{formErrors.flat_number}</div>
+                      <div className="invalid-feedback">
+                        {formErrors.flat_number}
+                      </div>
                     )}
                   </div>
 

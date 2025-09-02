@@ -13,10 +13,14 @@ const Companytable = ({ startDate, endDate }) => {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
 
+  const [errorId, setErrorId] = useState(null);
+  const [message_id, setMessage_id] = useState(null);
+
   useEffect(() => {
     const token = localStorage.getItem("Owner_token");
     if (!token) {
       setError("Token not found. Please log in again.");
+      setErrorId(Date.now());
       return;
     }
 
@@ -38,11 +42,16 @@ const Companytable = ({ startDate, endDate }) => {
 
         if (response.status === 201) {
           setCompanies(response.data.table_data || []);
-          setSuccess("Report data loaded successfully.");
+          setSuccess(
+            response.data.message || "Report data loaded successfully."
+          );
+          setMessage_id(Date.now());
         } else {
+          setErrorId(Date.now());
           setError(response.data.message || "Failed to load data.");
         }
       } catch (err) {
+        setErrorId(Date.now());
         setError("Error fetching report data. Please try again.");
       } finally {
         setLoading(false);
@@ -54,7 +63,12 @@ const Companytable = ({ startDate, endDate }) => {
 
   return (
     <>
-      <MessageComponent error={error} success={success} />
+      <MessageComponent
+        error={error}
+        success={success}
+        errorId={errorId}
+        message_id={message_id}
+      />
       {loading ? (
         <div className="d-flex justify-content-center align-items-center vh-100">
           <div className="spinner-border text-primary" role="status">

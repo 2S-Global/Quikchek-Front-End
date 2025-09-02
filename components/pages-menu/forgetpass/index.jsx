@@ -11,6 +11,9 @@ const Index = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+
+  const [errorId, setErrorId] = useState(null);
+  const [message_id, setMessage_id] = useState(null);
   const apiurl = process.env.NEXT_PUBLIC_API_URL;
   const handlecompanyclick = () => {
     handleExternalLink("https://2sglobal.co/");
@@ -22,7 +25,6 @@ const Index = () => {
   const handleExternalLink = (url) => {
     window.open(url, "_blank");
   };
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -36,10 +38,12 @@ const Index = () => {
         formData
       );
       setSuccess(response.data.message);
+      setMessage_id(Date.now());
     } catch (err) {
       setError(
         err.response?.data?.message || err.message || "Something went wrong"
       );
+      setErrorId(Date.now());
     } finally {
       setLoading(false);
     }
@@ -78,7 +82,12 @@ const Index = () => {
               />
             </div>
             <h3 className="text-center mb-3">Forgot Password</h3>
-            <MessageComponent error={error} success={success} />
+            <MessageComponent
+              error={error}
+              success={success}
+              errorId={errorId}
+              message_id={message_id}
+            />
             <form onSubmit={handleSubmit}>
               <div className="form-group mb-3">
                 <label htmlFor="email">Email Address</label>
@@ -112,45 +121,43 @@ const Index = () => {
             </form>
 
             <div className="mt-5 text-center">
-                  <p className="text-muted small">
-                    Developed and maintained by{" "}
-                    <strong
-                      className="text-dark"
-                      onClick={handlecompanyclick}
-                      style={{ cursor: "pointer" }}
-                    >
-                      2S Global Technologies Ltd
-                    </strong>
-                  </p>
-                </div>
-          
-                <div className="d-flex justify-content-center gap-3 mt-3">
-                        <button
-                          onClick={() =>
-                            handleExternalLink(
-                              "https://www.facebook.com/profile.php?id=61575548305003"
-                            )
-                          }
-                          className="btn btn-outline-primary rounded-circle"
-                          aria-label="Facebook"
-                        >
-                          <FaFacebookF />
-                        </button>
-                        <button
-                          onClick={() =>
-                            handleExternalLink(
-                              "https://www.linkedin.com/company/global-employability-information-services-india-limited/"
-                            )
-                          }
-                          className="btn btn-outline-primary rounded-circle"
-                          aria-label="LinkedIn"
-                        >
-                          <FaLinkedinIn />
-                        </button>
-                      </div>
-          </div>
+              <p className="text-muted small">
+                Developed and maintained by{" "}
+                <strong
+                  className="text-dark"
+                  onClick={handlecompanyclick}
+                  style={{ cursor: "pointer" }}
+                >
+                  2S Global Technologies Ltd
+                </strong>
+              </p>
+            </div>
 
-        
+            <div className="d-flex justify-content-center gap-3 mt-3">
+              <button
+                onClick={() =>
+                  handleExternalLink(
+                    "https://www.facebook.com/profile.php?id=61575548305003"
+                  )
+                }
+                className="btn btn-outline-primary rounded-circle"
+                aria-label="Facebook"
+              >
+                <FaFacebookF />
+              </button>
+              <button
+                onClick={() =>
+                  handleExternalLink(
+                    "https://www.linkedin.com/company/global-employability-information-services-india-limited/"
+                  )
+                }
+                className="btn btn-outline-primary rounded-circle"
+                aria-label="LinkedIn"
+              >
+                <FaLinkedinIn />
+              </button>
+            </div>
+          </div>
         </div>
 
         {/* Sticky Footer */}

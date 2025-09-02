@@ -19,6 +19,9 @@ const Form = ({
 
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+
+  const [errorId, setErrorId] = useState(null);
+  const [message_id, setMessage_id] = useState(null);
   const apiurl = process.env.NEXT_PUBLIC_API_URL;
   const token = localStorage.getItem("Super_token");
 
@@ -51,9 +54,11 @@ const Form = ({
         link.click();
         link.remove();
         setSuccess("PDF downloaded successfully!");
+        setMessage_id(Date.now());
       } catch (err) {
         console.error("Error downloading PDF:", err);
         setError("Failed to download PDF. Please try again.");
+        setErrorId(Date.now());
       } finally {
         setLoading(false);
       }
@@ -87,9 +92,12 @@ const Form = ({
         // Cleanup
         link.parentNode.removeChild(link);
         window.URL.revokeObjectURL(url);
+        setSuccess("CSV downloaded successfully!");
+        setMessage_id(Date.now());
       } catch (err) {
         console.error("Error downloading CSV:", err);
         setError("Failed to download CSV. Please try again.");
+        setErrorId(Date.now());
       } finally {
         setLoading(false);
       }
@@ -98,7 +106,12 @@ const Form = ({
 
   return (
     <>
-      <MessageComponent error={error} success={success} />
+      <MessageComponent
+        error={error}
+        success={success}
+        errorId={errorId}
+        message_id={message_id}
+      />
       {loading ? (
         <div className="d-flex justify-content-center align-items-center vh-100">
           <div className="spinner-border text-primary" role="status">

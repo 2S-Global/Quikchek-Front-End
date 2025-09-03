@@ -398,7 +398,9 @@ const AadharOtp = () => {
                 setLoading={setLoading}
                 error={error}
                 setError={setError}
+                setErrorId={setErrorId}
                 success={success}
+                setMessage_id={setMessage_id}
                 setSuccess={setSuccess}
                 setRenderBill={setRenderBill}
                 setRenderForm={setRenderForm}

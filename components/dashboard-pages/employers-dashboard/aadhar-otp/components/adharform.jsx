@@ -22,6 +22,8 @@ const AadharForm = ({
   setFormsubmitted,
   formsubmitted,
   setPaymentvalues,
+  setErrorId,
+  setMessage_id,
 }) => {
   const [owners, setOwners] = useState([]);
   const company_name = localStorage.getItem("Admin_name");
@@ -176,6 +178,7 @@ const AadharForm = ({
       );
       if (response.data.success) {
         setSuccess(response.data.message || "Submitted successfully");
+        setMessage_id(Date.now());
         /*    setRenderBill(true); */
         setFormsubmitted(true);
         /* call setPaymentvalues function */
@@ -185,10 +188,12 @@ const AadharForm = ({
         setError(
           response.data.message || "Submission failed. Please try again."
         );
+        setErrorId(Date.now());
       }
     } catch (err) {
       console.error(err);
       setError("Submission failed. Please try again.");
+      setErrorId(Date.now());
     } finally {
       setLoading(false);
     }

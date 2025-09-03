@@ -443,6 +443,29 @@ const WidgetContentBox = () => {
     today.getDate()
   );
 
+  const Fetchshowallstatus = async () => {
+    setLoading(true);
+    try {
+      /* /api/usercart/check_free_trial_demouser */
+      const response = await axios.get(
+        `${apiurl}/api/usercart/check_free_trial_demouser`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      if (response.data.success) {
+        setShowAll(response.data.trialVerificationUsed);
+      }
+    } catch (err) {
+      console.log("Error fetching plans. Please try again.", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    Fetchshowallstatus();
+  }, [apiurl, token]);
+
   return (
     <>
       <div className="widget-content">

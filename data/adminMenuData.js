@@ -1,82 +1,86 @@
 module.exports = [
   {
-    id: 1,
-    name: "Dashboard Admin",
+    title: "Dashboard",
     icon: "la-home",
-    routePath: "/admin/dashboard",
-    active: "active",
+    items: [
+      {
+        id: 1,
+        name: "Dashboard Admin",
+        icon: "la-home",
+        routePath: "/admin/dashboard",
+      },
+    ],
   },
   {
-    id: 2,
-    name: "List Company",
-    icon: "la-building",
-    routePath: "/admin/listcompany",
-    active: "",
-  },
-  {
-    id: 102,
-    name: "List Complex",
-    icon: "la-building",
-    routePath: "/admin/listcomplex",
-    active: "",
-  },
-
-  {
-    id: 3,
-    name: "List Company Self",
-    icon: "la-file-alt",
-    routePath: "/admin/listcompanyself",
-    active: "",
-  },
-  {
-    id: 103,
-    name: "List Users",
+    title: "List of Accounts",
     icon: "la-users",
-    routePath: "/admin/list-users",
-    active: "",
+    items: [
+      {
+        id: 2,
+        name: "List Company",
+        icon: "la-building",
+        routePath: "/admin/listcompany",
+      },
+      {
+        id: 102,
+        name: "List Complex",
+        icon: "la-building",
+        routePath: "/admin/listcomplex",
+      },
+      {
+        id: 3,
+        name: "List Company Self",
+        icon: "la-file-alt",
+        routePath: "/admin/listcompanyself",
+      },
+      {
+        id: 103,
+        name: "List Users",
+        icon: "la-users",
+        routePath: "/admin/list-users",
+      },
+    ],
   },
-
   {
-    id: 4,
-    name: "List Packages",
-    icon: "la-boxes",
-    routePath: "/admin/listpackage",
-    active: "",
-  },
-  {
-    id: 5,
-    name: "List Verified Candidate",
+    title: "Candidates",
     icon: "la-id-badge",
-    routePath: "/admin/listverified",
-    active: "",
+    items: [
+      {
+        id: 5,
+        name: "List Verified Candidate",
+        icon: "la-id-badge",
+        routePath: "/admin/listverified",
+      },
+    ],
   },
   {
-    id: 6,
-    name: "Search Transaction",
-    icon: "la-wallet",
-    routePath: "/admin/payments",
-    active: "",
+    title: "Management",
+    icon: "las la-braille",
+    items: [
+      {
+        id: 4,
+        name: "List Packages",
+        icon: "la-boxes",
+        routePath: "/admin/listpackage",
+      },
+      {
+        id: 6,
+        name: "Search Transaction",
+        icon: "la-wallet",
+        routePath: "/admin/payments",
+      },
+      {
+        id: 7,
+        name: "Report",
+        icon: "la-file-alt",
+        routePath: "/admin/report",
+      },
+      {
+        id: 8,
+        name: "List Slider",
+        icon: "la-images",
+        routePath: "/admin/listslider",
+      },
+    ],
   },
-  {
-    id: 7,
-    name: "Report",
-    icon: "la-file-alt",
-    routePath: "/admin/report",
-    active: "",
-  },
-  {
-    id: 8,
-    name: "List Slider",
-    icon: "la-images",
-    routePath: "/admin/listslider",
-    active: "",
-  },
-
-  /*  {
-    id: 15,
-    name: "Logout",
-    icon: "la-sign-out",
-    routePath: "/",
-    active: "",
-  }, */
 ];

@@ -5,7 +5,7 @@ import MessageComponent from "@/components/common/ResponseMsg";
 import { tr } from "date-fns/locale";
 
 const WalletModal = ({ onClose, data, show, setRefresh }) => {
-  const [amount, setAmount] = useState("");
+  const [amount, setAmount] = useState(data.demoUserAmount);
   const apiurl = process.env.NEXT_PUBLIC_API_URL;
   const token =
     typeof window !== "undefined" ? localStorage.getItem("Super_token") : null;
@@ -26,7 +26,7 @@ const WalletModal = ({ onClose, data, show, setRefresh }) => {
 
     Swal.fire({
       title: "Are you sure?",
-      text: `Add ₹${amount} to ${company?.name || "Company"}'s wallet?`,
+      text: `Edit ₹${amount} to ${company?.name || "Company"}'s fees?`,
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#28a745",
@@ -40,10 +40,10 @@ const WalletModal = ({ onClose, data, show, setRefresh }) => {
           setSuccess(null);
 
           const res = await axios.post(
-            `${apiurl}/api/wallet/addWalletAmount`,
+            `${apiurl}/api/auth/change-demo-user-amount`,
             {
-              companyId: company?._id,
-              amount: Number(amount),
+              _id: company?._id,
+              demoUserAmount: Number(amount),
             },
             {
               headers: {
@@ -52,16 +52,17 @@ const WalletModal = ({ onClose, data, show, setRefresh }) => {
             }
           );
 
-          setSuccess(res.data.message || "Wallet updated successfully.");
+          setSuccess(res.data.message || "Fees updated successfully.");
           setMessage_id(Date.now());
           setAmount("");
           setRefresh(true);
-          Swal.fire("Added!", "Wallet balance has been updated.", "success");
+          Swal.fire("Updated!", "Fees has been updated.", "success");
         } catch (err) {
           setError(
             err.response?.data?.message ||
-              "Something went wrong while adding wallet balance."
+              "Something went wrong while updating fees."
           );
+          setErrorId(Date.now());
         } finally {
           setLoading(false);
         }
@@ -84,8 +85,7 @@ const WalletModal = ({ onClose, data, show, setRefresh }) => {
           <div className="modal-content shadow-lg border-0 rounded-4">
             <div className="modal-header">
               <h5 className="modal-title">
-                Add Wallet Balance for{" "}
-                <strong>{company?.name || "Company"}</strong>
+                Update Fees for <strong>{company?.name || "Company"}</strong>
               </h5>
               <button
                 type="button"
@@ -116,7 +116,7 @@ const WalletModal = ({ onClose, data, show, setRefresh }) => {
               ) : (
                 <div className="row">
                   <div className="col-md-6 mx-auto">
-                    <label className="form-label">Amount to Add</label>
+                    <label className="form-label">Updated Amount</label>
                     <input
                       type="number"
                       className="form-control"
@@ -128,7 +128,7 @@ const WalletModal = ({ onClose, data, show, setRefresh }) => {
                       className="btn btn-success mt-3 w-100"
                       onClick={handleAddWallet}
                     >
-                      Add to Wallet
+                      Update
                     </button>
                   </div>
                 </div>

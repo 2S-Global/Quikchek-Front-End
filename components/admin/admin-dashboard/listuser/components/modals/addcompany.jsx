@@ -1,22 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import MessageComponent from "@/components/common/ResponseMsg";
-import { Eye, EyeOff } from "lucide-react"; // Or any icon library you prefer
+import Select from "react-select";
 
-const AddCompanyModal = ({ show, onClose }) => {
+const AddCompanyModal = ({ show, onClose, refresh, setRefresh }) => {
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    transaction_fee: 0,
-    transaction_gst: 18,
-    allowed_verifications: "",
-    phone_number: "",
-    address: "",
-    gst_no: "",
-    package_id: "",
-    discount_percent: "",
+    all: false,
+    list: [],
+    fees: 0,
   });
 
   const [loading, setLoading] = useState(false);
@@ -24,130 +16,41 @@ const AddCompanyModal = ({ show, onClose }) => {
   const [success, setSuccess] = useState(null);
   const [errorId, setErrorId] = useState(null);
   const [message_id, setMessage_id] = useState(null);
+
   const router = useRouter();
   const apiurl = process.env.NEXT_PUBLIC_API_URL;
-  const [formErrors, setFormErrors] = useState({
-    name: "",
-    email: "",
-    password: "",
-    transaction_fee: 0,
-    transaction_gst: 18,
-    allowed_verifications: "",
-    phone_number: "",
-    address: "",
-    gst_no: "",
-    package_id: "",
-    discount_percent: "",
-  });
+  const token = localStorage.getItem("Super_token");
 
-  const [touched, setTouched] = useState({
-    name: false,
-    email: false,
-    password: false,
-    transaction_fee: false,
-    transaction_gst: false,
-    allowed_verifications: false,
-    phone_number: false,
-    address: false,
-    gst_no: false,
-    package_id: false,
-    discount_percent: false,
-  });
+  // Mock user list (replace with API fetch if needed)
+  const [listuser, setListuser] = useState([]);
+  useEffect(() => {
+    fetchlist();
+  }, [token]);
 
-  const [showPassword, setShowPassword] = useState(false);
-  const [gstError, setGstError] = useState(false);
-
-  const togglePasswordVisibility = () => {
-    setShowPassword((prev) => !prev);
-  };
-  const isValidGST = (gst) => {
-    const regex = /^\d{2}[A-Z]{5}\d{4}[A-Z]{1}[A-Z\d]{1}Z[A-Z\d]{1}$/;
-
-    if (!regex.test(gst)) return false;
-
-    let chars = gst.split("");
-    let factor = [1, 2];
-    let sum = 0;
-    const modulus = 36;
-    const codePointBase = "0".charCodeAt(0);
-    const lettersBase = "A".charCodeAt(0);
-
-    for (let i = 0; i < 14; i++) {
-      let char = chars[i];
-      let code = char.match(/[0-9]/)
-        ? char.charCodeAt(0) - codePointBase
-        : char.charCodeAt(0) - lettersBase + 10;
-
-      let product = code * factor[i % 2];
-      sum += Math.floor(product / modulus) + (product % modulus);
+  const fetchlist = async () => {
+    if (!token) {
+      setError("Token not found. Please log in again.");
+      return;
     }
-
-    const checksumChar = (36 - (sum % 36)) % 36;
-    const expected =
-      checksumChar < 10
-        ? String(checksumChar)
-        : String.fromCharCode(lettersBase + checksumChar - 10);
-
-    return chars[14] === expected;
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-
-    let updatedValue = value;
-    let errorMsg = "";
-
-    switch (name) {
-      case "email":
-        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        if (!emailRegex.test(value)) {
-          errorMsg = "Please enter a valid email address.";
+    try {
+      const response = await axios.post(
+        `${apiurl}/api/auth/list-demo-user-name-id`,
+        null,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
-        break;
-
-      case "phone_number":
-        updatedValue = value.replace(/\D/g, ""); // Remove non-digits
-        if (updatedValue.length > 10) {
-          updatedValue = updatedValue.slice(0, 10); // Limit to 10 digits
-        }
-        if (updatedValue && updatedValue.length !== 10) {
-          errorMsg = "Phone number must be exactly 10 digits.";
-        }
-        break;
-
-      default:
-        break;
+      );
+      if (response.data.success) {
+        setListuser(response.data.data);
+      }
+    } catch (err) {
+      setError(err.response?.data?.message || "Something went wrong");
     }
-
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: updatedValue,
-    }));
-
-    setFormErrors((prevErrors) => ({
-      ...prevErrors,
-      [name]: errorMsg,
-    }));
   };
 
-  const handleCheckboxChange = (e) => {
-    const { value, checked } = e.target;
-    let current = formData.allowed_verifications
-      ? formData.allowed_verifications.split(",")
-      : [];
-
-    if (checked) {
-      current.push(value);
-    } else {
-      current = current.filter((item) => item !== value);
-    }
-
-    setFormData({
-      ...formData,
-      allowed_verifications: current.join(","),
-    });
-  };
-
+  // ✅ Submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -157,50 +60,36 @@ const AddCompanyModal = ({ show, onClose }) => {
     const token = localStorage.getItem("Super_token");
     if (!token) {
       setError("Token not found. Please log in again.");
+      setLoading(false);
       return;
-    }
-    try {
-      const invite = await axios.post(
-        `${apiurl}/api/invite/invite`,
-        {
-          email: formData.email,
-          name: formData.name,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      console.log("invite response", invite);
-    } catch (err) {
-      setError(err.invite?.data?.message || "Invite failed. Try again.");
     }
 
     try {
       const response = await axios.post(
-        `${apiurl}/api/auth/register`,
-        formData,
+        `${apiurl}/api/auth/change-all-demo-user-amount`,
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          all: formData.all,
+          list: formData.all ? [] : formData.list.map((item) => item._id),
+          fees: Number(formData.fees),
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
 
-      if (!response.data.success) {
-        throw new Error(response.data.message || "An error occurred");
-      }
+      setSuccess(response.data.message || "Updated successfully!");
+      setMessage_id(response.data.message_id || null);
+      setErrorId(null);
 
-      setSuccess(response.data.message);
-      setMessage_id(Date.now());
-      window.location.reload();
-      router.push("/admin/listcompany");
+      setRefresh(true);
+
+      // Close after success
+      setTimeout(() => {
+        onClose();
+      }, 1500);
     } catch (err) {
-      setError(
-        err.response?.data?.message || "Registration failed. Try again."
-      );
-      setErrorId(Date.now());
+      setError(err.response?.data?.message || "Something went wrong");
+      setErrorId(err.response?.data?.errorId || null);
     } finally {
       setLoading(false);
     }
@@ -221,7 +110,7 @@ const AddCompanyModal = ({ show, onClose }) => {
           <div className="modal-content">
             {/* Modal Header */}
             <div className="modal-header">
-              <h5 className="modal-title">Add New Company</h5>
+              <h5 className="modal-title">Bulk Fees Edit</h5>
               <button
                 type="button"
                 className="btn-close"
@@ -231,7 +120,7 @@ const AddCompanyModal = ({ show, onClose }) => {
 
             {/* Modal Body */}
             <div className="modal-body row">
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={handleSubmit} className="default-form">
                 {/* Response Message */}
                 <MessageComponent
                   error={error}
@@ -239,313 +128,80 @@ const AddCompanyModal = ({ show, onClose }) => {
                   errorId={errorId}
                   message_id={message_id}
                 />
-                <div className="row">
-                  <div className="mb-3 col-md-6">
-                    <label htmlFor="name" className="form-label">
-                      Company Name
-                    </label>
-                    <input
-                      type="text"
-                      name="name"
-                      className="form-control"
-                      placeholder="Company Name"
-                      required
-                      value={formData.name}
-                      onChange={handleChange}
-                    />
-                    {formErrors.name && (
-                      <div className="invalid-feedback">{formErrors.name}</div>
-                    )}
-                  </div>
 
-                  <div className="mb-3 col-md-6">
-                    <label htmlFor="email" className="form-label">
-                      Official Email Address
+                <div className="">
+                  {/* ALL slider */}
+                  <div className="mb-3 ">
+                    <label className="form-label fw-semibold">
+                      Apply to All
                     </label>
-                    <input
-                      type="email"
-                      name="email"
-                      className={`form-control ${touched.email && formErrors.email ? "is-invalid" : ""}`}
-                      placeholder="Enter your Official Email address"
-                      required
-                      value={formData.email}
-                      onChange={handleChange}
-                      onBlur={() =>
-                        setTouched((prev) => ({ ...prev, email: true }))
-                      }
-                    />
-                    {touched.email && formErrors.email && (
-                      <div className="invalid-feedback">{formErrors.email}</div>
-                    )}
-                  </div>
-
-                  <div className="mb-3 col-md-6">
-                    <label htmlFor="phone_number" className="form-label">
-                      Phone Number
-                    </label>
-                    <input
-                      name="phone_number"
-                      className={`form-control ${formErrors.phone_number ? "is-invalid" : ""}`}
-                      value={formData.phone_number}
-                      onChange={handleChange}
-                      maxLength={10}
-                      onBlur={() =>
-                        setTouched((prev) => ({
-                          ...prev,
-                          phone_number: true,
-                        }))
-                      }
-                    />
-                    {touched.phone_number && formErrors.phone_number && (
-                      <div className="invalid-feedback">
-                        {formErrors.phone_number}
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="mb-3 col-md-6">
-                    <label htmlFor="address" className="form-label">
-                      Address
-                    </label>
-                    <textarea
-                      name="address"
-                      className="form-control"
-                      placeholder="Address"
-                      required
-                      value={formData.address}
-                      onChange={handleChange}
-                      rows={3}
-                    />
-                  </div>
-
-                  <div className="mb-4 col-md-6 position-relative">
-                    <label htmlFor="password" className="form-label">
-                      Password
-                    </label>
-                    <div className="position-relative">
+                    <div className="form-check form-switch">
                       <input
-                        type={showPassword ? "text" : "password"}
-                        name="password"
-                        className="form-control pe-5"
-                        placeholder="Password"
-                        required
-                        value={formData.password}
-                        onChange={handleChange}
-                      />
-                      <span
-                        onClick={togglePasswordVisibility}
-                        style={{
-                          position: "absolute",
-                          top: "50%",
-                          right: "15px",
-                          transform: "translateY(-50%)",
-                          cursor: "pointer",
-                          color: "#6c757d",
-                        }}
-                      >
-                        {showPassword ? (
-                          <EyeOff size={20} />
-                        ) : (
-                          <Eye size={20} />
-                        )}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="mb-3 col-md-6">
-                    <label htmlFor="gst_no" className="form-label">
-                      GST Number
-                    </label>
-                    <input
-                      type="text"
-                      name="gst_no"
-                      className={`form-control ${gstError ? "is-invalid" : ""}`}
-                      placeholder="GST Number"
-                      value={formData.gst_no}
-                      onChange={handleChange}
-                      onBlur={(e) => {
-                        const { name, value } = e.target;
-                        const trimmed = value.trim().toUpperCase(); // Convert to uppercase for validation
-
-                        setFormData({
-                          ...formData,
-                          [name]: trimmed,
-                        });
-
-                        // Set error if invalid GST
-                        setGstError(!isValidGST(trimmed));
-                      }}
-                    />
-                    {gstError && (
-                      <div className="invalid-feedback d-block">
-                        Invalid GST Number. Please enter a valid one.
-                      </div>
-                    )}
-                  </div>
-                  {/* 
-                  <div className="mb-3 col-md-6">
-                    <label htmlFor="package_id" className="form-label">
-                      Package
-                    </label>
-                    <select
-                      name="package_id"
-                      className="form-select"
-                      required
-                      value={formData.package_id}
-                      onChange={handleChange}
-                    >
-                      <option value="">Select Package</option>
-                      <option value="1">
-                        All( PAN, Aadhaar, EPIC, Driving License, Passport )
-                      </option>
-                      <option value="2">Individual</option>
-                    </select>
-                  </div>
-                  <div className="mb-3 col-md-6">
-                    <label htmlFor="transaction_fee" className="form-label">
-                      Transaction Fee
-                    </label>
-                    <input
-                      type="number"
-                      name="transaction_fee"
-                      className="form-control"
-                      placeholder="Transaction Fee"
-                      required
-                      value={formData.transaction_fee}
-                      onChange={handleChange}
-                      onBlur={(e) => {
-                        const { name, value } = e.target;
-
-                        let trimmedValue = value.trim();
-
-                        // If it's a decimal like 0.1234, keep the leading 0
-                        if (/^0\.\d+$/.test(trimmedValue)) {
-                          // do nothing, keep as is
-                        } else {
-                          // Remove leading zeros, but preserve decimal portion
-                          trimmedValue =
-                            trimmedValue.replace(/^0+(?=\d)/, "") || "0";
+                        type="checkbox"
+                        className="form-check-input"
+                        checked={formData.all}
+                        onChange={(e) =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            all: e.target.checked,
+                            list: [], // clear list if all=true
+                          }))
                         }
-
-                        setFormData({
-                          ...formData,
-                          [name]: trimmedValue,
-                        });
-                      }}
-                    />
+                      />
+                      <label className="form-check-label">
+                        {formData.all ? "Yes" : "No"}
+                      </label>
+                    </div>
                   </div>
 
-                  {formData.package_id === "" ? null : formData.package_id ==
-                    2 ? (
-                    <div className="mb-3 text-center col-md-12">
-                      <strong className="d-block mb-2">
-                        Allowed Verification
-                      </strong>
-                      <div className="d-flex justify-content-center flex-wrap gap-3">
-                        {["PAN", "Aadhaar", "EPIC", "DL", "Passport"].map(
-                          (item, index) => (
-                            <div className="form-check" key={index}>
-                              <input
-                                className="form-check-input"
-                                type="checkbox"
-                                id={`check-${index}`}
-                                value={item}
-                                onChange={handleCheckboxChange}
-                              />
-                              <label
-                                className="form-check-label"
-                                htmlFor={`check-${index}`}
-                              >
-                                {item}
-                              </label>
-                            </div>
-                          )
-                        )}
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="mb-4 text-center col-md-12">
-                      <span className="fw-semibold fs-5 text-success">
-                        All verifications are selected by default ( PAN,
-                        Aadhaar, EPIC, Driving License, Passport )
-                      </span>
+                  {/* MultiSelect (only if all=false) */}
+                  {!formData.all && (
+                    <div className="mb-3 ">
+                      <label className="form-label fw-semibold">
+                        Select Users
+                      </label>
+                      <Select
+                        isMulti
+                        options={listuser.map((u) => ({
+                          value: u._id,
+                          label: u.name,
+                          ...u,
+                        }))}
+                        value={formData.list}
+                        onChange={(selected) =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            list: selected,
+                          }))
+                        }
+                      />
                     </div>
                   )}
 
+                  {/* Fees */}
                   <div className="mb-3 col-md-6">
-                    <label htmlFor="discount_percent" className="form-label">
-                      Discount Percentage (%)
-                    </label>
+                    <label className="form-label fw-semibold">Fees</label>
                     <input
                       type="number"
-                      name="discount_percent"
                       className="form-control"
-                      placeholder="Discount Percentage"
+                      value={formData.fees}
+                      onChange={(e) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          fees: e.target.value,
+                        }))
+                      }
                       required
-                      value={formData.discount_percent}
-                      onChange={handleChange}
-                      onBlur={(e) => {
-                        const { name, value } = e.target;
-
-                        let trimmedValue = value.trim();
-
-                        // If it's a decimal like 0.1234, keep the leading 0
-                        if (/^0\.\d+$/.test(trimmedValue)) {
-                          // do nothing, keep as is
-                        } else {
-                          // Remove leading zeros, but preserve decimal portion
-                          trimmedValue =
-                            trimmedValue.replace(/^0+(?=\d)/, "") || "0";
-                        }
-
-                        setFormData({
-                          ...formData,
-                          [name]: trimmedValue,
-                        });
-                      }}
                     />
                   </div>
-
-                  <div className="mb-3 col-md-6">
-                    <label htmlFor="transaction_gst" className="form-label">
-                      Transaction GST (%)
-                    </label>
-                    <input
-                      type="number"
-                      name="transaction_gst"
-                      className="form-control"
-                      placeholder="Transaction GST"
-                      required
-                      value={formData.transaction_gst}
-                      onChange={handleChange}
-                      onBlur={(e) => {
-                        const { name, value } = e.target;
-
-                        let trimmedValue = value.trim();
-
-                        // If it's a decimal like 0.1234, keep the leading 0
-                        if (/^0\.\d+$/.test(trimmedValue)) {
-                          // do nothing, keep as is
-                        } else {
-                          // Remove leading zeros, but preserve decimal portion
-                          trimmedValue =
-                            trimmedValue.replace(/^0+(?=\d)/, "") || "0";
-                        }
-
-                        setFormData({
-                          ...formData,
-                          [name]: trimmedValue,
-                        });
-                      }}
-                    />
-                  </div> */}
                 </div>
+
                 <button
                   type="submit"
                   className="btn btn-primary w-100"
                   disabled={loading}
                 >
-                  {loading ? "Registering..." : "Register"}
+                  {loading ? "Updating..." : "Update"}
                 </button>
               </form>
             </div>

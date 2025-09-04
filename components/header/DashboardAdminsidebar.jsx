@@ -61,7 +61,7 @@ const DashboardEmployerSidebar = () => {
               >
                 <i className={`la ${group.icon}`}></i>{" "}
                 <span>{group.title}</span>
-                <span className="text-sm">{isOpen ? "−" : "+"}</span>
+                <span className="text-sm">{/* {isOpen ? "−" : "+"} */}</span>
               </button>
 
               {/* Group Items */}

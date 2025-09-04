@@ -36,8 +36,14 @@ module.exports = [
       {
         id: 103,
         name: "List Users",
-        icon: "la-users",
+        icon: "la-user",
         routePath: "/admin/list-users",
+      },
+      {
+        id: 104,
+        name: "List All",
+        icon: "la-users",
+        routePath: "/admin/list-users-all",
       },
     ],
   },

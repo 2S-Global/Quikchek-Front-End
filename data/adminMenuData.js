@@ -28,6 +28,13 @@ module.exports = [
     routePath: "/admin/listcompanyself",
     active: "",
   },
+  {
+    id: 103,
+    name: "List Users",
+    icon: "la-users",
+    routePath: "/admin/list-users",
+    active: "",
+  },
 
   {
     id: 4,

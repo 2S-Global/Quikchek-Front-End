@@ -48,6 +48,7 @@ const Mainbox = () => {
   const [validationErrors, setValidationErrors] = useState({});
   const apiurl = process.env.NEXT_PUBLIC_API_URL;
   const token = localStorage.getItem("Admin_token");
+  const role = localStorage.getItem("Role");
   const [loading, setLoading] = useState(false);
   const [formloading, setFormLoading] = useState(true);
   const [error, setError] = useState(null);

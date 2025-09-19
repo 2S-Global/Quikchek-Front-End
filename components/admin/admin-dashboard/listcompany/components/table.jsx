@@ -457,10 +457,29 @@ const Companytable = () => {
                     companies.map((company, index) => (
                       <tr key={company._id}>
                         <td style={{ textAlign: "center" }}>{index + 1}</td>
-                        <td style={{ textAlign: "center" }}>
-                          {company.name || "-"}
-                          <br />
-                          {company.email || "-"}
+                        <td className="text-center align-middle">
+                          <div className="mb-1">
+                            <span className="fw-semibold">Name: </span>
+                            <span>{company.name || "-"}</span>
+                          </div>
+
+                          <div className="mb-1">
+                            <span className="fw-semibold">Email: </span>
+                            <span className="">{company.email || "-"}</span>
+                          </div>
+
+                          <div className="mb-1">
+                            <span className="fw-semibold">Plans: </span>
+                            {company.packages ? (
+                              <span className="" style={{ maxWidth: "200px" }}>
+                                {company.packages}
+                              </span>
+                            ) : (
+                              <span className="text-secondary">
+                                No Packages
+                              </span>
+                            )}
+                          </div>
                         </td>
                         <td style={{ textAlign: "center" }}>
                           {company.wallet_amount}

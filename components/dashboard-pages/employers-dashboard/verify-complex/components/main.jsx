@@ -119,7 +119,7 @@ const Mainbox = () => {
   }, []);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    let { name, value } = e.target;
 
     if (
       name === "name" ||
@@ -134,6 +134,14 @@ const Mainbox = () => {
       if (!onlyLetters.test(value)) {
         return; // Don't update state if invalid character
       }
+    }
+    if (
+      name === "pannumber" ||
+      name === "voternumber" ||
+      name === "licensenumber" ||
+      name === "passportnumber"
+    ) {
+      value = value.toUpperCase();
     }
 
     if (name === "phone") {
@@ -512,9 +520,7 @@ const Mainbox = () => {
 
               {/* Email */}
               <div className="form-group col-lg-4 col-md-4 d-flex flex-column">
-                <label>
-                  Email <span style={{ color: "red" }}>*</span>
-                </label>
+                <label>Email</label>
                 <input
                   type="text"
                   name="email"
@@ -522,7 +528,6 @@ const Mainbox = () => {
                   value={formData.email}
                   onChange={handleChange}
                   onBlur={handleValidation}
-                  required
                 />
                 {validationErrors.email && (
                   <small className="text-danger">

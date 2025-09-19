@@ -56,6 +56,7 @@ const WalletModal = ({ onClose, data, show, setRefresh }) => {
           setSuccess(res.data.message || "Wallet updated successfully.");
           setMessage_id(Date.now());
           setAmount("");
+
           setRefresh(true);
           Swal.fire("Added!", "Wallet balance has been updated.", "success");
         } catch (err) {
@@ -66,6 +67,7 @@ const WalletModal = ({ onClose, data, show, setRefresh }) => {
           setErrorId(Date.now());
         } finally {
           setLoading(false);
+          onClose();
         }
       }
     });

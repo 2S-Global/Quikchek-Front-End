@@ -65,6 +65,7 @@ const WalletModal = ({ onClose, data, show, setRefresh }) => {
           setErrorId(Date.now());
         } finally {
           setLoading(false);
+          onClose();
         }
       }
     });

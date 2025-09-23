@@ -632,6 +632,7 @@ const Mainbox = () => {
                   onfieldChange={handleChange}
                   onfieldValidation={handleValidation}
                   disabled={!approvedFields.PAN}
+                  formData={formData}
                 />
                 <PassdocumentUpload
                   label="Passport"
@@ -644,6 +645,7 @@ const Mainbox = () => {
                   onfieldChange={handleChange}
                   onfieldValidation={handleValidation}
                   disabled={!approvedFields.PASSPORT}
+                  formData={formData}
                 />
 
                 <DocumentUpload
@@ -657,6 +659,7 @@ const Mainbox = () => {
                   numberError={validationErrors.licensenumber}
                   onfieldValidation={handleValidation}
                   disabled={!approvedFields.DL}
+                  formData={formData}
                 />
                 {/* this works */}
                 <DocumentUpload
@@ -670,6 +673,7 @@ const Mainbox = () => {
                   numberError={validationErrors.voternumber}
                   onfieldValidation={handleValidation}
                   disabled={!approvedFields.EPIC}
+                  formData={formData}
                 />
                 {/* this doesnt */}
                 <DocumentUpload
@@ -683,6 +687,7 @@ const Mainbox = () => {
                   numberError={validationErrors.uannumber}
                   onfieldValidation={handleValidation}
                   disabled={!approvedFields.UAN}
+                  formData={formData}
                 />
               </>
             )}

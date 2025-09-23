@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Trash2 } from "lucide-react";
+
 const DocumentUpload = ({
   label,
   name,
@@ -11,6 +12,7 @@ const DocumentUpload = ({
   numberError,
   onfieldValidation,
   disabled,
+  formData = {},
 }) => {
   const [inputKey, setInputKey] = useState(Date.now());
   const [documentData, setDocumentData] = useState({
@@ -19,6 +21,8 @@ const DocumentUpload = ({
     file: null,
     filePreview: null,
   });
+  const [isSameAsFullName, setIsSameAsFullName] = useState(false);
+
   const handleFileSelect = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -34,6 +38,29 @@ const DocumentUpload = ({
       }
     }
   };
+
+  const handleCheckboxChange = (e) => {
+    const checked = e.target.checked;
+    setIsSameAsFullName(checked);
+
+    if (checked) {
+      // simulate event so parent's onfieldChange works
+      onfieldChange({
+        target: {
+          name: `${name}name`,
+          value: formData.name || "",
+        },
+      });
+    } else {
+      onfieldChange({
+        target: {
+          name: `${name}name`,
+          value: "",
+        },
+      });
+    }
+  };
+
   return (
     <div
       className="row"
@@ -42,7 +69,6 @@ const DocumentUpload = ({
         opacity: disabled ? 0.5 : 1,
       }}
     >
-      {/* Heading */}
       {/* Document Number Input */}
       <div className="form-group col-lg-4 col-md-4 d-flex flex-column">
         <label>{label} Number</label>
@@ -64,18 +90,37 @@ const DocumentUpload = ({
           </small>
         )}
       </div>
-      {/* Name Input */}
+
+      {/* Name Input + Checkbox */}
       <div className="form-group col-lg-4 col-md-4 d-flex flex-column">
-        <label>Name as per {label} </label>
-        <input
-          type="text"
-          name={`${name}name`}
-          placeholder={`Enter Name as per ${label}`}
-          className="form-control"
-          value={valuename}
-          onChange={onfieldChange}
-          autoComplete="off"
-        />
+        <label>Name as per {label}</label>
+        <div className="">
+          <input
+            type="text"
+            name={`${name}name`}
+            placeholder={`Enter Name as per ${label}`}
+            className="form-control"
+            value={valuename}
+            onChange={onfieldChange}
+            autoComplete="off"
+            disabled={isSameAsFullName} // lock editing when checkbox checked
+          />
+          <div className="form-check me-2">
+            <input
+              className="form-check-input"
+              type="checkbox"
+              id={`${name}-sameAsFullName`}
+              checked={isSameAsFullName}
+              onChange={handleCheckboxChange}
+            />
+            <label
+              className="form-check-label"
+              htmlFor={`${name}-sameAsFullName`}
+            >
+              Same as Full Name
+            </label>
+          </div>
+        </div>
       </div>
 
       {/* File Upload */}
@@ -108,7 +153,7 @@ const DocumentUpload = ({
           </label>
           {documentData.file ? (
             <Trash2
-              className="text-danger "
+              className="text-danger"
               size={20}
               onClick={() => {
                 setDocumentData({

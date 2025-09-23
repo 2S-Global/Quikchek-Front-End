@@ -11,6 +11,7 @@ const PassdocumentUpload = ({
   numberError,
   onfieldValidation,
   disabled,
+  formData = {},
 }) => {
   const [inputKey, setInputKey] = useState(Date.now());
   const [documentData, setDocumentData] = useState({
@@ -19,6 +20,9 @@ const PassdocumentUpload = ({
     file: null,
     filePreview: null,
   });
+
+  const [isSameAsFullName, setIsSameAsFullName] = useState(false);
+
   const handleFileSelect = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -32,6 +36,27 @@ const PassdocumentUpload = ({
       if (onFileChange) {
         onFileChange(name, file);
       }
+    }
+  };
+  const handleCheckboxChange = (e) => {
+    const checked = e.target.checked;
+    setIsSameAsFullName(checked);
+
+    if (checked) {
+      // simulate event so parent's onfieldChange works
+      onfieldChange({
+        target: {
+          name: `${name}name`,
+          value: formData.name || "",
+        },
+      });
+    } else {
+      onfieldChange({
+        target: {
+          name: `${name}name`,
+          value: "",
+        },
+      });
     }
   };
   return (
@@ -65,14 +90,33 @@ const PassdocumentUpload = ({
       {/* Name Input */}
       <div className="form-group col-lg-4 col-md-4 d-flex flex-column">
         <label>Name as per Passport </label>
-        <input
-          type="text"
-          name={`${name}name`}
-          placeholder={`Enter Name as per ${label}`}
-          className="form-control"
-          value={valuename}
-          onChange={onfieldChange}
-        />
+        <div className="">
+          <input
+            type="text"
+            name={`${name}name`}
+            placeholder={`Enter Name as per ${label}`}
+            className="form-control"
+            value={valuename}
+            onChange={onfieldChange}
+            autoComplete="off"
+            disabled={isSameAsFullName} // lock editing when checkbox checked
+          />
+          <div className="form-check me-2">
+            <input
+              className="form-check-input"
+              type="checkbox"
+              id={`${name}-sameAsFullName`}
+              checked={isSameAsFullName}
+              onChange={handleCheckboxChange}
+            />
+            <label
+              className="form-check-label"
+              htmlFor={`${name}-sameAsFullName`}
+            >
+              Same as Full Name
+            </label>
+          </div>
+        </div>
       </div>
 
       {/* File Upload */}

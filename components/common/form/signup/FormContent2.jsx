@@ -158,7 +158,7 @@ const FormContent2 = () => {
     if (formData.user_type === "demo") {
       fullurl = `${apiurl}/api/auth/register-demo-user`;
     } else {
-      fullurl = `${apiurl}/api/auth/register-frontend-user`;
+      fullurl = `${apiurl}/api/auth/register-frontend`;
     }
 
     try {

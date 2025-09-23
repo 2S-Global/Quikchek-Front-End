@@ -207,6 +207,28 @@ const AadharForm = ({
     }
   };
 
+  const [isSameAsFullName, setIsSameAsFullName] = useState(false);
+  const handleCheckboxChangenew = (e) => {
+    const checked = e.target.checked;
+    setIsSameAsFullName(checked);
+
+    if (checked) {
+      // simulate event so parent's onfieldChange works
+      handleChange({
+        target: {
+          name: `aadhar_name`,
+          value: formData.name || "",
+        },
+      });
+    } else {
+      handleChange({
+        target: {
+          name: `aadhar_name`,
+          value: "",
+        },
+      });
+    }
+  };
   return (
     <>
       <form
@@ -381,7 +403,23 @@ const AadharForm = ({
               onChange={handleChange}
               onBlur={handleBlur}
               required
+              disabled={isSameAsFullName}
             />
+            <div className="form-check me-2">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                id={`aadhar_name-sameAsFullName`}
+                checked={isSameAsFullName}
+                onChange={handleCheckboxChangenew}
+              />
+              <label
+                className="form-check-label"
+                htmlFor={`aadhar_name-sameAsFullName`}
+              >
+                Same as Full Name
+              </label>
+            </div>
             {touched.aadhar_name && formErrors.aadhar_name && (
               <div className="invalid-feedback">{formErrors.aadhar_name}</div>
             )}

@@ -99,7 +99,7 @@ const WidgetContentBox = () => {
   }, []);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    let { name, value } = e.target;
 
     if (
       name === "name" ||
@@ -128,6 +128,15 @@ const WidgetContentBox = () => {
       if (value.length > 10) {
         return; // Prevent more than 10 characters
       }
+    }
+
+    if (
+      name === "pannumber" ||
+      name === "voternumber" ||
+      name === "licensenumber" ||
+      name === "passportnumber"
+    ) {
+      value = value.toUpperCase();
     }
 
     setFormData((prev) => ({
@@ -584,6 +593,7 @@ const WidgetContentBox = () => {
                   onfieldChange={handleChange}
                   onfieldValidation={handleValidation}
                   disabled={!approvedFields.PAN}
+                  formData={formData}
                 />
                 <PassdocumentUpload
                   label="Passport"
@@ -596,6 +606,7 @@ const WidgetContentBox = () => {
                   onfieldChange={handleChange}
                   onfieldValidation={handleValidation}
                   disabled={!approvedFields.PASSPORT}
+                  formData={formData}
                 />
 
                 {/*  commented for now */}
@@ -773,6 +784,7 @@ const WidgetContentBox = () => {
                   numberError={validationErrors.licensenumber}
                   onfieldValidation={handleValidation}
                   disabled={!approvedFields.DL}
+                  formData={formData}
                 />
                 {/* this works */}
                 <DocumentUpload
@@ -786,6 +798,7 @@ const WidgetContentBox = () => {
                   numberError={validationErrors.voternumber}
                   onfieldValidation={handleValidation}
                   disabled={!approvedFields.EPIC}
+                  formData={formData}
                 />
                 {/* this doesnt */}
                 <DocumentUpload
@@ -799,6 +812,7 @@ const WidgetContentBox = () => {
                   numberError={validationErrors.uannumber}
                   onfieldValidation={handleValidation}
                   disabled={!approvedFields.UAN}
+                  formData={formData}
                 />
               </>
             )}

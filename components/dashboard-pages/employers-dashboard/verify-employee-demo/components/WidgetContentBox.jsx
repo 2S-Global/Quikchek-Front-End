@@ -123,7 +123,7 @@ const WidgetContentBox = () => {
   }, []);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    let { name, value } = e.target;
 
     if (
       name === "name" ||
@@ -138,6 +138,15 @@ const WidgetContentBox = () => {
       if (!onlyLetters.test(value)) {
         return; // Don't update state if invalid character
       }
+    }
+
+    if (
+      name === "pannumber" ||
+      name === "voternumber" ||
+      name === "licensenumber" ||
+      name === "passportnumber"
+    ) {
+      value = value.toUpperCase();
     }
 
     if (name === "phone") {
@@ -628,6 +637,7 @@ const WidgetContentBox = () => {
                   onFileChange={handleFileChange}
                   onfieldChange={handleChange}
                   onfieldValidation={handleValidation}
+                  formData={formData}
                   /*    disabled={!approvedFields.PAN} */
                 />
               )}
@@ -643,6 +653,7 @@ const WidgetContentBox = () => {
                   onFileChange={handleFileChange}
                   onfieldChange={handleChange}
                   onfieldValidation={handleValidation}
+                  formData={formData}
                   /*   disabled={!approvedFields.PASSPORT} */
                 />
               )}
@@ -658,6 +669,7 @@ const WidgetContentBox = () => {
                   onfieldChange={handleChange}
                   numberError={validationErrors.licensenumber}
                   onfieldValidation={handleValidation}
+                  formData={formData}
                   /*   disabled={!approvedFields.DL} */
                 />
               )}
@@ -673,6 +685,7 @@ const WidgetContentBox = () => {
                   onfieldChange={handleChange}
                   numberError={validationErrors.voternumber}
                   onfieldValidation={handleValidation}
+                  formData={formData}
                   /*  disabled={!approvedFields.EPIC} */
                 />
               )}

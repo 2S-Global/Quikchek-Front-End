@@ -17,6 +17,7 @@ const EditfieldModal = ({ show, onClose, field }) => {
     discount_percent: "",
     expiryDate: "",
     id: "",
+    is_tenant: false,
   });
 
   const [loading, setLoading] = useState(false);
@@ -37,6 +38,7 @@ const EditfieldModal = ({ show, onClose, field }) => {
         discount_percent: field.discount_percent || "",
         id: field._id || "",
         expiryDate: field.expiryDate || "",
+        is_tenant: field.is_tenant || false,
       });
     }
   }, [field]);
@@ -157,16 +159,35 @@ const EditfieldModal = ({ show, onClose, field }) => {
               />
 
               <div className="row">
-                <div className="mb-3 col-md-6">
-                  <label className="form-label">Package Name</label>
-                  <input
-                    type="text"
-                    name="name"
-                    className="form-control"
-                    required
-                    value={formData.name}
-                    onChange={handleChange}
-                  />
+                <div className="col-md-6">
+                  <div className="mb-3">
+                    <label className="form-label">Package Name</label>
+                    <input
+                      type="text"
+                      name="name"
+                      className="form-control"
+                      required
+                      value={formData.name}
+                      onChange={handleChange}
+                    />
+                  </div>
+                  <div className="mt-3">
+                    <label className="form-check-label">
+                      <input
+                        type="checkbox"
+                        className="form-check-input"
+                        value={formData.is_tenant}
+                        checked={formData.is_tenant}
+                        onChange={(e) => {
+                          setFormData({
+                            ...formData,
+                            is_tenant: e.target.checked,
+                          });
+                        }}
+                      />{" "}
+                      Tenant Package
+                    </label>
+                  </div>
                 </div>
                 {/* <div className="mb-3 col-md-6">
                   <label className="form-label" htmlFor="expiryDate">

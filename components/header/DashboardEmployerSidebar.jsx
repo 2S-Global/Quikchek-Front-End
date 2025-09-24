@@ -101,6 +101,19 @@ const DashboardEmployerSidebar = () => {
                   <i className={`la la-building`}></i>Verify Candidate
                 </Link>
               </li>
+              <li
+                className={`${
+                  isActiveLink("/verify-complex-tenant", pathname)
+                    ? "active"
+                    : ""
+                } mb-1`}
+                key={99}
+                onClick={menuToggleHandler}
+              >
+                <Link href="/verify-complex-tenant">
+                  <i className={`la la-building`}></i>Verify Tenant
+                </Link>
+              </li>
             </>
           )}
           {role == "1" && (

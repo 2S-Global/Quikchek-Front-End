@@ -152,9 +152,10 @@ const EditplanModal = ({ show, onClose, field }) => {
       setSuccess(response.data.message);
       setMessage_id(Date.now());
       setTimeout(() => {
-        // window.location.reload();
-        // router.push("/admin/listcompany");
+        window.location.reload();
+        router.push("/admin/listcompany");
       }, 1000);
+      onClose();
     } catch (err) {
       setError(
         err.response?.data?.message || "Something went wrong. Try again."

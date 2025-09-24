@@ -13,6 +13,7 @@ const AddCompanyModal = ({ show, onClose }) => {
     allowed_verifications: "",
     discount_percent: "",
     expiryDate: "",
+    is_tenant: false,
   });
 
   const [loading, setLoading] = useState(false);
@@ -144,6 +145,25 @@ const AddCompanyModal = ({ show, onClose }) => {
                         value={formData.name}
                         onChange={handleChange}
                       />
+                    </div>
+
+                    {/* Tannet Package Check Box */}
+                    <div className="mt-3">
+                      <label className="form-check-label">
+                        <input
+                          type="checkbox"
+                          className="form-check-input"
+                          value={formData.is_tenant}
+                          checked={formData.is_tenant}
+                          onChange={(e) => {
+                            setFormData({
+                              ...formData,
+                              is_tenant: e.target.checked,
+                            });
+                          }}
+                        />{" "}
+                        Tenant Package
+                      </label>
                     </div>
                   </div>
                   {/*     <div className="mb-3 col-md-6">

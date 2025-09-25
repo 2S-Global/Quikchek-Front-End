@@ -35,7 +35,7 @@ const AddCsvModal = ({ show, onClose, field }) => {
 
     try {
       const response = await axios.post(
-        `${apiurl}/api/ownerRoute/import_owner_csv`,
+        `${apiurl}/api/ownerRoute/import_owner_xlsx`,
         formPayload,
         {
           headers: {
@@ -71,8 +71,8 @@ const AddCsvModal = ({ show, onClose, field }) => {
     }
 
     const fileExtension = file.name.split(".").pop().toLowerCase();
-    if (fileExtension !== "csv") {
-      setError("Only CSV files are allowed.");
+    if (fileExtension !== "xlsx") {
+      setError("Only Excel files are allowed.");
       setErrorId(Date.now());
       setCsvFile(null);
       return;
@@ -96,11 +96,11 @@ const AddCsvModal = ({ show, onClose, field }) => {
               <div className="d-flex align-items-center gap-3">
                 <h5 className="modal-title mb-0">Import New Owner</h5>
                 <a
-                  href="/owner_list.csv"
+                  href="/owner_list.xlsx"
                   download
                   className="btn btn-sm btn-outline-primary"
                 >
-                  Download Dummy CSV
+                  Download Sample
                 </a>
               </div>
               <button
@@ -123,11 +123,11 @@ const AddCsvModal = ({ show, onClose, field }) => {
                 <div className="row">
                   <div className="mb-5 col-md-12 ">
                     <label htmlFor="csvUpload" className="form-label">
-                      Upload CSV
+                      Upload Excel
                     </label>
                     <input
                       type="file"
-                      accept=".csv"
+                      accept=".xlsx"
                       className={`form-control ${error ? "is-invalid" : ""}`}
                       onChange={handleFileChange}
                     />

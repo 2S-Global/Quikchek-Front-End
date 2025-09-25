@@ -6,6 +6,7 @@ import { Eye, EyeOff } from "lucide-react"; // Or any icon library you prefer
 
 const AddCompanyModal = ({ show, onClose }) => {
   const [formData, setFormData] = useState({
+    block: "",
     flat_number: "",
     name: "",
     email: "",
@@ -20,6 +21,7 @@ const AddCompanyModal = ({ show, onClose }) => {
   const router = useRouter();
   const apiurl = process.env.NEXT_PUBLIC_API_URL;
   const [formErrors, setFormErrors] = useState({
+    block: "",
     flat_number: "",
     name: "",
     email: "",
@@ -27,6 +29,7 @@ const AddCompanyModal = ({ show, onClose }) => {
   });
 
   const [touched, setTouched] = useState({
+    block: false,
     flat_number: false,
     name: false,
     email: false,
@@ -220,6 +223,23 @@ const AddCompanyModal = ({ show, onClose }) => {
                   message_id={message_id}
                 />
                 <div className="row">
+                  <div className="mb-3 col-md-6">
+                    <label htmlFor="block" className="form-label">
+                      Block No
+                    </label>
+                    <input
+                      type="text"
+                      name="block"
+                      className="form-control"
+                      placeholder="Block No"
+                      required
+                      value={formData.block}
+                      onChange={handleChange}
+                    />
+                    {formErrors.block && (
+                      <div className="invalid-feedback">{formErrors.block}</div>
+                    )}
+                  </div>
                   <div className="mb-3 col-md-6">
                     <label htmlFor="flat_number" className="form-label">
                       Flat No.

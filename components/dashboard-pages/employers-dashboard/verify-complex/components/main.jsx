@@ -67,7 +67,7 @@ const Mainbox = () => {
   const handleCloseTermsModal = () => {
     setShowTermsModal(false);
     document.body.style.overflow = "auto";
-    console.log("close modal");
+    // console.log("close modal");
   };
   const handleCheckboxChange = (e) => {
     setIsChecked(e.target.checked);
@@ -75,6 +75,15 @@ const Mainbox = () => {
   const fetchAvailablePlans = async () => {
     try {
       setLoading(true);
+      setError(null);
+      setSuccess(null);
+
+      if (!token) {
+        setError("Token not found. Please log in again.");
+        setLoading(false);
+        return;
+      }
+      setFormLoading(true);
       const res = await axios.post(
         `${apiurl}/api/companyPackageRoute/getPackageByCompany`,
         null,
@@ -82,12 +91,25 @@ const Mainbox = () => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      setAvailablePlans(res.data.data.selected_plan || []);
+      // Safely get selected_plan; default to empty array if not present
+      const selectedPlan = res?.data?.data?.selected_plan || [];
+      setAvailablePlans(selectedPlan);
+
+      if (selectedPlan.length === 0 || res?.data?.success === false) {
+        //  console.log("Available Plans:", selectedPlan);
+        setError(
+          "You have not been assigned to any plan yet. Please contact Admin"
+        );
+        setErrorId(Date.now());
+      }
       //  console.log("Available Plans:", res.data.data.selected_plan);
     } catch (err) {
-      //  console.log("Error fetching plans. Please try again.", err);
+      setError("Error fetching plans. Please try again. ");
+      // console.log("Error fetching plans. Please try again.", err);
+      setErrorId(Date.now());
     } finally {
       setLoading(false);
+      setFormLoading(false);
     }
   };
 
@@ -394,7 +416,7 @@ const Mainbox = () => {
   const handlePlanChange = (e) => {
     setFormLoading(true);
     const plan_id = e.target.value;
-    console.log("Plan changed:", plan_id);
+    // console.log("Plan changed:", plan_id);
 
     const fetchApprovedFields = async () => {
       try {
@@ -407,7 +429,7 @@ const Mainbox = () => {
           }
         );
         setApprovedFields(res.data.company || []);
-        console.log("Approved Fields:", res.data.company);
+        //console.log("Approved Fields:", res.data.company);
       } catch (err) {
         //       setError("Error fetching fields. Please try again.");
       } finally {
@@ -565,7 +587,9 @@ const Mainbox = () => {
                 />
               </div>
               {/* plan  */}
-              {console.log("plans for drop down", availablePlans)}
+              {
+                // console.log("plans for drop down", availablePlans)
+              }
               <div className="form-group col-lg-4 col-md-4 d-flex flex-column">
                 <label htmlFor="plan">
                   Plan {""}

@@ -8,6 +8,7 @@ const EditfieldModal = ({ show, onClose, field }) => {
   const apiurl = process.env.NEXT_PUBLIC_API_URL;
 
   const [formData, setFormData] = useState({
+    block: "",
     flat_number: "",
     name: "",
     allowed_verifications: "",
@@ -22,6 +23,7 @@ const EditfieldModal = ({ show, onClose, field }) => {
     id: "",
   });
   const [formErrors, setFormErrors] = useState({
+    block: "",
     flat_number: "",
     name: "",
     email: "",
@@ -37,6 +39,7 @@ const EditfieldModal = ({ show, onClose, field }) => {
   });
 
   const [touched, setTouched] = useState({
+    block: false,
     flat_number: false,
     name: false,
     email: false,
@@ -62,6 +65,7 @@ const EditfieldModal = ({ show, onClose, field }) => {
   useEffect(() => {
     if (field) {
       setFormData({
+        block: field.block || "",
         flat_number: field.flat_no || "",
         name: field.name || "",
         id: field._id || "",
@@ -230,6 +234,23 @@ const EditfieldModal = ({ show, onClose, field }) => {
                 message_id={message_id}
               />
               <div className="row">
+                <div className="mb-3 col-md-6">
+                  <label htmlFor="block" className="form-label">
+                    Block No
+                  </label>
+                  <input
+                    type="text"
+                    name="block"
+                    className="form-control"
+                    placeholder="Block No"
+                    required
+                    value={formData.block}
+                    onChange={handleChange}
+                  />
+                  {formErrors.block && (
+                    <div className="invalid-feedback">{formErrors.block}</div>
+                  )}
+                </div>
                 <div className="mb-3 col-md-6">
                   <label htmlFor="flat_number" className="form-label">
                     Flat No.

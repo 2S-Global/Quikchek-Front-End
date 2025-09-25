@@ -115,7 +115,6 @@ const Companytable = () => {
           setCompanies([]);
           setSuccess(response.data.message || "No owners found");
         }
-
       } catch (err) {
         setError("Error fetching companies. Please try again.");
       } finally {
@@ -405,6 +404,7 @@ const Companytable = () => {
                 <thead className="table-light">
                   <tr>
                     <th style={{ textAlign: "center" }}>S/N</th>
+                    <th style={{ textAlign: "center" }}>Block No.</th>
                     <th style={{ textAlign: "center" }}>Flat No.</th>
                     <th style={{ textAlign: "center" }}>Owner Name</th>
                     <th style={{ textAlign: "center" }}>Owner Email</th>
@@ -423,10 +423,18 @@ const Companytable = () => {
                     companies.map((company, index) => (
                       <tr key={company._id}>
                         <td style={{ textAlign: "center" }}>{index + 1}</td>
-                        <td style={{ textAlign: "center" }}>{company.flat_no}</td>
+                        <td style={{ textAlign: "center" }}>
+                          {company?.block || "N/A"}
+                        </td>
+
+                        <td style={{ textAlign: "center" }}>
+                          {company.flat_no}
+                        </td>
                         <td style={{ textAlign: "center" }}>{company.name}</td>
                         <td style={{ textAlign: "center" }}>{company.email}</td>
-                        <td style={{ textAlign: "center" }}>{company.phone_number}</td>
+                        <td style={{ textAlign: "center" }}>
+                          {company.phone_number?.split(",")[0] || "-"}
+                        </td>
 
                         <td className="text-center">
                           <div className="d-flex justify-content-center gap-3">
@@ -453,8 +461,6 @@ const Companytable = () => {
                                 }}
                               />
                             </span>
-
-
                           </div>
                         </td>
                       </tr>

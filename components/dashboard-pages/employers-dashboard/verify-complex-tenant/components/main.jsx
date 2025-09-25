@@ -10,6 +10,7 @@ import { validateDocuments } from "@/components/dashboard-pages/employers-dashbo
 import Additionfield from "../../verify-employee/components/additionfield";
 import PassdocumentUpload from "../../verify-employee/components/pasdocument";
 import DocumentUpload from "../../verify-employee/components/document";
+import { se } from "date-fns/locale/se";
 const Mainbox = () => {
   const [showTermsModal, setShowTermsModal] = useState(false);
 
@@ -75,6 +76,16 @@ const Mainbox = () => {
   const fetchAvailablePlans = async () => {
     try {
       setLoading(true);
+      setError(null);
+      setSuccess(null);
+
+      if (!token) {
+        setError("Token not found. Please log in again.");
+        setLoading(false);
+        return;
+      }
+      setFormLoading(true);
+
       const res = await axios.post(
         `${apiurl}/api/companyPackageRoute/getPackageByCompanyTanent`,
         null,
@@ -82,12 +93,27 @@ const Mainbox = () => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      setAvailablePlans(res.data.data.selected_plan || []);
-      //  console.log("Available Plans:", res.data.data.selected_plan);
+
+      // Safely get selected_plan; default to empty array if not present
+      const selectedPlan = res?.data?.data?.selected_plan || [];
+
+      setAvailablePlans(selectedPlan);
+
+      // Check if there are no plans or API returned success false
+      if (selectedPlan.length === 0 || res?.data?.success === false) {
+        console.log("Available Plans:", selectedPlan);
+        setError(
+          "You have not been assigned to any plan yet. Please contact Admin"
+        );
+        setErrorId(Date.now());
+      }
     } catch (err) {
-      //  console.log("Error fetching plans. Please try again.", err);
+      console.log("Error fetching plans. Please try again.", err);
+      setError("Error fetching plans. Please try again.");
+      setErrorId(Date.now());
     } finally {
       setLoading(false);
+      setFormLoading(false);
     }
   };
 

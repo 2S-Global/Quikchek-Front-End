@@ -439,7 +439,7 @@ const Companytable = () => {
                   <tr>
                     <th style={{ textAlign: "center" }}>S/N</th>
                     <th style={{ textAlign: "center" }}>Company Details</th>
-                    <th style={{ textAlign: "center" }}>Company Wallet</th>
+                    {/*   <th style={{ textAlign: "center" }}>Company Wallet</th> */}
                     <th style={{ textAlign: "center" }}>Company Status</th>
                     <th style={{ textAlign: "center" }}>Total Verification</th>
                     <th style={{ textAlign: "center" }}>Created Date</th>
@@ -481,7 +481,7 @@ const Companytable = () => {
                             )}
                           </div>
                         </td>
-                        <td style={{ textAlign: "center" }}>
+                        {/*  <td style={{ textAlign: "center" }}>
                           {company.wallet_amount}
                           <button
                             type="button"
@@ -490,7 +490,7 @@ const Companytable = () => {
                           >
                             ADD
                           </button>
-                        </td>
+                        </td> */}
                         <td
                           style={{
                             textAlign: "center",

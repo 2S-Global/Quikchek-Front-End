@@ -10,9 +10,11 @@ import { useState } from "react";
 
 //component
 import PaymentDetails from "./component/paynowtable";
+import PaymentDetailscomplex from "./component/paynowtablecomplex";
 import WalletBalance from "./component/wallet";
 const index = () => {
   const [showTable, setShowTable] = useState(true);
+  const role = localStorage.getItem("Role");
 
   return (
     <div className="page-wrapper dashboard">
@@ -61,7 +63,12 @@ const index = () => {
                     </div>
                     <div className="widget-content">
                       <div className="table-outer">
-                        <PaymentDetails />
+                        {role == 2 ? (
+                          <PaymentDetailscomplex />
+                        ) : (
+                          <PaymentDetails />
+                        )}
+                        {/*     <PaymentDetails /> */}
                       </div>
                     </div>
                   </div>

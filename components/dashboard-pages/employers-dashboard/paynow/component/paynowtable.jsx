@@ -404,10 +404,13 @@ const PaymentDetails = () => {
                           <>
                             {total > walletBalance ? (
                               <>
-                                <span className="text-danger">
-                                  Insufficient wallet balance. Please add funds
-                                  to your wallet.
-                                </span>
+                                <div
+                                  className="alert alert-warning"
+                                  role="alert"
+                                >
+                                  Your wallet balance is too low to make
+                                  payment. Please contact admin.
+                                </div>
                               </>
                             ) : (
                               <button

@@ -530,12 +530,10 @@ const AadharOtp = () => {
                       {paymentmethod === "Wallet" && (
                         <>
                           {total > walletBalance ? (
-                            <button
-                              className="btn btn-warning px-4"
-                              disabled={payments.length === 0}
-                            >
-                              Add Balance to Wallet
-                            </button>
+                            <div className="alert alert-warning" role="alert">
+                              Your wallet balance is too low to make payment.
+                              Please contact admin.
+                            </div>
                           ) : (
                             <button
                               className="btn btn-primary px-4"
